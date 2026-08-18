@@ -238,6 +238,10 @@
   .review .q{font-family:var(--serif);font-size:14.5px;line-height:1.45;color:#C4D0DE}
   .review .a{font-family:var(--mono);font-size:13px;color:var(--phos);margin-top:5px}
   .review .h{font-family:var(--mono);font-size:11.5px;color:var(--slate);margin-top:3px;line-height:1.45}
+  .review .nr{
+    display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+    color:#4E5D73;margin-bottom:5px;font-variant-numeric:tabular-nums;
+  }
 
   .divider{height:1px;background:var(--line);margin:22px 0 18px}
   .note{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--slate);letter-spacing:.03em}
@@ -315,6 +319,7 @@
 
         <div class="actions">
           <button class="btn primary" id="btnStart" type="button">Start spillet</button>
+          <button class="btn ghost" id="btnList" type="button">Se spørsmålene</button>
           <button class="btn ghost" id="btnSets" type="button">Egne sett</button>
           <button class="btn ghost" id="btnBoard" type="button">Toppliste</button>
         </div>
@@ -389,6 +394,29 @@
           <button class="btn primary" id="btnAgain" type="button">Spill igjen</button>
           <button class="btn" id="btnDrill" type="button" hidden>Øv på bommene</button>
           <button class="btn ghost" id="btnMenu" type="button">Til menyen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALLE SPØRSMÅL -->
+    <div class="overlay" id="screenList">
+      <div class="card wide">
+        <p class="eyebrow">Fasit</p>
+        <h2>Alle spørsmål</h2>
+        <div class="row" style="margin-top:16px">
+          <div class="field">
+            <span class="label">Sett</span>
+            <select id="listSetSelect"></select>
+          </div>
+          <div class="field">
+            <span class="label">Søk</span>
+            <input class="textin" id="listSearch" placeholder="Filtrer på ord" autocomplete="off" />
+          </div>
+        </div>
+        <p class="note" id="listCount"></p>
+        <div class="scroll" style="max-height:52vh"><ul class="review" id="listBody"></ul></div>
+        <div class="actions">
+          <button class="btn primary" id="btnListClose" type="button">Tilbake</button>
         </div>
       </div>
     </div>
@@ -493,24 +521,23 @@ const BUILTIN_RAW = {
     name: "Nevrologi",
     text: `Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
 Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
-Medikament man må gi til pasient som tar pradaxa/dagibatran før trombolyse, Praxbind (Antidot mot pradaxa. Generisk navn er Idarusizumab)
-Medikamentell behandling av subaraknoidalblødning, Traneksamsyre (Cyklokapron)
+Medikament man må gi til pasient som tar pradaxa/dabigatran før trombolyse, Praxbind (Antidot mot pradaxa. Generisk navn er idarucizumab)
 Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin (Klexane. Marevan gis senere)
 Medikamentell behandling mot spinal muskelatrofi, Nusinersen (Spinraza)
-Medikamentell behandling mot ALS, Rituzol (eller Evarone)
+Medikamentell behandling mot ALS, Riluzol (eller edaravone)
 Vanligste medikamentelle behandling mot parkinsons, Levodopa
 Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister
 Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
 Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
 Attakkbehandling ved multippel sklerose, Metylprednisolon
-Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen iallefall)
+Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen i alle fall)
 Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
 Gruppe høyeffektive MS-medikamenter som er teratogent og har en rebound ved seponering, S1P-modulatorer
 Behandling for generalisert epilepsi, Levetiracetam (eller lamotrigin/valproat hos barn og kanskje menn)
 Behandling for fokal epilepsi, Lamotrigin (eller levetiracetam)
 Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
-Andrelinje ved status epilepticus, Antiepileptika (Fosfenotin/levetiracetam/valproat)
+Andrelinje ved status epilepticus, Antiepileptika (Fosfenytoin/levetiracetam/valproat)
 Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
@@ -518,11 +545,11 @@ Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
 Hvilken bokstav bør antiepileptikum som gis til eldre starte på, L (eLdre må ha medisiner på L)
 Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
 Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
-Førstelinje i anfallsbehandling for migrene, Ibux
-Andrelinje i anfallsbehandling for migrene, NSAID (Diklodenak/naproxem)
+Førstelinje i anfallsbehandling for migrene, Ibux (Ibuprofen)
+Andrelinje i anfallsbehandling for migrene, NSAID (Diklofenak/naproksen)
 Tredjelinje i anfallsbehandling for migrene, Triptaner (imigran/zomig/relpax)
 Fjerdelinje i anfallsbehandling for migrene, Gepanter (Vydura)
-Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man førsøke, Nesespray (eller injeksjoner)
+Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man forsøke, Nesespray (eller injeksjoner)
 Forebyggende behandling for migrene hos pasienter med samtidig depresjon, TCA
 Førstevalg som forebyggende behandling ved kronisk migrene, Betablokker
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
@@ -531,7 +558,7 @@ Medikamentell forebyggende for klasehodepine, Verapamil (CCB)
 Medikamentell behandling for hemicrania continua som også er diagnostisk, Indometacin
 Medikamentell behandling av nevralgier, Antiepileptika (karbamazepin/okskarbazepin/gabapentin/pregabalin)
 Medikament mot spastisitet som ofte gis intrathecalt, Baklofen (Tizanidin eller benzodiazepiner som Valium og Rivotril)
-Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmmer (Rivastigmin)
+Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmer (Rivastigmin)
 Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)`
   },
   farmakologi: {
@@ -543,25 +570,148 @@ Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokke
 Virkested for betalaktam-antibiotika; Cellevegg/celleveggsyntesen
 Virkested for glykopeptidantibiotika; Cellevegg/celleveggsyntesen
 Vancomycin er et ______-antibiotika; glykopeptid
-Peniciliner har en baktericid/bakterostatisk effekt?; Baktericid
+Penicilliner har en baktericid eller bakteriostatisk effekt?; Baktericid
 Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
 Cefalosporiner er ______-antibiotika; betalaktam/beta-laktam
 Aminoglykosider, makrolider og tetrasykliner virker på _______; proteinsyntese
 Fluorokinoloner og folsyreantagonister virker på ______; Nukleinsyresyntese
-Er antivirale legemidler virostatiske eller virocide?; Virostatiske
+Er antivirale legemidler virostatiske eller virucide?; Virostatiske
 Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
 Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kanalblokker/kalsiumkanalblokker/kalsiumkanalblokkere/kalsium
-Førstevalg ved hjertesvikt?; Betablokkere/BB
 Førstevalg diuretika ved lav væskeretensjon?; Tiazider
 Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
 Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
 Steg 1 astmabehandling; ICS-formoterol ved behov
 Steg 2 astmabehandling; ICS daglig/inhalerte cortikosteroider daglig/ICS fast/Fast ICS
 Steg 3-5 astmabehandling; Fast ICS-LABA/daglig ICS-LABA
-Kolesterolsenkende som hemmer HmG-CoA-reduktase; Statiner
+Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
 Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere`
+  },
+  mikrobiologi: {
+    name: "Mikrobiologi",
+    text: `Hvordan formerer bakterier seg?; Binær fisjon (todeling)
+Hva kjennetegner celleveggen til gram-negative bakterier?; Komplisert/flere lag/flere lag i cellevegg (Tynt peptidoglykanlag men i tillegg ytre membran med LPS)
+Strukturert bakteriesamfunn bundet til en overflate og til hverandre, som øker overlevelsen; Biofilm
+Overføring av plasmider ved hjelp av sexpilus heter; Konjugasjon
+Dvaletilstand som øker overlevelse (f.eks. Clostridioides difficile); Sporedannelse/sporer/spore
+Bakterier som liker oksygen best, men klarer seg uten; Fakultativt anaerob/fakultativ/fakultative/fakultativt anaerobe/fakultative anaerobe
+Dyrkningsmedium med lyserte blodceller; Sjokoladeagar/sjokolade
+Agar der gram-negative staver vokser spesielt godt; Laktoseagar/laktose
+Laktosespaltende bakterier vil endre fargen på laktoseagar fra blå til; Grønn/gul
+Gram-positive bakterier farges lilla på grunn av _____ i celleveggen; Peptidoglykan/peptidoglykaner
+Bakterier med en ytre membran farges gram-_______; Negativ/negativt
+Disk-diffusjon måler; Sonediameter/hemningssone (Diameteren omsettes til følsom eller resistent - MIC måles med gradienttest)
+Dyrkningsmedium som passer H. influenzae spesielt godt; Sjokoladeagar/sjokolade
+Gen som alle bakterier har, brukes i diagnostikk; 16S/16S rRNA/16S RNA
+Den minste mengden antibiotika som kreves for å hemme bakterievekst kalles; MIC/MIC-verdi/MIK/MIP
+Streptokokker er katalase _____; negativ/negative
+Hvilke bakterier ligner streptokokker i mikroskop?; Enterokokker
+Koloniserer hud og slimhinner, ofte i normalfloraen i luftveiene, med markert beta-hemolyse; GAS/gruppe A streptokokker/gruppe A
+Akutt revmatisk feber, erythema nodosum (knuterosen) og akutt glomerulonefritt er følgetilstander til; GAS/S. pyogenes/gruppe A streptokokk
+S. agalactiae er en ___; GBS/gruppe B streptokokk
+Opportunist som forekommer normalt i de øvre luftveier, i feces og i vagina; S. agalactiae/GBS/gruppe B streptokokk
+Orale streptokokker (hoveddelen av normalfloraen i munnhulen og øvre luftveier); Viridans streptokokker/grønne streptokokker/viridans
+Endokarditt, kan være årsak til tannrotabscesser, og gir alfa-hemolyse; Viridans streptokokker/viridans
+Diplokokker som kan gi pneumoni, otitis media og sinusitt, og som finnes i normalfloraen i øvre luftveier; S. pneumoniae/streptococcus pneumoniae/pneumokokker/diplokokker
+Gruppe A streptokokker er følsomme for antibiotikumet ___; Bacitracin
+Viridans (bortsett fra S. pneumoniae) er resistente for antibiotikumet ____; Optochin/optokin
+Stafylokokker er katalase ___; positive/positiv
+Hvilke stafylokokker er koagulasepositive?; S. aureus/gule stafylokokker/gule
+Hvilken bakterie står ofte for UVI hos unge kvinner?; S. saprophyticus (Klassikeren hos unge kvinner - E coli er likevel vanligst totalt)
+Hvilken av de hvite stafylokokkene er sensitiv for novobiocin?; S. epidermidis/staphylococcus epidermidis
+Hvilke stafylokokker har beta-hemolyse?; S. aureus/gule/gule stafylokokker
+Hvilke stafylokokker har ingen eller gamma-hemolyse?; Hvite/KNS/hvite stafylokokker
+Hvilken stafylokokk gir ofte infeksjon etter innsetting av fremmedlegemer?; S. epidermidis
+Sporedannende gram-positive staver som smitter gjennom punksjonssår og gir stivkrampe; Clostridium tetani/C. tetani
+Mykobakterier er anaerobe eller aerobe?; Aerobe
+Bakterier som farges med Ziehl-Neelsen-farging?; Mykobakterier/syrefaste/syrefaste bakterier
+Mykobakterier har mye _____ i celleveggen; fett/lipider/lipid (Mykolsyre)
+Mykobakterier er resistente mot kjemisk desinfeksjon og inntørking, men tåler ikke ____; Sollys/lys
+Mykobakterier deler seg raskt eller sakte?; Sakte
+Tuberkulosebakterier kan spises av og vokse inni ____; Makrofager
+Mykobakterier er ubevegelige (sant/usant); Sant
+Hvilken sykdom forårsakes av Bordetella pertussis?; Kikhoste
+Haemophilus influenzae er gram____ staver; Negativ/negative
+CNS er godt beskyttet mot infeksjoner pga. ____; blod-hjerne-barrieren/BBB
+Feber, nakkestivhet, endret mental status og fotofobi tyder på; Meningitt
+Petekkier sees ved hvilken type meningitt?; meningokokkmeningitt/meningokokk/meningokokker/neisseria meningitidis/bakteriell/bakterielle
+Gram-negative diplokokker, vanligste årsak til meningitt hos ungdom 15-25 år; neisseria meningitidis/neisseria/N. meningitidis/meningokokk/meningokokker (Mennesket er eneste reservoar)
+Gram-positiv stav som kan gi meningitt i alle aldersgrupper; listeria monocytogenes
+E. coli og GBS kan gi meningitt hos ___; nyfødte/babyer
+Vanligste årsak til sepsis (30 %); E. coli
+Vanligste årsak til UVI; E. coli
+Årsak til UVI, men spalter ikke laktose; Proteus mirabilis/proteus/pseudomonas/pseudomonas aeruginosa
+Vokser på laktoseagar med grønnpigmenterte kolonier og spalter ikke laktose; pseudomonas aeruginosa/pseudomonas/P. aeruginosa
+Vanlig komplikasjon til UVI; nyrebekkenbetennelse/pyelonefritt
+Vanligste årsak til turistdiaré er _____ E. coli; Enterotoksigen/ETEC/enterotoksigen e.coli
+Type E. coli som produserer shigatoksiner og dreper epitelceller i tarmen; Enterohemoragisk/EHEC/enterohemoragisk e.coli
+Er shigella en zoonose?; Nei
+Finnes salmonella typhi og paratyphi i dyr?; Nei
+Bakterie som aktiverer kloridpumper i tarmepitelet; Vibrio cholerae/V. cholerae/Kolera/kolerabakterien
+Viktigste behandling ved kolera er; Hydrering/vann/drikke/væske
+Bakterie som kan gi antibiotikaassosiert diaré; Clostridioides difficile/C. difficile/C difficile/C. diff/Clostridium difficile
+Bakterie som kan gi gasskoldbrann eller gassgangren; Clostridium perfringens/C. perfringens
+Helicobacter pylori lever på slimhinnen i; Magesekken/ventrikkelen/ventriculus/gaster
+H. pylori skiller ut _____ som nøytraliserer magesyren; Urease
+Bakterie som er vanlig grunn til magesår; Helicobacter pylori/H. pylori
+Bakterie som behandles med to antibiotika og en protonpumpehemmer; Helicobacter pylori/H. pylori
+Toksiner fra diarébakterier fører til økt sekresjon av; Elektrolytter (og vann)
+Bakterie som gir rask diaré pga. preformede toksiner som tåler steking og koking; S. aureus/staphylococcus aureus
+Bakterie som kan vokse ved kjøleskapstemperatur og ofte gir matforgiftning; Listeria monocytogenes
+Skal man bruke antibiotika som behandling for EHEC?; Nei (Øker risikoen for HUS)
+Skal man bruke antibiotika som behandling for shigella?; Ja
+Hva gjør et baktericid antibiotikum?; Dreper
+Hva gjør et bakteriostatisk antibiotikum?; hemmer formering/hemmer vekst
+Hvilke antibiotika er MRSA resistent mot?; methicillin/meticillin (Og alle andre betalaktamer)
+Transduksjon bruker ____ for å overføre plasmid; bakteriofag/bakteriofager
+Gram _____ staver er naturlig resistente mot vankomycin; negative
+Mueller-Hinton-agar tester _____; resistens
+Hvorfor kan abscesser gi terapisvikt ved antibiotikabehandling?; lav pH/surt (Dårlig penetrasjon og høy bakterietetthet spiller også inn)
+Hva kan brukes for å sikre virkningen av antibiotika?; Betalaktamasehemmer/betalaktamasehemmere (Klavulansyre)
+Hva er det vanligste transportmediet for avføringsprøver?; Cary-Blair/Cary Blair
+Hva forårsaker ofte tonsillitt?; GAS/gruppe A streptokokker/S. pyogenes/streptococcus pyogenes
+Hvilken bakterie er mesterhjernen bak pseudomembranøs kolitt?; Clostridioides difficile/C. difficile/C. diff/Clostridium difficile
+Hvilket antibiotikum er en risikofaktor for pseudomembranøs kolitt?; Klindamycin/clindamycin (Cefalosporiner og kinoloner gir også økt risiko)
+Legionella pneumophila påvises med antigentest i _____; Urin
+Virus som gir mikrocefali hos nyfødte; Zika/zikavirus
+Hvis man har IgG uten IgM i blodet, har man da gått gjennom en infeksjon?; Ja
+Smitte av virus gjennom stikk, skade eller insekt; Inokulasjon
+Hva har ikke-nakne virus?; Kappe/envelope/ytre membran
+Når et virus ligger stille (uten å gi sykdom) i kroppen?; Latens
+Smitte fra dyr til menneske; Zoonose
+Viktigste tiltak ved en alvorlig virusinfeksjon?; Isolasjon
+Vanligste årsak til forkjølelse?; Rhinovirus
+Viktigste virus som gir nedre luftveissymptomer hos barn; RSV/respiratorisk syncytialt virus
+Virus som ofte gir myalgi, plutselig feber og hodepine, og som påvirker alle aldersgrupper; Influensavirus/influensa
+Hva er det mest effektive helsetiltaket for å forebygge epidemier?; vaksiner/vaksine
+Hepatitt B er hvilken type vaksine?; rekombinant
+Toksoidvaksiner består av?; Inaktiverte toksiner/toksoider/avgiftede toksiner
+Hvilken vaksine skulle angivelig forårsake autisme?; MMR (Påstanden bygget på forskningsjuks og den er grundig tilbakevist)
+Hvilken type lymfocytter blir infisert av HIV?; CD4+/cd4 positive/T-hjelpeceller
+Hvilket virus må sjekkes for resistens mot antivirale midler?; HIV
+Virus som gir vekstretardasjon, hjertefeil og CNS-skade hos nyfødte?; rubella/røde hunder/rubellavirus
+Den femte barnesykdommen; erythema infectiosum/parvovirus/parvovirus B19
+Vanligste virus for virusindusert fosterskade?; CMV/cytomegalovirus
+Blueberry muffin-utslett hos nyfødt; CMV/cytomegalovirus
+Latent og kan bli til helvetesild?; varicella zoster virus/VZV
+Ikke zoonose, og pakkes i cellekjernen i keratinocytter; HPV/humant papillomavirus
+Hvilke HPV-typer kan gi kreft?; HPV-16/HPV-18/16 og 18/16/18
+Chlamydia-arten som er vanligst ved genital infeksjon; c. trachomatis/chlamydia trachomatis
+Hvilket organ angriper hepatittfamilien?; hepar/lever
+Hepatittvirus som smitter fekalt-oralt?; HAV/HEV/hepatitt A/hepatitt E
+Hepatittvirus som kan gi kronisk infeksjon?; HBV og HCV/B og C (HDV også men bare sammen med HBV)
+Hepatittvirus som er avhengig av et annet hepatittvirus; HDV/Hepatitt D
+Hjernebetennelse?; encefalitt
+Hvilket virus må man tenke på først ved viral meningitt eller encefalitt?; HSV/herpes simplex virus (Fordi det kan behandles - enterovirus er vanligst ved viral meningitt)
+Encefalitt fra flått?; TBE/tick-borne encephalitis/skogflåttencefalitt
+Smertefullt, følger et dermatom og gir utslett; herpes zoster/VZV/helvetesild
+Virus der mennesket er eneste reservoar?; Enterovirus
+Mononukleose skyldes hvilket virus?; Epstein-Barr virus/EBV
+Infiserer epitelceller, endotelceller og fibroblaster?; CMV/cytomegalovirus
+Virus som gir diaré?; adenovirus/norovirus/rotavirus
+Virus som gravide kvinner testes rutinemessig for; Rubella/røde hunder`
   }
 };
 
@@ -804,7 +954,7 @@ const EDGE_DIP = Math.cos(Math.PI / ROCK_PTS);
 const ROCK_SAFE = 1 / (K_MIN * EDGE_DIP);
 const PLATE_PAD_X = 13, PLATE_PAD_Y = 9;
 
-const MAX_LINES = 5;
+const MAX_LINES = 6;
 
 // Balanserte linjebrudd: i stedet for å fylle maksbredden velger vi den bredden
 // som gjør tekstblokken omtrent like høy som bred. Da blir steinen rund i stedet
@@ -836,7 +986,7 @@ function layoutRock(rock){
     halfH = (lines.length * lh) / 2 + PLATE_PAD_Y;
     rx = halfW * 1.34 * ROCK_SAFE;
     ry = halfH * 1.95 * ROCK_SAFE;
-    const forStor = lines.length > MAX_LINES || ry * 2 > H * 0.42 || rx * 2 > W * 0.80;
+    const forStor = lines.length > MAX_LINES || ry * 2 > H * 0.46 || rx * 2 > W * 0.80;
     if (!forStor || fs <= 9.5) break;
     fs -= 0.8;
   }
@@ -1565,7 +1715,8 @@ function syncHud(){
   answerInput.disabled = S.phase !== "playing";
 }
 
-const OVERLAYS = ["screenStart", "screenPause", "screenOver", "screenBoard", "screenSets", "reveal"];
+const OVERLAYS = ["screenStart", "screenPause", "screenOver", "screenBoard", "screenSets", "screenList", "reveal"];
+const MENYSKJERMER = ["screenList", "screenBoard", "screenSets"];
 function show(id, on){ $(id).classList.toggle("on", !!on); }
 function hideAll(){ for (const id of OVERLAYS) show(id, false); }
 
@@ -1581,7 +1732,7 @@ function toast(msg, kind, ms){
 function fillSetSelects(){
   const sets = allSets();
   const order = [...Object.keys(BUILTIN_RAW), ...Object.keys(customSets)];
-  for (const sel of [$("setSelect"), $("boardSetSelect")]) {
+  for (const sel of [$("setSelect"), $("boardSetSelect"), $("listSetSelect")]) {
     const prev = sel.value;
     sel.innerHTML = "";
     for (const id of order) {
@@ -1595,6 +1746,50 @@ function fillSetSelects(){
     if (prev && sets[prev]) sel.value = prev;
   }
   $("boardSetSelect").value = $("setSelect").value;
+  $("listSetSelect").value = $("setSelect").value;
+}
+
+// Hele settet som fasitliste, med søk.
+function renderList(){
+  const setId = $("listSetSelect").value;
+  const set = allSets()[setId];
+  const ul = $("listBody");
+  ul.innerHTML = "";
+  if (!set) { $("listCount").textContent = ""; return; }
+
+  const alle = parseSet(set.text);
+  const sok = norm($("listSearch").value);
+  const treff = sok
+    ? alle.filter(i => norm(i.q + " " + i.a + " " + i.hint).includes(sok))
+    : alle;
+
+  $("listCount").textContent = sok
+    ? `${treff.length} av ${alle.length} spørsmål`
+    : `${alle.length} spørsmål`;
+
+  if (!treff.length) {
+    const li = document.createElement("li");
+    li.innerHTML = '<p class="empty" style="padding:0">Ingen treff.</p>';
+    ul.append(li);
+    return;
+  }
+
+  treff.forEach((item) => {
+    const li = document.createElement("li");
+    const nr = document.createElement("span");
+    nr.className = "nr";
+    nr.textContent = String(alle.indexOf(item) + 1).padStart(2, "0");
+    const q = document.createElement("div"); q.className = "q"; q.textContent = item.q;
+    const a = document.createElement("div"); a.className = "a"; a.textContent = item.a;
+    li.append(nr, q, a);
+    if (item.hint) {
+      const h = document.createElement("div");
+      h.className = "h";
+      h.textContent = item.hint;
+      li.append(h);
+    }
+    ul.append(li);
+  });
 }
 
 function renderMySets(){
@@ -1653,6 +1848,9 @@ document.addEventListener("keydown", (e) => {
     if (S.phase === "reveal") { closeReveal(); return; }
     if (S.phase === "playing") { pause(true); return; }
     if (S.phase === "paused") { pause(false); return; }
+    for (const id of MENYSKJERMER) {
+      if ($(id).classList.contains("on")) { show(id, false); show("screenStart", true); return; }
+    }
   }
   // klikk hvor som helst og skriv videre
   if (S.phase === "playing" && document.activeElement !== answerInput &&
@@ -1716,6 +1914,18 @@ $("btnSave").addEventListener("click", async () => {
   if (entry.feilet) toast("Lagret her, men ikke på den felles listen", "warn", 3200);
   else toast(entry.sentral ? "Lagret på den felles topplisten" : "Lagret på topplisten", "good", 1800);
 });
+
+$("btnList").addEventListener("click", () => {
+  $("listSetSelect").value = $("setSelect").value;
+  $("listSearch").value = "";
+  renderList();
+  show("screenStart", false);
+  show("screenList", true);
+  $("listBody").parentElement.scrollTop = 0;
+});
+$("listSetSelect").addEventListener("change", () => { renderList(); $("listBody").parentElement.scrollTop = 0; });
+$("listSearch").addEventListener("input", renderList);
+$("btnListClose").addEventListener("click", () => { show("screenList", false); show("screenStart", true); });
 
 $("btnBoard").addEventListener("click", () => {
   $("boardSetSelect").value = $("setSelect").value;

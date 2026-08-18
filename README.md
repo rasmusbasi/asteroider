@@ -138,8 +138,12 @@ opp en `.txt`/`.csv`. De lagres i nettleseren.
 
 ## Innebygde sett
 
-- **Nevrologi** (42 spørsmål) — settet fra `MED7/Øving/Asteroids`.
-- **Farmakologi** (26 spørsmål) — antiarytmika, antibiotika, angina, hjertesvikt,
+Knappen **Se spørsmålene** på startsiden viser hele settet som fasitliste — alle
+spørsmål med svar og tilleggsinfo, med søkefelt. Fungerer også for egne sett.
+
+- **Nevrologi** (41 spørsmål) — settet fra `MED7/Øving/Asteroids`.
+- **Mikrobiologi** (121 spørsmål) — bakteriologi, virologi, antibiotika og vaksiner.
+- **Farmakologi** (25 spørsmål) — antiarytmika, antibiotika, angina, hjertesvikt,
   astma og kolesterol. Her er alternative skrivemåter skilt med skråstrek i
   fasiten (`Betablokkere/BB/betablokker`), og alle godkjennes som svar.
 
