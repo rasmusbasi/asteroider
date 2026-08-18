@@ -304,18 +304,12 @@
           <select id="setSelect"></select>
         </div>
 
-        <div class="row">
-          <div class="field">
-            <span class="label">Vanskelighet</span>
-            <div class="seg" id="diffSeg">
-              <button type="button" data-diff="calm">Rolig</button>
-              <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
-              <button type="button" data-diff="hard">Hardcore</button>
-            </div>
-          </div>
-          <div class="field">
-            <span class="label">Navn (til listen)</span>
-            <input class="textin" id="playerName" maxlength="18" placeholder="Skriv navnet ditt" />
+        <div class="field">
+          <span class="label">Vanskelighet</span>
+          <div class="seg" id="diffSeg">
+            <button type="button" data-diff="calm">Rolig</button>
+            <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+            <button type="button" data-diff="hard">Hardcore</button>
           </div>
         </div>
 
@@ -486,8 +480,8 @@
    ============================================================ */
 
 const SENTRAL = {
-  url:    "https://sjfhmfsgtevxlofmzose.supabase.co",
-  nokkel: "sb_publishable_-0cBzQHvNlkKXsNcMtvITQ_FBwCoCBN"
+  url:    "",   // «Project URL», f.eks. "https://abcdefghijkl.supabase.co"
+  nokkel: ""    // «anon public»-nøkkelen — den er laget for å ligge åpent
 };
 
 /* ============================================================
@@ -1695,7 +1689,6 @@ $("setSelect").addEventListener("change", () => {
 });
 
 $("btnStart").addEventListener("click", () => {
-  prefs.name = $("playerName").value.trim();
   prefs.set = $("setSelect").value;
   save(LS.prefs, prefs);
   startGame(prefs.set, prefs.diff);
@@ -1800,7 +1793,6 @@ if (prefs.set && allSets()[prefs.set]) {
   $("setSelect").value = prefs.set;
   $("boardSetSelect").value = prefs.set;
 }
-$("playerName").value = prefs.name || "";
 for (const btn of $("diffSeg").querySelectorAll("button")) {
   btn.setAttribute("aria-pressed", String(btn.dataset.diff === (prefs.diff || "normal")));
 }
