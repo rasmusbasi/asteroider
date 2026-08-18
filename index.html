@@ -496,7 +496,7 @@
    ============================================================ */
 
 const SENTRAL = {
-  url:    "",   // f.eks. "https://abcdefghijkl.supabase.co"
+  url:    "",   // «Project URL», f.eks. "https://abcdefghijkl.supabase.co"
   nokkel: ""    // «anon public»-nøkkelen — den er laget for å ligge åpent
 };
 
@@ -1431,7 +1431,15 @@ function toMenu(){
    11 · TOPPLISTE
    ============================================================ */
 
-const sentralPa = () => !!(SENTRAL.url && SENTRAL.nokkel);
+const sentralPa = () => !!(String(SENTRAL.url).trim() && String(SENTRAL.nokkel).trim());
+
+// Supabase viser både «Project URL» og «RESTful endpoint» (som er den samme med
+// /rest/v1 bakpå). Begge skal fungere her, med eller uten skråstrek til slutt.
+function sentralAdresse(){
+  return String(SENTRAL.url).trim()
+    .replace(/\/+$/, "")
+    .replace(/\/rest(\/v1)?$/i, "");
+}
 
 function sentralHode(ekstra){
   return Object.assign({
@@ -1443,7 +1451,7 @@ function sentralHode(ekstra){
 async function sentralHent(setId){
   const q = "?set_id=eq." + encodeURIComponent(setId)
           + "&select=id,name,score,level,created_at&order=score.desc&limit=50";
-  const r = await fetch(SENTRAL.url.replace(/\/+$/, "") + "/rest/v1/scores" + q,
+  const r = await fetch(sentralAdresse() + "/rest/v1/scores" + q,
                         { headers: sentralHode() });
   if (!r.ok) throw new Error("HTTP " + r.status);
   const rader = await r.json();
@@ -1451,7 +1459,7 @@ async function sentralHent(setId){
 }
 
 async function sentralLagre(entry, setId){
-  const r = await fetch(SENTRAL.url.replace(/\/+$/, "") + "/rest/v1/scores", {
+  const r = await fetch(sentralAdresse() + "/rest/v1/scores", {
     method: "POST",
     headers: sentralHode({ "Content-Type": "application/json", Prefer: "return=representation" }),
     body: JSON.stringify({

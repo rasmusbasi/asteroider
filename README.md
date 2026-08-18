@@ -79,8 +79,14 @@ Det finnes med vilje ingen regel for `update` eller `delete`: ingen kan endre
 eller slette andres poeng utenfra. Skal du rydde i listen, gjør du det selv under
 **Table Editor** i Supabase.
 
-**3. Hent nøklene.** **Project Settings → Data API**: kopier **Project URL** og
-nøkkelen som heter **anon public**.
+**3. Hent nøklene.** **Project Settings → Data API / API Keys**:
+
+- **Project URL** — ser ut som `https://<prosjekt-id>.supabase.co`. Står det
+  `/rest/v1/` bakpå (feltet «RESTful endpoint»), gjør det ingenting; spillet
+  klipper det bort selv.
+- Nøkkelen merket **anon** / **public** / **publishable** — en lang streng som
+  starter med `eyJ...` eller `sb_publishable_...`. Nøkkelen merket
+  **service_role** / **secret** skal aldri inn i spillet.
 
 **4. Lim dem inn.** Øverst i `game.html` ligger blokken `const SENTRAL`:
 
