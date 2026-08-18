@@ -1,0 +1,1829 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#05080F" />
+<meta name="description" content="Skrivespill for pugging: svar pa sporsmalet for asteroiden treffer jorden." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#9732;</text></svg>" />
+<title>Pugge-asteroider</title>
+<style>
+  :root{
+    --void:#05080F;
+    --deep:#0B1220;
+    --panel:#0E1726;
+    --line:#1E2C42;
+    --ink:#E8EEF5;
+    --slate:#7C8BA1;
+    --phos:#37E0B0;
+    --phos-dim:#1F7F66;
+    --amber:#F2A63B;
+    --crit:#FF4D5E;
+    --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--void);
+    color:var(--ink);
+    font-family:var(--sans);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+  input,select,textarea{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--phos);outline-offset:2px}
+
+  #app{
+    position:fixed;inset:0;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    background:
+      radial-gradient(120% 80% at 50% 100%, #0A1A2A 0%, transparent 60%),
+      var(--void);
+  }
+
+  /* ---------- telemetry rail ---------- */
+  .rail{
+    display:flex;align-items:center;gap:20px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(11,18,32,.95),rgba(11,18,32,.55));
+    font-family:var(--mono);
+    font-size:12px;
+    flex-wrap:wrap;
+  }
+  .gauge{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+  .gauge .k{
+    color:var(--slate);text-transform:uppercase;letter-spacing:.14em;font-size:10px;
+  }
+  .gauge .v{
+    font-size:17px;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+    color:var(--phos);
+  }
+  .gauge.plain .v{color:var(--ink)}
+  #railSet{
+    color:var(--slate);margin-left:auto;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;max-width:34ch;letter-spacing:.06em;
+  }
+  #lives{display:flex;gap:6px;align-items:center}
+  .pip{
+    width:12px;height:12px;border-radius:50%;
+    background:radial-gradient(circle at 32% 30%,#63B6FF,#1B4C86 65%,#0B2947);
+    box-shadow:0 0 8px rgba(60,150,255,.5);
+  }
+  .pip.lost{background:#182437;box-shadow:none;opacity:.5}
+  .railbtn{
+    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--slate);border:1px solid var(--line);padding:5px 10px;border-radius:2px;
+  }
+  .railbtn:hover{color:var(--phos);border-color:var(--phos-dim)}
+
+  /* ---------- play field ---------- */
+  #field{position:relative;overflow:hidden}
+  #sky{display:block;width:100%;height:100%}
+  #flash{
+    position:absolute;inset:0;pointer-events:none;opacity:0;
+    background:radial-gradient(80% 60% at 50% 110%,rgba(255,77,94,.55),transparent 70%);
+    transition:opacity .45s ease-out;
+  }
+  #flash.on{opacity:1;transition:none}
+  #toast{
+    position:absolute;left:50%;top:14px;transform:translateX(-50%);
+    font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    padding:7px 14px;border:1px solid var(--line);border-radius:2px;
+    background:rgba(11,18,32,.9);color:var(--ink);
+    opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center;
+  }
+  #toast.on{opacity:1}
+  #toast.warn{color:var(--amber);border-color:#5C4318}
+  #toast.good{color:var(--phos);border-color:var(--phos-dim)}
+  #toast.bad{color:var(--crit);border-color:#5C1F27}
+
+  /* ---------- command line ---------- */
+  .console{
+    border-top:1px solid var(--line);
+    background:linear-gradient(0deg,rgba(11,18,32,.98),rgba(11,18,32,.75));
+    padding:10px 16px 14px;
+  }
+  .prompt{
+    display:flex;align-items:center;gap:10px;
+    border:1px solid var(--line);border-radius:2px;
+    background:#070C16;
+    padding:0 12px;
+    transition:border-color .2s,box-shadow .2s;
+  }
+  .prompt:focus-within{border-color:var(--phos-dim);box-shadow:0 0 0 1px rgba(55,224,176,.18),0 0 22px rgba(55,224,176,.09)}
+  .prompt .caret{font-family:var(--mono);color:var(--phos);font-size:15px}
+  #answer{
+    flex:1;background:none;border:none;outline:none;
+    font-family:var(--mono);font-size:17px;letter-spacing:.01em;
+    padding:13px 0;min-width:0;
+  }
+  #answer::placeholder{color:#3D4A5E}
+  .hintline{
+    display:flex;justify-content:space-between;gap:16px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:#4E5D73;margin-top:7px;
+  }
+
+  /* ---------- overlays ---------- */
+  .overlay{
+    position:absolute;inset:0;z-index:20;
+    display:none;place-items:center;
+    padding:20px;
+    background:rgba(5,8,15,.86);
+    backdrop-filter:blur(3px);
+    overflow:auto;
+  }
+  .overlay.on{display:grid}
+  .card{
+    width:min(680px,100%);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:3px;
+    box-shadow:0 30px 90px rgba(0,0,0,.6);
+    padding:26px 28px 24px;
+    margin:auto;
+  }
+  .card.wide{width:min(820px,100%)}
+  .eyebrow{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--phos);margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--mono);
+    font-size:clamp(30px,5.4vw,46px);
+    letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+    margin:0 0 6px;text-wrap:balance;
+    background:linear-gradient(180deg,#FFFFFF,#8FB4CE);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  h2{
+    font-family:var(--mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:600;margin:0 0 4px;color:var(--ink);
+  }
+  .lede{
+    font-family:var(--serif);font-size:16px;line-height:1.6;color:#AEBCCD;
+    margin:0 0 22px;max-width:62ch;
+  }
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+  .label{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--slate);
+  }
+  select,.textin,textarea{
+    width:100%;background:#070C16;border:1px solid var(--line);border-radius:2px;
+    padding:11px 12px;font-family:var(--mono);font-size:14px;outline:none;
+  }
+  select:focus,.textin:focus,textarea:focus{border-color:var(--phos-dim)}
+  textarea{font-size:12.5px;line-height:1.55;resize:vertical;min-height:190px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .row>*{flex:1;min-width:180px}
+
+  .seg{display:flex;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+  .seg button{
+    flex:1;padding:11px 6px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--slate);
+    border-right:1px solid var(--line);transition:background .15s,color .15s;
+  }
+  .seg button:last-child{border-right:none}
+  .seg button:hover{color:var(--ink);background:#131F33}
+  .seg button[aria-pressed="true"]{background:rgba(55,224,176,.13);color:var(--phos)}
+
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+  .btn{
+    padding:13px 22px;border-radius:2px;border:1px solid var(--line);
+    font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink);transition:background .15s,border-color .15s,color .15s;
+  }
+  .btn:hover{background:#141F33;border-color:#2C3E5A}
+  .btn.primary{
+    background:var(--phos);color:#04140F;border-color:var(--phos);font-weight:700;
+  }
+  .btn.primary:hover{background:#4CF0C0;border-color:#4CF0C0}
+  .btn.ghost{color:var(--slate)}
+  .btn.ghost:hover{color:var(--ink)}
+  .btn.danger{color:var(--crit);border-color:#43202A}
+  .btn.danger:hover{background:#2A121A}
+
+  /* stats + tables */
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);margin:18px 0 4px;
+  }
+  .stat{background:var(--panel);padding:13px 14px}
+  .stat .k{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);
+  }
+  .stat .v{
+    font-family:var(--mono);font-size:23px;font-variant-numeric:tabular-nums;margin-top:3px;
+  }
+  .stat.accent .v{color:var(--phos)}
+
+  .board{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px}
+  .board th{
+    text-align:left;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--slate);font-weight:500;padding:0 8px 8px;border-bottom:1px solid var(--line);
+  }
+  .board td{padding:8px;border-bottom:1px solid #16233A;font-variant-numeric:tabular-nums}
+  .board td.rank{color:var(--slate);width:3ch}
+  .board td.nm{font-family:var(--sans);font-size:14px}
+  .board td.sc{text-align:right;color:var(--phos)}
+  .board tr.you td{background:rgba(55,224,176,.08)}
+  .board tr.you td.nm::after{content:" ← deg";color:var(--phos);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+  .scroll{max-height:230px;overflow:auto;margin-top:6px}
+  .empty{
+    font-family:var(--mono);font-size:12px;color:var(--slate);
+    padding:16px 0;letter-spacing:.06em;
+  }
+
+  .review{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .review li{background:var(--panel);padding:11px 13px}
+  .review .q{font-family:var(--serif);font-size:14.5px;line-height:1.45;color:#C4D0DE}
+  .review .a{font-family:var(--mono);font-size:13px;color:var(--phos);margin-top:5px}
+  .review .h{font-family:var(--mono);font-size:11.5px;color:var(--slate);margin-top:3px;line-height:1.45}
+
+  .divider{height:1px;background:var(--line);margin:22px 0 18px}
+  .note{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--slate);letter-spacing:.03em}
+  .note code{color:var(--amber);font-size:11.5px}
+
+  /* reveal panel */
+  #reveal .card{border-color:#5C1F27;box-shadow:0 0 0 1px rgba(255,77,94,.12),0 30px 90px rgba(0,0,0,.6)}
+  #reveal .eyebrow{color:var(--crit)}
+  .revealQ{font-family:var(--serif);font-size:19px;line-height:1.5;margin:0 0 16px;color:var(--ink);text-wrap:balance}
+  .revealA{
+    font-family:var(--mono);font-size:27px;letter-spacing:.02em;color:var(--phos);
+    padding:14px 16px;border:1px dashed var(--phos-dim);border-radius:2px;background:rgba(55,224,176,.05);
+    word-break:break-word;
+  }
+  .revealH{font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--amber);margin-top:12px}
+  #revealInput{margin-top:18px;font-size:17px;padding:13px 14px}
+  #revealInput.shake{animation:shake .3s}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+  .setlist{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
+  .setlist li{background:var(--panel);padding:10px 12px;display:flex;align-items:center;gap:12px}
+  .setlist .nm{flex:1;font-family:var(--mono);font-size:13px}
+  .setlist .ct{font-family:var(--mono);font-size:11px;color:var(--slate)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  }
+  @media (max-width:560px){
+    .card{padding:20px 18px}
+    .rail{gap:14px;padding:8px 12px}
+    #railSet{display:none}
+    .gauge .v{font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="rail">
+    <div class="gauge"><span class="k">Poeng</span><span class="v" id="hudScore">0</span></div>
+    <div class="gauge plain"><span class="k">Nivå</span><span class="v" id="hudLevel">1</span></div>
+    <div class="gauge plain"><span class="k">Rekke</span><span class="v" id="hudStreak">0</span></div>
+    <div class="gauge"><span class="k">Jorden</span><span id="lives"></span></div>
+    <button class="railbtn" id="btnPause" type="button">Pause</button>
+    <button class="railbtn" id="btnSound" type="button" aria-pressed="true">Lyd på</button>
+    <span id="railSet"></span>
+  </div>
+
+  <div id="field">
+    <canvas id="sky"></canvas>
+    <div id="flash"></div>
+    <div id="toast" role="status" aria-live="polite"></div>
+
+    <!-- START -->
+    <div class="overlay on" id="screenStart">
+      <div class="card">
+        <p class="eyebrow">Innkommende · pugg eller pulveriser</p>
+        <h1>Asteroider</h1>
+        <p class="lede">Spørsmål faller mot jorden. Skriv svaret og trykk Enter for å sprenge asteroiden. Du har to forsøk på hver — den skifter farge etter det første bommet. Teksten i parentes trenger du ikke skrive; den dukker opp når du bommer.</p>
+
+        <div class="field">
+          <span class="label">Spørsmålssett</span>
+          <select id="setSelect"></select>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <span class="label">Vanskelighet</span>
+            <div class="seg" id="diffSeg">
+              <button type="button" data-diff="calm">Rolig</button>
+              <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
+              <button type="button" data-diff="hard">Hardcore</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label">Navn (til listen)</span>
+            <input class="textin" id="playerName" maxlength="18" placeholder="Skriv navnet ditt" />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="btnStart" type="button">Start spillet</button>
+          <button class="btn ghost" id="btnSets" type="button">Egne sett</button>
+          <button class="btn ghost" id="btnBoard" type="button">Toppliste</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAUSE -->
+    <div class="overlay" id="screenPause">
+      <div class="card">
+        <p class="eyebrow">Bane frosset</p>
+        <h2>Pause</h2>
+        <p class="lede" style="margin-bottom:0">Asteroidene venter. Trykk Esc eller Fortsett når du er klar.</p>
+        <div class="actions">
+          <button class="btn primary" id="btnResume" type="button">Fortsett</button>
+          <button class="btn ghost" id="btnQuit" type="button">Avslutt runden</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVEAL -->
+    <div class="overlay" id="reveal">
+      <div class="card">
+        <p class="eyebrow">To bom · skriv svaret for å fortsette</p>
+        <p class="revealQ" id="revealQ"></p>
+        <div class="revealA" id="revealA"></div>
+        <p class="revealH" id="revealH"></p>
+        <input class="textin" id="revealInput" placeholder="Skriv svaret her" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" />
+        <div class="actions">
+          <button class="btn ghost" id="btnSkipReveal" type="button">Hopp over (Esc)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="overlay" id="screenOver">
+      <div class="card wide">
+        <p class="eyebrow" id="overEyebrow">Nedslag · jorden er borte</p>
+        <h1 style="font-size:clamp(26px,4.6vw,38px)">Runden er over</h1>
+
+        <div class="stats">
+          <div class="stat accent"><div class="k">Poeng</div><div class="v" id="ovScore">0</div></div>
+          <div class="stat"><div class="k">Nivå</div><div class="v" id="ovLevel">1</div></div>
+          <div class="stat"><div class="k">Truffet</div><div class="v" id="ovHit">0</div></div>
+          <div class="stat"><div class="k">Bommet</div><div class="v" id="ovMiss">0</div></div>
+          <div class="stat"><div class="k">Treff&nbsp;%</div><div class="v" id="ovAcc">0</div></div>
+          <div class="stat"><div class="k">Beste rekke</div><div class="v" id="ovStreak">0</div></div>
+        </div>
+
+        <div id="saveRow">
+          <div class="divider"></div>
+          <div class="row" style="align-items:flex-end">
+            <div class="field" style="margin-bottom:0">
+              <span class="label">Navn på topplisten</span>
+              <input class="textin" id="overName" maxlength="18" placeholder="Skriv navnet ditt" />
+            </div>
+            <button class="btn primary" id="btnSave" type="button" style="flex:0 0 auto;min-width:0">Lagre poengsum</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <h2>Toppliste — <span id="ovSetName"></span></h2>
+        <div class="scroll"><div id="ovBoard"></div></div>
+        <p class="note" id="ovKilde" style="margin-top:10px"></p>
+
+        <div id="reviewWrap" hidden>
+          <div class="divider"></div>
+          <h2>Disse bommet du på</h2>
+          <ul class="review" id="reviewList"></ul>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="btnAgain" type="button">Spill igjen</button>
+          <button class="btn" id="btnDrill" type="button" hidden>Øv på bommene</button>
+          <button class="btn ghost" id="btnMenu" type="button">Til menyen</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="overlay" id="screenBoard">
+      <div class="card">
+        <p class="eyebrow">Arkiv</p>
+        <h2>Toppliste</h2>
+        <div class="field" style="margin-top:14px">
+          <span class="label">Sett</span>
+          <select id="boardSetSelect"></select>
+        </div>
+        <div class="scroll"><div id="boardBody"></div></div>
+        <p class="note" id="boardKilde" style="margin-top:14px"></p>
+        <div class="actions">
+          <button class="btn primary" id="btnBoardClose" type="button">Tilbake</button>
+          <button class="btn danger" id="btnBoardClear" type="button">Tøm listen for dette settet</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETS -->
+    <div class="overlay" id="screenSets">
+      <div class="card wide">
+        <p class="eyebrow">Lastelisten</p>
+        <h2>Egne spørsmålssett</h2>
+        <p class="note" style="margin:10px 0 18px">
+          Én linje per spørsmål: <code>Spørsmål, Svar (tilleggsinfo)</code><br />
+          Parentesen trenger du ikke skrive — den vises som fasit når du bommer.<br />
+          Har spørsmålet komma i seg, bruk semikolon som skilletegn: <code>Spørsmål; Svar</code><br />
+          Tomme linjer skiller temaer og hoppes over.
+        </p>
+
+        <div class="field">
+          <span class="label">Navn på settet</span>
+          <input class="textin" id="newSetName" maxlength="46" placeholder="F.eks. Farmakologi kap. 4" />
+        </div>
+        <div class="field">
+          <span class="label">Spørsmål</span>
+          <textarea id="newSetText" spellcheck="false" placeholder="Medikamentell behandling mot ALS, Riluzol (eller Edaravone)"></textarea>
+        </div>
+        <div class="row">
+          <button class="btn" id="btnUpload" type="button">Last opp .txt / .csv</button>
+          <button class="btn primary" id="btnSaveSet" type="button">Lagre settet</button>
+        </div>
+        <input type="file" id="fileInput" accept=".txt,.csv,text/plain,text/csv" hidden />
+
+        <div id="mySetsWrap" hidden>
+          <div class="divider"></div>
+          <h2>Lagrede sett</h2>
+          <ul class="setlist" id="mySets"></ul>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="btnSetsClose" type="button">Tilbake</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="console">
+    <div class="prompt">
+      <span class="caret">&gt;</span>
+      <input id="answer" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"
+             placeholder="Skriv svaret og trykk Enter" aria-label="Svar" />
+    </div>
+    <div class="hintline">
+      <span>Enter = fyr av · Esc = pause</span>
+      <span id="hintRight">Ingen runde i gang</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+/* ============================================================
+   0 · FELLES TOPPLISTE  ←  eneste stedet du trenger å endre
+   ------------------------------------------------------------
+   Står disse tomme, lagres poengene bare i nettleseren din.
+   Fyll dem inn med verdiene fra Supabase (Project Settings →
+   Data API), så deles topplisten mellom alle maskiner.
+   Fremgangsmåte står i README.md.
+
+   Husk: rediger denne filen (game.html) og kjør «sh build.sh»
+   etterpå, ellers blir index.html stående med de gamle verdiene.
+   ============================================================ */
+
+const SENTRAL = {
+  url:    "",   // f.eks. "https://abcdefghijkl.supabase.co"
+  nokkel: ""    // «anon public»-nøkkelen — den er laget for å ligge åpent
+};
+
+/* ============================================================
+   1 · SPØRSMÅLSSETT
+   ============================================================ */
+
+const BUILTIN_RAW = {
+  nevrologi: {
+    name: "Nevrologi",
+    text: `Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
+Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
+Medikament man må gi til pasient som tar pradaxa/dagibatran før trombolyse, Praxbind (Antidot mot pradaxa. Generisk navn er Idarusizumab)
+Medikamentell behandling av subaraknoidalblødning, Traneksamsyre (Cyklokapron)
+Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin (Klexane. Marevan gis senere)
+Medikamentell behandling mot spinal muskelatrofi, Nusinersen (Spinraza)
+Medikamentell behandling mot ALS, Rituzol (eller Evarone)
+Vanligste medikamentelle behandling mot parkinsons, Levodopa
+Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister
+Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
+Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
+Attakkbehandling ved multippel sklerose, Metylprednisolon
+Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen iallefall)
+Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
+Gruppe høyeffektive MS-medikamenter som er teratogent og har en rebound ved seponering, S1P-modulatorer
+Behandling for generalisert epilepsi, Levetiracetam (eller lamotrigin/valproat hos barn og kanskje menn)
+Behandling for fokal epilepsi, Lamotrigin (eller levetiracetam)
+Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
+Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
+Andrelinje ved status epilepticus, Antiepileptika (Fosfenotin/levetiracetam/valproat)
+Tredje- og sistelinje ved status epilepticus, Narkose
+Antiepileptikum som er spesielt fosterskadelig, Valproat
+Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
+Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
+Hvilken bokstav bør antiepileptikum som gis til eldre starte på, L (eLdre må ha medisiner på L)
+Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
+Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
+Førstelinje i anfallsbehandling for migrene, Ibux
+Andrelinje i anfallsbehandling for migrene, NSAID (Diklodenak/naproxem)
+Tredjelinje i anfallsbehandling for migrene, Triptaner (imigran/zomig/relpax)
+Fjerdelinje i anfallsbehandling for migrene, Gepanter (Vydura)
+Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man førsøke, Nesespray (eller injeksjoner)
+Forebyggende behandling for migrene hos pasienter med samtidig depresjon, TCA
+Førstevalg som forebyggende behandling ved kronisk migrene, Betablokker
+Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
+Ikke-medikamentell anfallsbehandling av klasehodepine, Oksygen
+Medikamentell forebyggende for klasehodepine, Verapamil (CCB)
+Medikamentell behandling for hemicrania continua som også er diagnostisk, Indometacin
+Medikamentell behandling av nevralgier, Antiepileptika (karbamazepin/okskarbazepin/gabapentin/pregabalin)
+Medikament mot spastisitet som ofte gis intrathecalt, Baklofen (Tizanidin eller benzodiazepiner som Valium og Rivotril)
+Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmmer (Rivastigmin)
+Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)`
+  },
+  farmakologi: {
+    name: "Farmakologi",
+    text: `Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
+Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
+Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
+Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker
+Virkested for betalaktam-antibiotika; Cellevegg/celleveggsyntesen
+Virkested for glykopeptidantibiotika; Cellevegg/celleveggsyntesen
+Vancomycin er et ______-antibiotika; glykopeptid
+Peniciliner har en baktericid/bakterostatisk effekt?; Baktericid
+Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
+Cefalosporiner er ______-antibiotika; betalaktam/beta-laktam
+Aminoglykosider, makrolider og tetrasykliner virker på _______; proteinsyntese
+Fluorokinoloner og folsyreantagonister virker på ______; Nukleinsyresyntese
+Er antivirale legemidler virostatiske eller virocide?; Virostatiske
+Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
+Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kanalblokker/kalsiumkanalblokker/kalsiumkanalblokkere/kalsium
+Førstevalg ved hjertesvikt?; Betablokkere/BB
+Førstevalg diuretika ved lav væskeretensjon?; Tiazider
+Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
+Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
+Steg 1 astmabehandling; ICS-formoterol ved behov
+Steg 2 astmabehandling; ICS daglig/inhalerte cortikosteroider daglig/ICS fast/Fast ICS
+Steg 3-5 astmabehandling; Fast ICS-LABA/daglig ICS-LABA
+Kolesterolsenkende som hemmer HmG-CoA-reduktase; Statiner
+Kolesterolsenkende som hemmer tarmopptak; Ezetimib
+Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
+Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere`
+  }
+};
+
+/* ============================================================
+   2 · PARSING OG SVARSJEKK
+   ============================================================ */
+
+function parseSet(text){
+  const items = [];
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    let cut = line.indexOf("\t");
+    if (cut < 0) cut = line.indexOf(";");
+    if (cut < 0) cut = line.indexOf(",");
+    if (cut < 0) continue;
+    const q = line.slice(0, cut).trim();
+    let a = line.slice(cut + 1).trim();
+    if (!q || !a) continue;
+    let hint = "";
+    const m = a.match(/^([^(]*)\(([\s\S]*)\)\s*$/);
+    if (m && m[1].trim()) { a = m[1].trim(); hint = m[2].trim(); }
+    const item = { q, a, hint };
+    item.acc = acceptedAnswers(item);
+    items.push(item);
+  }
+  return items;
+}
+
+function norm(s){
+  return String(s).toLowerCase()
+    .replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ").trim();
+}
+
+function acceptedAnswers(item){
+  const out = new Set();
+  const add = (s) => { const n = norm(s); if (n) out.add(n); };
+  add(item.a);
+  item.a.split(/\s*\/\s*/).forEach(add);
+  if (item.hint) {
+    item.hint.split(/\s*(?:[\/,;]|\bell?er\b|\bog\b|\bevt\.?\b|\.\s+)\s*/i).forEach(part => {
+      const w = part.trim().replace(/[.\s]+$/, "");
+      if (w && w.split(/\s+/).length <= 2) add(w);
+    });
+  }
+  return [...out];
+}
+
+function lev(a, b){
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = new Array(n + 1);
+  let cur = new Array(n + 1);
+  for (let j = 0; j <= n; j++) prev[j] = j;
+  for (let i = 1; i <= m; i++) {
+    cur[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+    }
+    const t = prev; prev = cur; cur = t;
+  }
+  return prev[n];
+}
+
+// Litt slingringsmonn for skrivefeil i lange medisinnavn.
+function isCorrect(input, item){
+  const n = norm(input);
+  if (!n) return false;
+  for (const acc of item.acc) {
+    if (n === acc) return true;
+    const len = Math.max(n.length, acc.length);
+    const tol = len >= 12 ? 2 : len >= 6 ? 1 : 0;
+    if (tol && Math.abs(n.length - acc.length) <= tol && lev(n, acc) <= tol) return true;
+  }
+  return false;
+}
+
+/* ============================================================
+   3 · LAGRING
+   ============================================================ */
+
+const LS = {
+  sets: "asteroider.sets.v1",
+  board: "asteroider.board.v1",
+  prefs: "asteroider.prefs.v1"
+};
+
+function load(key, fallback){
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch { return fallback; }
+}
+function save(key, value){
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* full eller blokkert */ }
+}
+
+let customSets = load(LS.sets, {});
+let boards = load(LS.board, {});
+let prefs = load(LS.prefs, { name: "", diff: "normal", sound: true, set: "nevrologi" });
+
+// Nevrologi lå tidligere som seks tema-sett pluss «alle spørsmål». Poengene
+// derfra hører hjemme i det samlede settet.
+if (boards.alle && !boards.nevrologi) {
+  boards.nevrologi = boards.alle;
+  delete boards.alle;
+  save(LS.board, boards);
+}
+
+function allSets(){
+  const out = {};
+  for (const [id, s] of Object.entries(BUILTIN_RAW)) out[id] = { id, name: s.name, text: s.text, builtin: true };
+  for (const [id, s] of Object.entries(customSets)) out[id] = { id, name: s.name, text: s.text, builtin: false };
+  return out;
+}
+
+/* ============================================================
+   4 · LYD
+   ============================================================ */
+
+let audioCtx = null;
+function beep(freq, dur, type = "sine", gain = 0.05, slide = 0){
+  if (!prefs.sound) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+    const t = audioCtx.currentTime;
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t);
+    if (slide) osc.frequency.exponentialRampToValueAtTime(Math.max(40, freq + slide), t + dur);
+    g.gain.setValueAtTime(gain, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(t); osc.stop(t + dur + 0.02);
+  } catch { /* lyd er valgfritt */ }
+}
+const SFX = {
+  hit:   () => { beep(720, 0.09, "triangle", 0.06, 480); beep(1180, 0.13, "sine", 0.035, -300); },
+  wrong: () => beep(200, 0.16, "square", 0.045, -80),
+  boom:  () => { beep(90, 0.45, "sawtooth", 0.09, -55); beep(140, 0.3, "square", 0.04, -90); },
+  level: () => { beep(520, 0.1, "sine", 0.05); setTimeout(() => beep(780, 0.16, "sine", 0.05), 100); },
+  over:  () => { beep(300, 0.5, "sawtooth", 0.07, -220); }
+};
+
+/* ============================================================
+   5 · SPILLTILSTAND
+   ============================================================ */
+
+const DIFF = {
+  calm:   { name: "Rolig",    lives: 5, speed: 0.72, maxRocks: 2, spawn: 4.4, ramp: 10 },
+  normal: { name: "Normal",   lives: 3, speed: 1.00, maxRocks: 3, spawn: 3.4, ramp: 8  },
+  hard:   { name: "Hardcore", lives: 3, speed: 1.42, maxRocks: 4, spawn: 2.3, ramp: 6  }
+};
+
+const S = {
+  phase: "menu",        // menu | playing | paused | reveal | over
+  items: [], deck: [], deckPos: 0,
+  rocks: [], parts: [],
+  lives: 3, score: 0, level: 1, streak: 0, bestStreak: 0,
+  hits: 0, misses: 0, cleared: 0,
+  missed: [],
+  setId: "slag", setName: "", diff: "normal",
+  spawnTimer: 1.2, shake: 0, flashT: 0,
+  revealRock: null,
+  savedThisRound: false,
+  lastScore: null
+};
+
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ============================================================
+   6 · DOM
+   ============================================================ */
+
+const $ = (id) => document.getElementById(id);
+const canvas = $("sky");
+const ctx = canvas.getContext("2d");
+const answerInput = $("answer");
+const field = $("field");
+
+let W = 0, H = 0, DPR = 1;
+function resize(){
+  const r = field.getBoundingClientRect();
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  W = Math.max(320, r.width);
+  H = Math.max(240, r.height);
+  canvas.width = Math.round(W * DPR);
+  canvas.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  makeStars();
+  for (const rock of S.rocks) layoutRock(rock);
+  separateRocks();
+}
+window.addEventListener("resize", resize);
+
+/* ---------- stjerner ---------- */
+let stars = [];
+function makeStars(){
+  const n = Math.round((W * H) / 9000);
+  stars = new Array(n).fill(0).map(() => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: Math.random() * 1.25 + 0.25,
+    a: Math.random() * 0.55 + 0.2,
+    tw: Math.random() * Math.PI * 2
+  }));
+}
+
+/* ============================================================
+   7 · ASTEROIDER
+   ============================================================ */
+
+const ROCK_FONT = (px) => `${px}px "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif`;
+
+function wrapText(text, maxW, fontPx){
+  ctx.font = ROCK_FONT(fontPx);
+  const words = text.split(/\s+/);
+  const lines = [];
+  let line = "";
+  for (const w of words) {
+    const test = line ? line + " " + w : w;
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+// Steinen er en mangekant med hjørnene på en ellipse. Formen varierer bare litt,
+// og radiene regnes ut fra teksttavlen slik at kanten alltid ligger utenfor
+// teksten — også der kanten buer innover mellom to hjørner.
+const ROCK_PTS = 15;
+const K_MIN = 0.94, K_MAX = 1.06;
+const EDGE_DIP = Math.cos(Math.PI / ROCK_PTS);
+const ROCK_SAFE = 1 / (K_MIN * EDGE_DIP);
+const PLATE_PAD_X = 13, PLATE_PAD_Y = 9;
+
+const MAX_LINES = 5;
+
+// Balanserte linjebrudd: i stedet for å fylle maksbredden velger vi den bredden
+// som gjør tekstblokken omtrent like høy som bred. Da blir steinen rund i stedet
+// for en flat pannekake.
+function balancedLines(text, maxW, fs){
+  ctx.font = ROCK_FONT(fs);
+  const lh = fs * 1.32;
+  const total = ctx.measureText(text).width;
+  const n = Math.max(1, Math.round(Math.sqrt(total / (lh * 1.7))));
+  const want = Math.min(maxW, Math.max(120, (total / n) * 1.06));
+  return wrapText(text, want, fs);
+}
+
+function layoutRock(rock){
+  const maxW = Math.min(272, W * 0.36);
+  let fs = Math.max(12.5, Math.min(16.5, W * 0.0155));
+  let lines, lh, widest, halfW, halfH, rx, ry;
+
+  // Krymper skriften heller enn å kutte spørsmålet, og heller enn å lage en
+  // stein som ikke får plass på skjermen.
+  for (;;) {
+    lines = balancedLines(rock.item.q, maxW, fs);
+    lh = fs * 1.32;
+    ctx.font = ROCK_FONT(fs);
+    widest = 0;
+    for (const l of lines) widest = Math.max(widest, ctx.measureText(l).width);
+    // halve tavlen + margin, så ellipsen dekker hjørnene: (a/rx)² + (b/ry)² < 1
+    halfW = widest / 2 + PLATE_PAD_X;
+    halfH = (lines.length * lh) / 2 + PLATE_PAD_Y;
+    rx = halfW * 1.34 * ROCK_SAFE;
+    ry = halfH * 1.95 * ROCK_SAFE;
+    const forStor = lines.length > MAX_LINES || ry * 2 > H * 0.42 || rx * 2 > W * 0.80;
+    if (!forStor || fs <= 9.5) break;
+    fs -= 0.8;
+  }
+
+  rock.fs = fs;
+  rock.lines = lines;
+  rock.lh = lh;
+  rock.tw = widest;
+  rock.rx = rx;
+  rock.ry = ry;
+  rock.x = Math.min(Math.max(rock.x, rock.rx + 8), W - rock.rx - 8);
+}
+
+// Finner en ledig x til en ny stein. Den nye kommer inn rett over skjermkanten,
+// så den kan bare kollidere med steiner som ennå ikke har kommet helt ned —
+// og de sperrer bare det vannrette båndet de selv står i. Steinene driver ikke
+// sidelengs, så en plassering som er ledig nå, blir aldri trang senere.
+function placeRock(rock){
+  const minX = rock.rx + 8, maxX = W - rock.rx - 8;
+  if (maxX <= minX) { rock.x = W / 2; return S.rocks.length === 0; }
+
+  const blocked = [];
+  for (const r of S.rocks) {
+    if (r.y - r.ry >= ROCK_GAP) continue;   // har falt forbi, sperrer ingenting
+    blocked.push([r.x - r.rx - rock.rx - ROCK_GAP, r.x + r.rx + rock.rx + ROCK_GAP]);
+  }
+  blocked.sort((a, b) => a[0] - b[0]);
+
+  const free = [];
+  let cur = minX;
+  for (const [a, b] of blocked) {
+    if (a > cur) free.push([cur, Math.min(a, maxX)]);
+    cur = Math.max(cur, b);
+    if (cur > maxX) break;
+  }
+  if (cur <= maxX) free.push([cur, maxX]);
+
+  const usable = free.filter(([a, b]) => b - a > 1);
+  if (!usable.length) return false;
+
+  const total = usable.reduce((s, [a, b]) => s + (b - a), 0);
+  let pick = Math.random() * total;
+  for (const [a, b] of usable) {
+    if (pick <= b - a) { rock.x = a + pick; return true; }
+    pick -= b - a;
+  }
+  rock.x = usable[0][0];
+  return true;
+}
+
+function spawnRock(){
+  const item = nextItem();
+  if (!item) return false;
+  const shape = [];
+  const pts = ROCK_PTS;
+  for (let i = 0; i < pts; i++) shape.push(K_MIN + Math.random() * (K_MAX - K_MIN));
+  const craters = new Array(5).fill(0).map(() => ({
+    a: Math.random() * Math.PI * 2,
+    d: 0.55 + Math.random() * 0.3,
+    r: 0.05 + Math.random() * 0.07
+  }));
+  const rock = {
+    item, shape, craters, pts,
+    x: W / 2, y: -140, strikes: 0,
+    fs: 14, lines: [], lh: 18, tw: 100, rx: 90, ry: 50,
+    born: performance.now()
+  };
+  layoutRock(rock);
+  if (!placeRock(rock)) { S.deckPos--; return false; }   // legg spørsmålet tilbake
+  rock.y = -rock.ry - 10;
+  S.rocks.push(rock);
+  return true;
+}
+
+function fallSpeed(){
+  const d = DIFF[S.diff];
+  return H * 0.030 * d.speed * (1 + (S.level - 1) * 0.11);
+}
+
+function groundY(){ return H - Math.max(54, H * 0.10); }
+
+/* ---------- kortstokk ---------- */
+function shuffle(a){
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function buildDeck(){
+  S.deck = shuffle(S.items.map((_, i) => i));
+  S.deckPos = 0;
+}
+function nextItem(){
+  if (!S.items.length) return null;
+  if (S.deckPos >= S.deck.length) buildDeck();
+  const idx = S.deck[S.deckPos++];
+  return S.items[idx];
+}
+function requeue(item){
+  const idx = S.items.indexOf(item);
+  if (idx < 0) return;
+  const at = Math.min(S.deck.length, S.deckPos + 3 + Math.floor(Math.random() * 4));
+  S.deck.splice(at, 0, idx);
+}
+
+/* ---------- partikler ---------- */
+function burst(x, y, color, n){
+  const count = reduceMotion ? Math.round(n / 3) : n;
+  for (let i = 0; i < count; i++) {
+    const ang = Math.random() * Math.PI * 2;
+    const spd = 40 + Math.random() * 210;
+    S.parts.push({
+      x, y,
+      vx: Math.cos(ang) * spd,
+      vy: Math.sin(ang) * spd,
+      life: 0.5 + Math.random() * 0.6,
+      age: 0,
+      r: 1 + Math.random() * 2.6,
+      color
+    });
+  }
+}
+
+/* ============================================================
+   8 · TEGNING
+   ============================================================ */
+
+let animT = 0;
+
+function draw(dt){
+  animT += dt;
+  ctx.clearRect(0, 0, W, H);
+
+  let sx = 0, sy = 0;
+  if (S.shake > 0 && !reduceMotion) {
+    sx = (Math.random() - 0.5) * S.shake;
+    sy = (Math.random() - 0.5) * S.shake;
+  }
+  ctx.save();
+  ctx.translate(sx, sy);
+
+  drawStars();
+  drawEarth();
+  for (const r of S.rocks) drawRock(r);
+  drawParticles();
+
+  ctx.restore();
+}
+
+function drawStars(){
+  for (const s of stars) {
+    const tw = 0.72 + 0.28 * Math.sin(animT * 1.6 + s.tw);
+    ctx.globalAlpha = s.a * tw;
+    ctx.fillStyle = "#CFE3F5";
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function drawEarth(){
+  const gy = groundY();
+  const cx = W / 2;
+  const rad = Math.max(W * 0.85, 520);
+  const cy = gy + rad;
+
+  // atmosfære
+  const atm = ctx.createRadialGradient(cx, cy, rad * 0.965, cx, cy, rad * 1.09);
+  atm.addColorStop(0, "rgba(70,150,255,.36)");
+  atm.addColorStop(1, "rgba(70,150,255,0)");
+  ctx.fillStyle = atm;
+  ctx.beginPath();
+  ctx.arc(cx, cy, rad * 1.09, 0, Math.PI * 2);
+  ctx.fill();
+
+  // klode
+  const g = ctx.createLinearGradient(0, gy, 0, H);
+  g.addColorStop(0, "#2E7BC4");
+  g.addColorStop(0.35, "#175490");
+  g.addColorStop(1, "#0A2A4D");
+  ctx.fillStyle = g;
+  ctx.beginPath();
+  ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+  ctx.fill();
+
+  // kontinenter, som en grov kartskisse
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.fillStyle = "rgba(40,150,110,.42)";
+  const blobs = [[-0.34, 0.10, 0.17, 0.05], [0.04, 0.05, 0.12, 0.04], [0.30, 0.12, 0.20, 0.055], [-0.12, 0.22, 0.09, 0.03]];
+  for (const [ox, oy, rw, rh] of blobs) {
+    ctx.beginPath();
+    ctx.ellipse(cx + ox * W, gy + oy * H, rw * W * 0.5, rh * H, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // horisontlinje
+  ctx.strokeStyle = "rgba(150,215,255,.5)";
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(cx, cy, rad, Math.PI, Math.PI * 2);
+  ctx.stroke();
+
+  // skadeglød
+  if (S.flashT > 0) {
+    ctx.globalAlpha = Math.min(1, S.flashT);
+    ctx.strokeStyle = "rgba(255,77,94,.85)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, rad, Math.PI, Math.PI * 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+}
+
+function rockColors(strikes){
+  if (strikes === 0) return { fill: "#5B6577", edge: "#8D9AAD", glow: "rgba(140,160,190,.28)", text: "#F2F6FA", plate: "rgba(12,18,28,.72)" };
+  if (strikes === 1) return { fill: "#8A5A1E", edge: "#F2A63B", glow: "rgba(242,166,59,.34)", text: "#FFF3DF", plate: "rgba(28,18,6,.74)" };
+  return { fill: "#8A2130", edge: "#FF4D5E", glow: "rgba(255,77,94,.38)", text: "#FFE8EA", plate: "rgba(30,8,12,.76)" };
+}
+
+function drawRock(r){
+  const c = rockColors(r.strikes);
+  const isTarget = r === activeRock();
+
+  ctx.save();
+  ctx.translate(r.x, r.y);
+
+  // sikte-ring på den nederste asteroiden
+  if (isTarget && S.phase === "playing") {
+    ctx.save();
+    ctx.rotate(animT * 0.55);
+    ctx.strokeStyle = "rgba(55,224,176,.5)";
+    ctx.lineWidth = 1.4;
+    ctx.setLineDash([10, 12]);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, r.rx + 15, r.ry + 15, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // steinen står rett opp og ned — teksten skal være lett å lese
+  ctx.save();
+  ctx.shadowColor = c.glow;
+  ctx.shadowBlur = 26;
+  ctx.fillStyle = c.fill;
+  ctx.beginPath();
+  for (let i = 0; i < r.pts; i++) {
+    const a = (i / r.pts) * Math.PI * 2;
+    const k = r.shape[i];
+    const x = Math.cos(a) * r.rx * k;
+    const y = Math.sin(a) * r.ry * k;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = c.edge;
+  ctx.lineWidth = 1.6;
+  ctx.stroke();
+
+  // kratere
+  ctx.fillStyle = "rgba(0,0,0,.20)";
+  for (const cr of r.craters) {
+    ctx.beginPath();
+    ctx.ellipse(Math.cos(cr.a) * r.rx * cr.d, Math.sin(cr.a) * r.ry * cr.d, r.rx * cr.r, r.ry * cr.r * 1.15, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+
+  // teksttavle
+  const pw = r.tw + 26, ph = r.lines.length * r.lh + 18;
+  ctx.fillStyle = c.plate;
+  roundRect(-pw / 2, -ph / 2, pw, ph, 3);
+  ctx.fill();
+
+  ctx.font = ROCK_FONT(r.fs);
+  ctx.fillStyle = c.text;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const startY = -((r.lines.length - 1) * r.lh) / 2;
+  for (let i = 0; i < r.lines.length; i++) ctx.fillText(r.lines[i], 0, startY + i * r.lh);
+
+  // markør for andre forsøk
+  if (r.strikes > 0) {
+    ctx.font = `600 10px ui-monospace,"Cascadia Mono",Menlo,Consolas,monospace`;
+    ctx.fillStyle = c.edge;
+    ctx.fillText("SISTE FORSØK", 0, ph / 2 + 12);
+  }
+
+  ctx.restore();
+}
+
+function roundRect(x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function drawParticles(){
+  for (const p of S.parts) {
+    const k = 1 - p.age / p.life;
+    ctx.globalAlpha = Math.max(0, k);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r * (0.4 + k * 0.8), 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ============================================================
+   9 · SPILLOGIKK
+   ============================================================ */
+
+function activeRock(){
+  let best = null;
+  for (const r of S.rocks) if (!best || r.y > best.y) best = r;
+  return best;
+}
+
+// Alle asteroider faller like fort, så holder vi høydebåndene fra hverandre ved
+// utsendelse, kan de aldri legge seg oppå hverandre senere.
+const ROCK_GAP = 26;
+
+// Etter en vindusendring kan tavlene ha vokst. Steiner som nå ligger både over
+// hverandre og ved siden av hverandre løftes fra hverandre igjen.
+function separateRocks(){
+  const list = [...S.rocks].sort((a, b) => a.y - b.y);   // øverst først
+  for (let i = list.length - 2; i >= 0; i--) {
+    const above = list[i];
+    for (let j = i + 1; j < list.length; j++) {
+      const below = list[j];
+      if (Math.abs(above.x - below.x) >= above.rx + below.rx + ROCK_GAP) continue;
+      const maxY = below.y - below.ry - ROCK_GAP - above.ry;
+      if (above.y > maxY) above.y = maxY;
+    }
+  }
+}
+
+function update(dt){
+  if (S.phase === "playing") {
+    const d = DIFF[S.diff];
+    S.spawnTimer -= dt;
+    const interval = Math.max(1.15, d.spawn - (S.level - 1) * 0.22);
+    if (S.spawnTimer <= 0 && S.rocks.length < Math.min(d.maxRocks + Math.floor((S.level - 1) / 4), 5)) {
+      // finner den ingen ledig plass, prøver vi igjen om et øyeblikk
+      S.spawnTimer = spawnRock() ? interval : 0.25;
+    }
+    if (!S.rocks.length) S.spawnTimer = Math.min(S.spawnTimer, 0.35);
+
+    const spd = fallSpeed();
+    for (const r of S.rocks) {
+      r.y += spd * dt;
+      if (r.y + r.ry * 0.72 >= groundY()) impact(r);
+    }
+  }
+
+  for (let i = S.parts.length - 1; i >= 0; i--) {
+    const p = S.parts[i];
+    p.age += dt;
+    if (p.age >= p.life) { S.parts.splice(i, 1); continue; }
+    p.x += p.vx * dt;
+    p.y += p.vy * dt;
+    p.vy += 120 * dt;
+    p.vx *= 0.985;
+  }
+
+  if (S.shake > 0) S.shake = Math.max(0, S.shake - dt * 34);
+  if (S.flashT > 0) S.flashT = Math.max(0, S.flashT - dt * 1.6);
+}
+
+function removeRock(r){
+  const i = S.rocks.indexOf(r);
+  if (i >= 0) S.rocks.splice(i, 1);
+}
+
+function destroyRock(r, halfPoints){
+  burst(r.x, r.y, halfPoints ? "#F2A63B" : "#37E0B0", 34);
+  removeRock(r);
+  S.hits++;
+  S.cleared++;
+  S.streak++;
+  S.bestStreak = Math.max(S.bestStreak, S.streak);
+  const base = 10 + S.level * 2;
+  const bonus = Math.round(S.streak / 5) * 5;
+  S.score += Math.round((halfPoints ? base * 0.5 : base + bonus));
+  SFX.hit();
+  if (S.cleared % 8 === 0) levelUp();
+  syncHud();
+}
+
+function levelUp(){
+  S.level++;
+  SFX.level();
+  toast(`Nivå ${S.level} — de faller fortere`, "good", 1600);
+  syncHud();
+}
+
+function impact(r){
+  removeRock(r);
+  S.lives--;
+  S.streak = 0;
+  S.misses++;
+  noteMiss(r.item);
+  requeue(r.item);
+  burst(r.x, groundY(), "#FF4D5E", 60);
+  S.shake = 20;
+  S.flashT = 1;
+  const fl = $("flash");
+  fl.classList.add("on");
+  setTimeout(() => fl.classList.remove("on"), 40);
+  SFX.boom();
+  syncHud();
+  if (S.lives <= 0) gameOver();
+  else toast(`Nedslag! ${r.item.a}`, "bad", 2600);
+}
+
+function noteMiss(item){
+  if (!S.missed.some(m => m.q === item.q)) S.missed.push(item);
+}
+
+function strike(r){
+  r.strikes++;
+  S.streak = 0;
+  S.shake = 8;
+  SFX.wrong();
+  syncHud();
+  if (r.strikes >= 2) openReveal(r);
+  else toast("Feil — ett forsøk igjen", "warn", 1500);
+}
+
+function submitAnswer(){
+  if (S.phase !== "playing") return;
+  const val = answerInput.value;
+  if (!val.trim()) return;
+  answerInput.value = "";
+
+  const target = activeRock();
+  if (!target) return;
+
+  if (isCorrect(val, target.item)) { destroyRock(target, target.strikes > 0); return; }
+
+  // treffer den et annet innkommende spørsmål, teller det også
+  const other = S.rocks.find(r => r !== target && isCorrect(val, r.item));
+  if (other) { destroyRock(other, other.strikes > 0); return; }
+
+  strike(target);
+}
+
+/* ---------- fasit etter to bom ---------- */
+function openReveal(r){
+  S.phase = "reveal";
+  S.revealRock = r;
+  S.misses++;
+  noteMiss(r.item);
+  $("revealQ").textContent = r.item.q;
+  $("revealA").textContent = r.item.a;
+  const h = $("revealH");
+  if (r.item.hint) { h.textContent = r.item.hint; h.hidden = false; }
+  else { h.textContent = ""; h.hidden = true; }
+  const ri = $("revealInput");
+  ri.value = "";
+  show("reveal", true);
+  setTimeout(() => ri.focus(), 30);
+  syncHud();
+}
+
+function closeReveal(){
+  const r = S.revealRock;
+  if (r) {
+    burst(r.x, r.y, "#FF4D5E", 26);
+    removeRock(r);
+    requeue(r.item);
+  }
+  S.revealRock = null;
+  show("reveal", false);
+  S.phase = "playing";
+  syncHud();
+  answerInput.focus();
+}
+
+/* ============================================================
+   10 · RUNDEFLYT
+   ============================================================ */
+
+function startGame(setId, diff, itemsOverride){
+  const sets = allSets();
+  const set = sets[setId];
+  const items = itemsOverride || (set ? parseSet(set.text) : []);
+  if (!items.length) { toast("Settet er tomt", "bad", 2200); return; }
+
+  S.items = items;
+  S.setId = itemsOverride ? setId : (set ? set.id : setId);
+  S.setName = itemsOverride ? (set ? set.name + " · bomlisten" : "Bomlisten") : set.name;
+  S.diff = diff;
+  S.lives = DIFF[diff].lives;
+  S.score = 0; S.level = 1; S.streak = 0; S.bestStreak = 0;
+  S.hits = 0; S.misses = 0; S.cleared = 0;
+  S.rocks = []; S.parts = []; S.missed = [];
+  S.spawnTimer = 0.9; S.shake = 0; S.flashT = 0;
+  S.savedThisRound = false; S.lastScore = null;
+  buildDeck();
+
+  hideAll();
+  S.phase = "playing";
+  resize();
+  syncHud();
+  answerInput.value = "";
+  answerInput.focus();
+  toast(itemsOverride ? "Øving på bommene" : set.name, "good", 2000);
+}
+
+function gameOver(){
+  S.phase = "over";
+  SFX.over();
+  const acc = S.hits + S.misses ? Math.round((S.hits / (S.hits + S.misses)) * 100) : 0;
+  $("ovScore").textContent = S.score;
+  $("ovLevel").textContent = S.level;
+  $("ovHit").textContent = S.hits;
+  $("ovMiss").textContent = S.misses;
+  $("ovAcc").textContent = acc;
+  $("ovStreak").textContent = S.bestStreak;
+  $("ovSetName").textContent = S.setName;
+  $("overName").value = prefs.name || "";
+  $("saveRow").hidden = false;
+
+  const wrap = $("reviewWrap");
+  const list = $("reviewList");
+  list.innerHTML = "";
+  if (S.missed.length) {
+    wrap.hidden = false;
+    for (const m of S.missed) {
+      const li = document.createElement("li");
+      const q = document.createElement("div"); q.className = "q"; q.textContent = m.q;
+      const a = document.createElement("div"); a.className = "a"; a.textContent = m.a;
+      li.append(q, a);
+      if (m.hint) { const h = document.createElement("div"); h.className = "h"; h.textContent = m.hint; li.append(h); }
+      list.append(li);
+    }
+    $("btnDrill").hidden = false;
+  } else {
+    wrap.hidden = true;
+    $("btnDrill").hidden = true;
+  }
+
+  renderBoard($("ovBoard"), S.setId, null, $("ovKilde"));
+  show("screenOver", true);
+  setTimeout(() => $("overName").focus(), 40);
+  syncHud();
+}
+
+function pause(on){
+  if (on && S.phase === "playing") { S.phase = "paused"; show("screenPause", true); syncHud(); }
+  else if (!on && S.phase === "paused") { S.phase = "playing"; show("screenPause", false); syncHud(); answerInput.focus(); }
+}
+
+function toMenu(){
+  S.phase = "menu";
+  S.rocks = []; S.parts = [];
+  hideAll();
+  show("screenStart", true);
+  syncHud();
+}
+
+/* ============================================================
+   11 · TOPPLISTE
+   ============================================================ */
+
+const sentralPa = () => !!(SENTRAL.url && SENTRAL.nokkel);
+
+function sentralHode(ekstra){
+  return Object.assign({
+    apikey: SENTRAL.nokkel,
+    Authorization: "Bearer " + SENTRAL.nokkel
+  }, ekstra || {});
+}
+
+async function sentralHent(setId){
+  const q = "?set_id=eq." + encodeURIComponent(setId)
+          + "&select=id,name,score,level,created_at&order=score.desc&limit=50";
+  const r = await fetch(SENTRAL.url.replace(/\/+$/, "") + "/rest/v1/scores" + q,
+                        { headers: sentralHode() });
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  const rader = await r.json();
+  return rader.map(x => ({ id: x.id, name: x.name, score: x.score, level: x.level, date: x.created_at }));
+}
+
+async function sentralLagre(entry, setId){
+  const r = await fetch(SENTRAL.url.replace(/\/+$/, "") + "/rest/v1/scores", {
+    method: "POST",
+    headers: sentralHode({ "Content-Type": "application/json", Prefer: "return=representation" }),
+    body: JSON.stringify({
+      set_id: setId, name: entry.name, score: entry.score,
+      level: entry.level, hits: entry.hits
+    })
+  });
+  if (!r.ok) throw new Error("HTTP " + r.status + " " + (await r.text()).slice(0, 120));
+  const rad = (await r.json())[0];
+  return rad && rad.id;
+}
+
+async function saveScore(name, setId){
+  const clean = (name || "Anonym").trim().slice(0, 18) || "Anonym";
+  const entry = {
+    name: clean, score: S.score, level: S.level,
+    hits: S.hits, date: new Date().toISOString(), id: Math.random().toString(36).slice(2, 9)
+  };
+
+  // alltid lokalt også — da har du listen din selv om nettet er nede
+  const list = boards[setId] || [];
+  list.push(entry);
+  list.sort((a, b) => b.score - a.score);
+  boards[setId] = list.slice(0, 50);
+  save(LS.board, boards);
+  prefs.name = clean;
+  save(LS.prefs, prefs);
+
+  if (sentralPa()) {
+    try {
+      const id = await sentralLagre(entry, setId);
+      if (id) entry.id = id;
+      entry.sentral = true;
+    } catch (e) {
+      entry.feilet = String(e.message || e);
+    }
+  }
+  return entry;
+}
+
+// Henter listen fra serveren når den er satt opp, ellers fra nettleseren.
+// Siste kall vinner, så rask veksling mellom sett ikke gir feil liste.
+let boardKall = 0;
+async function renderBoard(host, setId, highlightId, kildeEl){
+  const mitt = ++boardKall;
+  const settKilde = (tekst) => { if (kildeEl && mitt === boardKall) kildeEl.textContent = tekst; };
+
+  let list = null, feil = null;
+  if (sentralPa()) {
+    host.innerHTML = '<p class="empty">Henter topplisten …</p>';
+    settKilde("Felles toppliste");
+    try { list = await sentralHent(setId); }
+    catch (e) { feil = e; }
+  }
+  if (mitt !== boardKall) return;            // et nyere kall har tatt over
+
+  if (list) settKilde("Felles toppliste — delt mellom alle som spiller");
+  else if (feil) settKilde("Fikk ikke kontakt med den felles listen — viser poengene fra denne nettleseren.");
+  else settKilde("Lagret i denne nettleseren.");
+
+  if (!list) list = (boards[setId] || []).slice();
+  list = list.slice(0, 12);
+
+  if (!list.length) {
+    host.innerHTML = '<p class="empty">Ingen poengsummer her ennå — bli den første.</p>';
+    return;
+  }
+  const table = document.createElement("table");
+  table.className = "board";
+  table.innerHTML = "<thead><tr><th>#</th><th>Navn</th><th>Nivå</th><th>Dato</th><th style='text-align:right'>Poeng</th></tr></thead>";
+  const tb = document.createElement("tbody");
+  list.forEach((e, i) => {
+    const tr = document.createElement("tr");
+    if (highlightId && e.id === highlightId) tr.className = "you";
+    const d = new Date(e.date);
+    const dstr = isNaN(d) ? "" : `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getFullYear()).slice(2)}`;
+    const cells = [
+      ["rank", String(i + 1)],
+      ["nm", e.name],
+      ["", String(e.level ?? "")],
+      ["", dstr],
+      ["sc", String(e.score)]
+    ];
+    for (const [cls, txt] of cells) {
+      const td = document.createElement("td");
+      if (cls) td.className = cls;
+      td.textContent = txt;
+      tr.append(td);
+    }
+    tb.append(tr);
+  });
+  table.append(tb);
+  host.innerHTML = "";
+  host.append(table);
+}
+
+/* ============================================================
+   12 · HUD OG SKJERMER
+   ============================================================ */
+
+function syncHud(){
+  $("hudScore").textContent = S.score;
+  $("hudLevel").textContent = S.level;
+  $("hudStreak").textContent = S.streak;
+  const lives = $("lives");
+  lives.innerHTML = "";
+  const max = DIFF[S.diff].lives;
+  for (let i = 0; i < max; i++) {
+    const d = document.createElement("span");
+    d.className = "pip" + (i < S.lives ? "" : " lost");
+    lives.append(d);
+  }
+  $("railSet").textContent = S.setName || "";
+  const hr = $("hintRight");
+  if (S.phase === "playing") hr.textContent = `${S.items.length} spørsmål i settet`;
+  else if (S.phase === "paused") hr.textContent = "Pauset";
+  else if (S.phase === "over") hr.textContent = "Runden er over";
+  else hr.textContent = "Ingen runde i gang";
+  answerInput.disabled = S.phase !== "playing";
+}
+
+const OVERLAYS = ["screenStart", "screenPause", "screenOver", "screenBoard", "screenSets", "reveal"];
+function show(id, on){ $(id).classList.toggle("on", !!on); }
+function hideAll(){ for (const id of OVERLAYS) show(id, false); }
+
+let toastTimer = null;
+function toast(msg, kind, ms){
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "on " + (kind || "");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = kind || ""; }, ms || 1800);
+}
+
+function fillSetSelects(){
+  const sets = allSets();
+  const order = [...Object.keys(BUILTIN_RAW), ...Object.keys(customSets)];
+  for (const sel of [$("setSelect"), $("boardSetSelect")]) {
+    const prev = sel.value;
+    sel.innerHTML = "";
+    for (const id of order) {
+      const s = sets[id];
+      if (!s) continue;
+      const o = document.createElement("option");
+      o.value = id;
+      o.textContent = `${s.name}  ·  ${parseSet(s.text).length} spm`;
+      sel.append(o);
+    }
+    if (prev && sets[prev]) sel.value = prev;
+  }
+  $("boardSetSelect").value = $("setSelect").value;
+}
+
+function renderMySets(){
+  const ids = Object.keys(customSets);
+  $("mySetsWrap").hidden = ids.length === 0;
+  const ul = $("mySets");
+  ul.innerHTML = "";
+  for (const id of ids) {
+    const s = customSets[id];
+    const li = document.createElement("li");
+    const nm = document.createElement("span");
+    nm.className = "nm"; nm.textContent = s.name;
+    const ct = document.createElement("span");
+    ct.className = "ct"; ct.textContent = `${parseSet(s.text).length} spm`;
+    const edit = document.createElement("button");
+    edit.className = "railbtn"; edit.type = "button"; edit.textContent = "Rediger";
+    edit.onclick = () => { $("newSetName").value = s.name; $("newSetText").value = s.text; $("newSetText").dataset.editing = id; $("newSetName").focus(); };
+    const del = document.createElement("button");
+    del.className = "railbtn"; del.type = "button"; del.textContent = "Slett";
+    del.onclick = () => {
+      if (!confirm(`Slette settet "${s.name}"?`)) return;
+      delete customSets[id];
+      save(LS.sets, customSets);
+      renderMySets(); fillSetSelects();
+    };
+    li.append(nm, ct, edit, del);
+    ul.append(li);
+  }
+}
+
+/* ============================================================
+   13 · HENDELSER
+   ============================================================ */
+
+answerInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") { e.preventDefault(); submitAnswer(); }
+});
+
+$("revealInput").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  const r = S.revealRock;
+  if (!r) return;
+  if (isCorrect(e.target.value, r.item)) { SFX.hit(); closeReveal(); }
+  else {
+    e.target.classList.remove("shake");
+    void e.target.offsetWidth;
+    e.target.classList.add("shake");
+    SFX.wrong();
+  }
+});
+$("btnSkipReveal").addEventListener("click", closeReveal);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (S.phase === "reveal") { closeReveal(); return; }
+    if (S.phase === "playing") { pause(true); return; }
+    if (S.phase === "paused") { pause(false); return; }
+  }
+  // klikk hvor som helst og skriv videre
+  if (S.phase === "playing" && document.activeElement !== answerInput &&
+      e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    answerInput.focus();
+  }
+});
+
+field.addEventListener("pointerdown", () => { if (S.phase === "playing") answerInput.focus(); });
+
+$("btnPause").addEventListener("click", () => pause(S.phase === "playing"));
+$("btnResume").addEventListener("click", () => pause(false));
+$("btnQuit").addEventListener("click", () => { show("screenPause", false); gameOver(); });
+
+$("btnSound").addEventListener("click", (e) => {
+  prefs.sound = !prefs.sound;
+  save(LS.prefs, prefs);
+  e.target.textContent = prefs.sound ? "Lyd på" : "Lyd av";
+  e.target.setAttribute("aria-pressed", String(prefs.sound));
+  if (prefs.sound) SFX.hit();
+});
+
+$("diffSeg").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-diff]");
+  if (!b) return;
+  for (const btn of $("diffSeg").querySelectorAll("button")) btn.setAttribute("aria-pressed", String(btn === b));
+  prefs.diff = b.dataset.diff;
+  save(LS.prefs, prefs);
+});
+
+$("setSelect").addEventListener("change", () => {
+  prefs.set = $("setSelect").value;
+  save(LS.prefs, prefs);
+});
+
+$("btnStart").addEventListener("click", () => {
+  prefs.name = $("playerName").value.trim();
+  prefs.set = $("setSelect").value;
+  save(LS.prefs, prefs);
+  startGame(prefs.set, prefs.diff);
+});
+
+$("btnAgain").addEventListener("click", () => startGame(S.setId, S.diff));
+$("btnMenu").addEventListener("click", toMenu);
+$("btnDrill").addEventListener("click", () => {
+  const items = S.missed.map(m => ({ ...m }));
+  startGame(S.setId, S.diff, items);
+});
+
+$("btnSave").addEventListener("click", async () => {
+  if (S.savedThisRound) return;
+  S.savedThisRound = true;
+  const knapp = $("btnSave");
+  knapp.disabled = true;
+  knapp.textContent = "Lagrer …";
+  const entry = await saveScore($("overName").value, S.setId);
+  $("saveRow").hidden = true;
+  knapp.disabled = false;
+  knapp.textContent = "Lagre poengsum";
+  renderBoard($("ovBoard"), S.setId, entry.id, $("ovKilde"));
+  fillSetSelects();
+  if (entry.feilet) toast("Lagret her, men ikke på den felles listen", "warn", 3200);
+  else toast(entry.sentral ? "Lagret på den felles topplisten" : "Lagret på topplisten", "good", 1800);
+});
+
+$("btnBoard").addEventListener("click", () => {
+  $("boardSetSelect").value = $("setSelect").value;
+  renderBoard($("boardBody"), $("boardSetSelect").value, null, $("boardKilde"));
+  show("screenStart", false);
+  show("screenBoard", true);
+  oppdaterTomKnapp();
+});
+$("boardSetSelect").addEventListener("change", () => renderBoard($("boardBody"), $("boardSetSelect").value, null, $("boardKilde")));
+$("btnBoardClose").addEventListener("click", () => { show("screenBoard", false); show("screenStart", true); });
+
+function oppdaterTomKnapp(){
+  const b = $("btnBoardClear");
+  b.hidden = sentralPa();     // den felles listen ryddes i Supabase, ikke herfra
+}
+
+$("btnBoardClear").addEventListener("click", () => {
+  const id = $("boardSetSelect").value;
+  const sets = allSets();
+  if (!confirm(`Tømme topplisten for "${sets[id] ? sets[id].name : id}"?`)) return;
+  delete boards[id];
+  save(LS.board, boards);
+  renderBoard($("boardBody"), id, null, $("boardKilde"));
+});
+
+$("btnSets").addEventListener("click", () => {
+  renderMySets();
+  show("screenStart", false);
+  show("screenSets", true);
+});
+$("btnSetsClose").addEventListener("click", () => {
+  show("screenSets", false);
+  show("screenStart", true);
+  fillSetSelects();
+});
+$("btnUpload").addEventListener("click", () => $("fileInput").click());
+$("fileInput").addEventListener("change", (e) => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  const fr = new FileReader();
+  fr.onload = () => {
+    $("newSetText").value = String(fr.result);
+    if (!$("newSetName").value.trim()) $("newSetName").value = f.name.replace(/\.[^.]+$/, "");
+    const n = parseSet(String(fr.result)).length;
+    toast(`Leste ${n} spørsmål fra filen`, n ? "good" : "bad", 2400);
+  };
+  fr.readAsText(f, "utf-8");
+  e.target.value = "";
+});
+$("btnSaveSet").addEventListener("click", () => {
+  const name = $("newSetName").value.trim();
+  const text = $("newSetText").value;
+  const n = parseSet(text).length;
+  if (!name) { toast("Gi settet et navn", "bad", 2000); $("newSetName").focus(); return; }
+  if (!n) { toast("Fant ingen spørsmål — sjekk skilletegnet", "bad", 2800); return; }
+  const editing = $("newSetText").dataset.editing;
+  const id = editing || ("egen_" + Date.now().toString(36));
+  customSets[id] = { name, text };
+  save(LS.sets, customSets);
+  delete $("newSetText").dataset.editing;
+  $("newSetName").value = ""; $("newSetText").value = "";
+  renderMySets(); fillSetSelects();
+  $("setSelect").value = id;
+  prefs.set = id;
+  save(LS.prefs, prefs);
+  toast(`Lagret "${name}" med ${n} spørsmål`, "good", 2400);
+});
+
+/* ============================================================
+   14 · OPPSTART
+   ============================================================ */
+
+fillSetSelects();
+if (prefs.set && allSets()[prefs.set]) {
+  $("setSelect").value = prefs.set;
+  $("boardSetSelect").value = prefs.set;
+}
+$("playerName").value = prefs.name || "";
+for (const btn of $("diffSeg").querySelectorAll("button")) {
+  btn.setAttribute("aria-pressed", String(btn.dataset.diff === (prefs.diff || "normal")));
+}
+$("btnSound").textContent = prefs.sound ? "Lyd på" : "Lyd av";
+$("btnSound").setAttribute("aria-pressed", String(!!prefs.sound));
+S.diff = prefs.diff || "normal";
+S.lives = DIFF[S.diff].lives;
+resize();
+syncHud();
+
+let last = performance.now();
+function loop(now){
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  update(dt);
+  draw(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+})();
+</script>
+</body>
+</html>
