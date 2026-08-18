@@ -1,9 +1,52 @@
 #!/bin/sh
 # Bygger index.html (frittstående side) fra game.html (innholdsfilen).
-# game.html inneholder <title>, <style> og resten av siden - uten <html>/<head>/<body>,
-# slik at samme fil kan publiseres som Artifact og hostes som vanlig nettside.
+#
+# Steg 1: speiler sett/*.txt inn i RESERVE-blokken i game.html, slik at
+#         reservekopiene aldri blir utdaterte.
+# Steg 2: pakker game.html i <!doctype html> osv. og skriver index.html.
+#
+# game.html inneholder <title>, <style> og resten av siden - uten
+# <html>/<head>/<body>, slik at samme fil kan publiseres som Artifact og
+# hostes som vanlig nettside.
 set -e
 cd "$(dirname "$0")"
+
+# ---------- steg 1: sett/*.txt  ->  RESERVE i game.html ----------
+for f in sett/*.txt; do
+  [ -e "$f" ] || continue
+  id=$(basename "$f" .txt)
+
+  # En backtick eller ${ i teksten ville brutt template-literalen i JavaScript.
+  if grep -q '`' "$f" || grep -q '\${' "$f"; then
+    echo "STOPP: $f inneholder backtick eller dollar-krollparentes - fjern det og bygg pa nytt." >&2
+    exit 1
+  fi
+  if ! grep -q "=== $id START ===" game.html; then
+    echo "Hopper over $f (ingen RESERVE-blokk for '$id' i game.html)"
+    continue
+  fi
+
+  awk -v id="$id" -v fil="$f" '
+    $0 ~ ("=== " id " START ===") {
+      print
+      n = 0
+      while ((getline linje < fil) > 0) lines[n++] = linje
+      close(fil)
+      for (i = 0; i < n; i++) {
+        pre  = (i == 0)     ? "  " id ": `" : ""
+        post = (i == n - 1) ? "`,"          : ""
+        print pre lines[i] post
+      }
+      hopp = 1
+      next
+    }
+    $0 ~ ("=== " id " SLUTT ===") { hopp = 0 }
+    hopp { next }
+    { print }
+  ' game.html > game.html.ny && mv game.html.ny game.html
+done
+
+# ---------- steg 2: game.html -> index.html ----------
 CUT=$(grep -n '^</style>$' game.html | head -1 | cut -d: -f1)
 {
   printf '%s\n' '<!doctype html>'
@@ -21,4 +64,9 @@ CUT=$(grep -n '^</style>$' game.html | head -1 | cut -d: -f1)
   printf '%s\n' '</body>'
   printf '%s\n' '</html>'
 } > index.html
+
+for f in sett/*.txt; do
+  [ -e "$f" ] || continue
+  printf '  %-24s %s spørsmål\n' "$f" "$(grep -c '[^[:space:]]' "$f")"
+done
 echo "index.html bygget ($(wc -c < index.html) bytes)"

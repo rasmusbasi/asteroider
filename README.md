@@ -9,12 +9,31 @@ jorden, og du skriver svaret for å sprenge asteroiden. To forsøk på hver aste
 
 | Fil | Hva det er |
 | --- | --- |
-| `game.html` | Kilden — hele spillet: `<title>`, `<style>`, markup og `<script>`. Rediger denne. |
-| `index.html` | Bygget frittstående side (`game.html` pakket i `<!doctype html>` osv.). Det er denne du hoster eller åpner lokalt. |
-| `build.sh` | Bygger `index.html` fra `game.html`. Kjør `sh build.sh` etter hver endring. |
+| `sett/*.txt` | **Spørsmålene.** Vanlige tekstfiler — det er her du redigerer fasiten. |
+| `game.html` | Kilden til selve spillet: `<title>`, `<style>`, markup og `<script>`. |
+| `index.html` | Bygget frittstående side (`game.html` pakket i `<!doctype html>` osv.). Det er denne nettleseren laster. |
+| `build.sh` | Speiler `sett/*.txt` inn i reservekopiene og bygger `index.html`. |
 
-Grunnen til todelingen: Claude-artefakter vil ha innholdet uten `<html>`/`<head>`/`<body>`,
-mens en vanlig nettside trenger dem. Samme kilde, to innpakninger.
+Grunnen til todelingen av HTML-en: Claude-artefakter vil ha innholdet uten
+`<html>`/`<head>`/`<body>`, mens en vanlig nettside trenger dem. Samme kilde, to
+innpakninger.
+
+## Endre spørsmål og svar
+
+Rediger tekstfilen for settet — det er alt:
+
+1. Gå til `sett/` i repoet på GitHub og åpne f.eks. `mikrobiologi.txt`.
+2. Trykk blyanten, endre linjen, trykk **Commit changes**.
+3. Oppdater siden (`Ctrl+F5`). Endringen er live.
+
+Spillet henter `sett/*.txt` hver gang siden lastes, så du trenger **ikke** røre
+HTML-en eller kjøre `build.sh` for å endre spørsmål. Du kan heller ikke ødelegge
+spillet med en skrivefeil — verst tenkelig utfall er at én linje hoppes over.
+
+De innebygde `RESERVE`-kopiene i `game.html` brukes bare når filene ikke kan
+hentes: åpner du `index.html` rett fra disk, blokkerer nettleseren slike kall.
+Kjører du `sh build.sh` en gang iblant, speiles tekstfilene inn dit, så også
+offline-versjonen er oppdatert.
 
 ## Spille lokalt
 
@@ -24,7 +43,8 @@ Dobbeltklikk `index.html`. Det er alt — ingen server, ingen internett, ingen a
 
 1. Lag et nytt repo på [github.com/new](https://github.com/new), f.eks. `asteroider`.
    Sett det til **Public** — Pages krever det på gratiskontoer.
-2. Last opp `index.html`, `game.html` og `build.sh` (**Add file → Upload files**).
+2. Last opp `index.html`, `game.html`, `build.sh` og hele `sett/`-mappen
+   (**Add file → Upload files** — du kan dra inn mappen).
 3. Repo → **Settings** → **Pages** → Source: `Deploy from a branch`, branch `main`,
    mappe `/ (root)` → **Save**.
 4. Etter et minutt ligger spillet på `https://<brukernavn>.github.io/asteroider/`.
@@ -147,9 +167,10 @@ spørsmål med svar og tilleggsinfo, med søkefelt. Fungerer også for egne sett
   astma og kolesterol. Her er alternative skrivemåter skilt med skråstrek i
   fasiten (`Betablokkere/BB/betablokker`), og alle godkjennes som svar.
 
-Vil du legge til eller bytte ut sett permanent, rediger `BUILTIN_RAW` øverst i
-skriptet i `game.html` og kjør `sh build.sh`. Skal et sett bare være ditt eget,
-er det enklere å legge det inn under **Egne sett** i menyen.
+Endre innholdet i et sett: rediger `sett/<navn>.txt` (se «Endre spørsmål og svar»
+over). Legge til et helt nytt sett: lag `sett/<navn>.txt`, legg til en linje i
+`BUILTIN_RAW` og en tom `START`/`SLUTT`-blokk i `RESERVE` i `game.html`, og kjør
+`sh build.sh`. Skal settet bare være ditt eget, er **Egne sett** i menyen enklere.
 
 ## Toppliste
 

@@ -517,9 +517,17 @@ const SENTRAL = {
    ============================================================ */
 
 const BUILTIN_RAW = {
-  nevrologi: {
-    name: "Nevrologi",
-    text: `Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
+  nevrologi:    { name: "Nevrologi",    fil: "sett/nevrologi.txt"    },
+  farmakologi:  { name: "Farmakologi",  fil: "sett/farmakologi.txt"  },
+  mikrobiologi: { name: "Mikrobiologi", fil: "sett/mikrobiologi.txt" }
+};
+
+/* Innebygde reservekopier av settene. Selve fasiten ligger i sett/*.txt —
+   disse kopiene brukes bare hvis filene ikke kan hentes (åpnet lokalt fra
+   disk, eller uten nett). build.sh speiler dem hit ved hver bygging. */
+const RESERVE = {
+  // === nevrologi START ===
+  nevrologi: `Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
 Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
 Medikament man må gi til pasient som tar pradaxa/dabigatran før trombolyse, Praxbind (Antidot mot pradaxa. Generisk navn er idarucizumab)
 Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin (Klexane. Marevan gis senere)
@@ -559,11 +567,10 @@ Medikamentell behandling for hemicrania continua som også er diagnostisk, Indom
 Medikamentell behandling av nevralgier, Antiepileptika (karbamazepin/okskarbazepin/gabapentin/pregabalin)
 Medikament mot spastisitet som ofte gis intrathecalt, Baklofen (Tizanidin eller benzodiazepiner som Valium og Rivotril)
 Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmer (Rivastigmin)
-Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)`
-  },
-  farmakologi: {
-    name: "Farmakologi",
-    text: `Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
+Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)`,
+  // === nevrologi SLUTT ===
+  // === farmakologi START ===
+  farmakologi: `Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
 Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
 Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
 Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker
@@ -587,11 +594,10 @@ Steg 3-5 astmabehandling; Fast ICS-LABA/daglig ICS-LABA
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
-Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere`
-  },
-  mikrobiologi: {
-    name: "Mikrobiologi",
-    text: `Hvordan formerer bakterier seg?; Binær fisjon (todeling)
+Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere`,
+  // === farmakologi SLUTT ===
+  // === mikrobiologi START ===
+  mikrobiologi: `Hvordan formerer bakterier seg?; Binær fisjon (todeling)
 Hva kjennetegner celleveggen til gram-negative bakterier?; Komplisert/flere lag/flere lag i cellevegg (Tynt peptidoglykanlag men i tillegg ytre membran med LPS)
 Strukturert bakteriesamfunn bundet til en overflate og til hverandre, som øker overlevelsen; Biofilm
 Overføring av plasmider ved hjelp av sexpilus heter; Konjugasjon
@@ -711,8 +717,8 @@ Virus der mennesket er eneste reservoar?; Enterovirus
 Mononukleose skyldes hvilket virus?; Epstein-Barr virus/EBV
 Infiserer epitelceller, endotelceller og fibroblaster?; CMV/cytomegalovirus
 Virus som gir diaré?; adenovirus/norovirus/rotavirus
-Virus som gravide kvinner testes rutinemessig for; Rubella/røde hunder`
-  }
+Virus som gravide kvinner testes rutinemessig for; Rubella/røde hunder`,
+  // === mikrobiologi SLUTT ===
 };
 
 /* ============================================================
@@ -824,9 +830,32 @@ if (boards.alle && !boards.nevrologi) {
   save(LS.board, boards);
 }
 
+// Teksten til et innebygd sett: filen fra sett/ hvis den ble hentet, ellers
+// reservekopien i denne filen.
+const SETT_TEKST = {};
+function settTekst(id){
+  return SETT_TEKST[id] || RESERVE[id] || "";
+}
+
+// Henter sett/*.txt ved oppstart. Feiler stille — åpner du index.html rett fra
+// disk, blokkerer nettleseren slike kall, og da brukes reservekopiene.
+async function hentSettFiler(){
+  await Promise.all(Object.entries(BUILTIN_RAW).map(async ([id, s]) => {
+    if (!s.fil) return;
+    try {
+      const r = await fetch(s.fil + "?v=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) return;
+      const tekst = await r.text();
+      if (parseSet(tekst).length) SETT_TEKST[id] = tekst;
+    } catch { /* bruker reservekopien */ }
+  }));
+  fillSetSelects();
+  if ($("screenList").classList.contains("on")) renderList();
+}
+
 function allSets(){
   const out = {};
-  for (const [id, s] of Object.entries(BUILTIN_RAW)) out[id] = { id, name: s.name, text: s.text, builtin: true };
+  for (const [id, s] of Object.entries(BUILTIN_RAW)) out[id] = { id, name: s.name, text: settTekst(id), builtin: true };
   for (const [id, s] of Object.entries(customSets)) out[id] = { id, name: s.name, text: s.text, builtin: false };
   return out;
 }
@@ -2012,6 +2041,7 @@ S.diff = prefs.diff || "normal";
 S.lives = DIFF[S.diff].lives;
 resize();
 syncHud();
+hentSettFiler();
 
 let last = performance.now();
 function loop(now){
