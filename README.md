@@ -41,6 +41,8 @@ Spørsmål, Svar (tilleggsinfo)
 - Skråstrek i svaret gir flere godkjente skrivemåter: `Betablokkere/BB/betablokker`
   godtar alle tre.
 - Tomme linjer hoppes over — fint til å skille temaer i filen.
+- Linjer som starter med `#` er overskrifter. De blir aldri asteroider, og vises
+  som avsnitt i **Se spørsmålene**.
 
 Svarsjekken er tilgivende: store/små bokstaver spiller ingen rolle, æ/ø/å og
 tegnsetting ignoreres, og lange ord tåler én til to skrivefeil (`levetirasetam`
@@ -49,6 +51,16 @@ godkjennes for `Levetiracetam`).
 Egne sett legger du inn under **Egne sett** i menyen — lim inn tekst eller last
 opp en `.txt`/`.csv`. De lagres i nettleseren.
 
+## Innebygde sett
+
+- **Medisinering** (82 spørsmål) — medikamentell behandling på tvers av fagfelt,
+  delt i seksjoner med `#`-overskrifter.
+
+`sett/arkiv/` inneholder de gamle fagsettene (Nevrologi, Farmakologi,
+Mikrobiologi). De er ikke i spillet lenger — filer utenfor `sett/` blir ikke
+lastet. Vil du ha et av dem tilbake, flytt filen opp til `sett/`, legg til en
+linje i `BUILTIN_RAW` og en tom `START`/`SLUTT`-blokk i `RESERVE` i `game.html`,
+og kjør `sh build.sh`.
 
 ## Toppliste
 

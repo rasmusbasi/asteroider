@@ -1,0 +1,26 @@
+Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
+Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
+Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
+Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker
+Virkested for betalaktam-antibiotika; Cellevegg/celleveggsyntesen
+Virkested for glykopeptidantibiotika; Cellevegg/celleveggsyntesen
+Vancomycin er et ______-antibiotika; glykopeptid
+Penicilliner har en baktericid eller bakteriostatisk effekt?; Baktericid
+Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
+Cefalosporiner er ______-antibiotika; betalaktam/beta-laktam
+Aminoglykosider, makrolider og tetrasykliner virker på _______; proteinsyntese
+Fluorokinoloner og folsyreantagonister virker på ______; Nukleinsyresyntese
+Er antivirale legemidler virostatiske eller virucide?; Virostatiske
+Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
+Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kanalblokker/kalsiumkanalblokker/kalsiumkanalblokkere/kalsium
+Førstevalg diuretika ved lav væskeretensjon?; Tiazider
+Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
+Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
+Førstevalg anfallsmedisin for astma; ICS-formoterol (Bare formoterol er rask nok av LABA-ene)
+Navn på astma-regimet der ICS-formoterol brukes både fast og ved behov; MART
+Fra hvilket steg i Astma Track 1 brukes MART?; 3
+I hvilket steg i astmabehandlingen kommer LAMA inn?; 5
+Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
+Kolesterolsenkende som hemmer tarmopptak; Ezetimib
+Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
+Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere

@@ -67,6 +67,6 @@ CUT=$(grep -n '^</style>$' game.html | head -1 | cut -d: -f1)
 
 for f in sett/*.txt; do
   [ -e "$f" ] || continue
-  printf '  %-24s %s spørsmål\n' "$f" "$(grep -c '[^[:space:]]' "$f")"
+  printf '  %-24s %s spørsmål\n' "$f" "$(grep -v "^[[:space:]]*#" "$f" | grep -c "[^[:space:]]")"
 done
 echo "index.html bygget ($(wc -c < index.html) bytes)"
