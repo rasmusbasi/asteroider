@@ -53,7 +53,6 @@ Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
 Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
-Hvilken bokstav bør antiepileptikum som gis til eldre starte på, L (eLdre må ha medisiner på L)
 Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
 Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
 Førstelinje i anfallsbehandling for migrene, Ibux (Ibuprofen)
@@ -92,4 +91,7 @@ Antidot ved paracetamolforgiftning; Acetylcystein/NAC/Mucomyst
 Antidot ved opioidoverdose; Nalokson/Narcanti
 Antidot ved warfarinblødning; Vitamin K/Konakion (Protrombinkomplekskonsentrat ved alvorlig blødning)
 Antidot ved heparinoverdose; Protamin/protaminsulfat
-Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat
+Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig, benzodiazepinforgiftning har ofte et godt forløp)
+
+#Gynekologi og obstetrikk
+Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)

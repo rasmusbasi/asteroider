@@ -8,6 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#9732;</text></svg>" />
 <title>Pugge-asteroider</title>
 <style>
+  /* Mørkt er standard. Lys modus overstyrer bare fargene, aldri strukturen. */
   :root{
     --void:#05080F;
     --deep:#0B1220;
@@ -17,11 +18,100 @@
     --slate:#7C8BA1;
     --phos:#37E0B0;
     --phos-dim:#1F7F66;
+    --phos-lys:#4CF0C0;
+    --pa-phos:#04140F;
     --amber:#F2A63B;
+    --amber-linje:#5C4318;
     --crit:#FF4D5E;
+    --crit-linje:#5C1F27;
+    --bg-glod:#0A1A2A;
+    --rail-1:rgba(11,18,32,.95);
+    --rail-2:rgba(11,18,32,.55);
+    --konsoll-1:rgba(11,18,32,.98);
+    --konsoll-2:rgba(11,18,32,.75);
+    --felt:#070C16;
+    --plassholder:#3D4A5E;
+    --hint:#4E5D73;
+    --kreditt:#3B4759;
+    --overlay:rgba(5,8,15,.86);
+    --skygge:0 30px 90px rgba(0,0,0,.6);
+    --tittel-1:#FFFFFF;
+    --tittel-2:#8FB4CE;
+    --lede:#AEBCCD;
+    --hover-flate:#141F33;
+    --hover-linje:#2C3E5A;
+    --seg-hover:#131F33;
+    --valgt:rgba(55,224,176,.13);
+    --din-rad:rgba(55,224,176,.08);
+    --rad-linje:#16233A;
+    --review-q:#C4D0DE;
+    --avsnitt:#0A1526;
+    --fare-linje:#43202A;
+    --fare-flate:#2A121A;
+    --toast:rgba(11,18,32,.9);
+    --fokus:rgba(55,224,176,.18);
+    --fokus-glod:rgba(55,224,176,.09);
+    --fasit-flate:rgba(55,224,176,.05);
+    --pip-1:#63B6FF;
+    --pip-2:#1B4C86;
+    --pip-3:#0B2947;
+    --pip-glod:rgba(60,150,255,.5);
+    --pip-tom:#182437;
+    --nedslag:rgba(255,77,94,.55);
     --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
     --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
     --sans:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+
+  :root[data-tema="lys"]{
+    --void:#E7EDF5;
+    --deep:#F4F7FB;
+    --panel:#FFFFFF;
+    --line:#CBD6E4;
+    --ink:#131C28;
+    --slate:#5D6B80;
+    --phos:#0E9E77;
+    --phos-dim:#8FD9C3;
+    --phos-lys:#0B8965;
+    --pa-phos:#FFFFFF;
+    --amber:#9A6410;
+    --amber-linje:#E2C88F;
+    --crit:#B4303F;
+    --crit-linje:#E2AFB6;
+    --bg-glod:#C2D6EC;
+    --rail-1:rgba(255,255,255,.94);
+    --rail-2:rgba(255,255,255,.66);
+    --konsoll-1:rgba(255,255,255,.97);
+    --konsoll-2:rgba(255,255,255,.78);
+    --felt:#FFFFFF;
+    --plassholder:#95A3B6;
+    --hint:#6C7A8D;
+    --kreditt:#8593A6;
+    --overlay:rgba(226,233,242,.86);
+    --skygge:0 24px 60px rgba(28,45,70,.16);
+    --tittel-1:#16324C;
+    --tittel-2:#4A7196;
+    --lede:#3A485A;
+    --hover-flate:#EAF0F8;
+    --hover-linje:#A9BACF;
+    --seg-hover:#EDF2F8;
+    --valgt:rgba(14,158,119,.12);
+    --din-rad:rgba(14,158,119,.10);
+    --rad-linje:#E1E8F1;
+    --review-q:#26313F;
+    --avsnitt:#E9F1F6;
+    --fare-linje:#E2AFB6;
+    --fare-flate:#FBEDEF;
+    --toast:rgba(255,255,255,.94);
+    --fokus:rgba(14,158,119,.20);
+    --fokus-glod:rgba(14,158,119,.10);
+    --fasit-flate:rgba(14,158,119,.07);
+    --pip-1:#5AA9F5;
+    --pip-2:#2C6BB0;
+    --pip-3:#1B4C86;
+    --pip-glod:rgba(60,150,255,.35);
+    --pip-tom:#CBD6E4;
+    --nedslag:rgba(180,48,63,.35);
   }
 
   *{box-sizing:border-box}
@@ -42,7 +132,7 @@
     display:grid;
     grid-template-rows:auto 1fr auto;
     background:
-      radial-gradient(120% 80% at 50% 100%, #0A1A2A 0%, transparent 60%),
+      radial-gradient(120% 80% at 50% 100%, var(--bg-glod) 0%, transparent 60%),
       var(--void);
   }
 
@@ -51,14 +141,14 @@
     display:flex;align-items:center;gap:20px;
     padding:10px 16px;
     border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,rgba(11,18,32,.95),rgba(11,18,32,.55));
+    background:linear-gradient(180deg,var(--rail-1),var(--rail-2));
     font-family:var(--mono);
     font-size:12px;
     flex-wrap:wrap;
   }
   .gauge{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
   .gauge .k{
-    color:var(--slate);text-transform:uppercase;letter-spacing:.14em;font-size:10px;
+    color:var(--slate);font-family:var(--sans);font-size:12px;
   }
   .gauge .v{
     font-size:17px;font-variant-numeric:tabular-nums;letter-spacing:.02em;
@@ -72,13 +162,13 @@
   #lives{display:flex;gap:6px;align-items:center}
   .pip{
     width:12px;height:12px;border-radius:50%;
-    background:radial-gradient(circle at 32% 30%,#63B6FF,#1B4C86 65%,#0B2947);
-    box-shadow:0 0 8px rgba(60,150,255,.5);
+    background:radial-gradient(circle at 32% 30%,var(--pip-1),var(--pip-2) 65%,var(--pip-3));
+    box-shadow:0 0 8px var(--pip-glod);
   }
-  .pip.lost{background:#182437;box-shadow:none;opacity:.5}
+  .pip.lost{background:var(--pip-tom);box-shadow:none;opacity:.5}
   .railbtn{
-    font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--slate);border:1px solid var(--line);padding:5px 10px;border-radius:2px;
+    font-family:var(--sans);font-size:12.5px;
+    color:var(--slate);border:1px solid var(--line);padding:5px 11px;border-radius:2px;
   }
   .railbtn:hover{color:var(--phos);border-color:var(--phos-dim)}
 
@@ -87,57 +177,58 @@
   #sky{display:block;width:100%;height:100%}
   #flash{
     position:absolute;inset:0;pointer-events:none;opacity:0;
-    background:radial-gradient(80% 60% at 50% 110%,rgba(255,77,94,.55),transparent 70%);
+    background:radial-gradient(80% 60% at 50% 110%,var(--nedslag),transparent 70%);
     transition:opacity .45s ease-out;
   }
   #flash.on{opacity:1;transition:none}
   #toast{
     position:absolute;left:50%;top:14px;transform:translateX(-50%);
-    font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+    font-family:var(--sans);font-size:13.5px;
     padding:7px 14px;border:1px solid var(--line);border-radius:2px;
-    background:rgba(11,18,32,.9);color:var(--ink);
+    background:var(--toast);color:var(--ink);
     opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center;
   }
   #toast.on{opacity:1}
-  #toast.warn{color:var(--amber);border-color:#5C4318}
+  #toast.warn{color:var(--amber);border-color:var(--amber-linje)}
   #toast.good{color:var(--phos);border-color:var(--phos-dim)}
-  #toast.bad{color:var(--crit);border-color:#5C1F27}
+  #toast.bad{color:var(--crit);border-color:var(--crit-linje)}
 
   /* ---------- command line ---------- */
   .console{
     border-top:1px solid var(--line);
-    background:linear-gradient(0deg,rgba(11,18,32,.98),rgba(11,18,32,.75));
+    background:linear-gradient(0deg,var(--konsoll-1),var(--konsoll-2));
     padding:10px 16px 14px;
   }
   .prompt{
     display:flex;align-items:center;gap:10px;
     border:1px solid var(--line);border-radius:2px;
-    background:#070C16;
+    background:var(--felt);
     padding:0 12px;
     transition:border-color .2s,box-shadow .2s;
   }
-  .prompt:focus-within{border-color:var(--phos-dim);box-shadow:0 0 0 1px rgba(55,224,176,.18),0 0 22px rgba(55,224,176,.09)}
+  .prompt:focus-within{border-color:var(--phos-dim);box-shadow:0 0 0 1px var(--fokus),0 0 22px var(--fokus-glod)}
   .prompt .caret{font-family:var(--mono);color:var(--phos);font-size:15px}
   #answer{
     flex:1;background:none;border:none;outline:none;
     font-family:var(--mono);font-size:17px;letter-spacing:.01em;
     padding:13px 0;min-width:0;
   }
-  #answer::placeholder{color:#3D4A5E}
+  #answer::placeholder{color:var(--plassholder)}
   .hintline{
     display:flex;justify-content:space-between;gap:16px;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:#4E5D73;margin-top:7px;
+    font-family:var(--sans);font-size:12px;
+    color:var(--hint);margin-top:7px;
   }
+  .hintline .kreditt{color:var(--kreditt);white-space:nowrap}
 
   /* ---------- overlays ---------- */
   .overlay{
     position:absolute;inset:0;z-index:20;
     display:none;place-items:center;
     padding:20px;
-    background:rgba(5,8,15,.86);
+    background:var(--overlay);
     backdrop-filter:blur(3px);
-    overflow:auto;
+    overflow-y:auto;overflow-x:hidden;
   }
   .overlay.on{display:grid}
   .card{
@@ -145,38 +236,37 @@
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:3px;
-    box-shadow:0 30px 90px rgba(0,0,0,.6);
+    box-shadow:var(--skygge);
     padding:26px 28px 24px;
     margin:auto;
   }
   .card.wide{width:min(820px,100%)}
+  /* Bare fasitpanelet bruker denne nå, og den sier noe som betyr noe. */
   .eyebrow{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--phos);margin:0 0 10px;
+    font-family:var(--sans);font-size:13px;font-weight:600;
+    color:var(--slate);margin:0 0 10px;
   }
   h1{
-    font-family:var(--mono);
-    font-size:clamp(30px,5.4vw,46px);
-    letter-spacing:.16em;text-transform:uppercase;font-weight:600;
-    margin:0 0 6px;text-wrap:balance;
-    background:linear-gradient(180deg,#FFFFFF,#8FB4CE);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+    font-family:var(--serif);
+    font-size:clamp(34px,5.4vw,50px);
+    font-weight:600;letter-spacing:-.012em;
+    margin:0 0 10px;text-wrap:balance;color:var(--ink);
   }
   h2{
-    font-family:var(--mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;
-    font-weight:600;margin:0 0 4px;color:var(--ink);
+    font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:-.005em;
+    margin:0 0 6px;color:var(--ink);
   }
   .lede{
-    font-family:var(--serif);font-size:16px;line-height:1.6;color:#AEBCCD;
+    font-family:var(--serif);font-size:16px;line-height:1.6;color:var(--lede);
     margin:0 0 22px;max-width:62ch;
   }
   .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
   .label{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    font-family:var(--sans);font-size:13px;letter-spacing:0;
     color:var(--slate);
   }
   select,.textin,textarea{
-    width:100%;background:#070C16;border:1px solid var(--line);border-radius:2px;
+    width:100%;background:var(--felt);border:1px solid var(--line);border-radius:2px;
     padding:11px 12px;font-family:var(--mono);font-size:14px;outline:none;
   }
   select:focus,.textin:focus,textarea:focus{border-color:var(--phos-dim)}
@@ -186,31 +276,29 @@
 
   .seg{display:flex;border:1px solid var(--line);border-radius:2px;overflow:hidden}
   .seg button{
-    flex:1;padding:11px 6px;font-family:var(--mono);font-size:11px;
-    letter-spacing:.12em;text-transform:uppercase;color:var(--slate);
+    flex:1;padding:11px 6px;font-family:var(--sans);font-size:13.5px;
+    color:var(--slate);
     border-right:1px solid var(--line);transition:background .15s,color .15s;
   }
   .seg button:last-child{border-right:none}
-  /* egennavn skal beholde sin egen skrivemåte, ikke tvinges til store bokstaver */
-  .seg button.egennavn{text-transform:none;letter-spacing:.06em}
-  .seg button:hover{color:var(--ink);background:#131F33}
-  .seg button[aria-pressed="true"]{background:rgba(55,224,176,.13);color:var(--phos)}
+  .seg button:hover{color:var(--ink);background:var(--seg-hover)}
+  .seg button[aria-pressed="true"]{background:var(--valgt);color:var(--phos)}
 
   .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
   .btn{
-    padding:13px 22px;border-radius:2px;border:1px solid var(--line);
-    font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    padding:12px 20px;border-radius:2px;border:1px solid var(--line);
+    font-family:var(--sans);font-size:14px;
     color:var(--ink);transition:background .15s,border-color .15s,color .15s;
   }
-  .btn:hover{background:#141F33;border-color:#2C3E5A}
+  .btn:hover{background:var(--hover-flate);border-color:var(--hover-linje)}
   .btn.primary{
-    background:var(--phos);color:#04140F;border-color:var(--phos);font-weight:700;
+    background:var(--phos);color:var(--pa-phos);border-color:var(--phos);font-weight:700;
   }
-  .btn.primary:hover{background:#4CF0C0;border-color:#4CF0C0}
+  .btn.primary:hover{background:var(--phos-lys);border-color:var(--phos-lys)}
   .btn.ghost{color:var(--slate)}
   .btn.ghost:hover{color:var(--ink)}
-  .btn.danger{color:var(--crit);border-color:#43202A}
-  .btn.danger:hover{background:#2A121A}
+  .btn.danger{color:var(--crit);border-color:var(--fare-linje)}
+  .btn.danger:hover{background:var(--fare-flate)}
 
   /* stats + tables */
   .stats{
@@ -219,7 +307,7 @@
   }
   .stat{background:var(--panel);padding:13px 14px}
   .stat .k{
-    font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--slate);
+    font-family:var(--sans);font-size:12px;color:var(--slate);
   }
   .stat .v{
     font-family:var(--mono);font-size:23px;font-variant-numeric:tabular-nums;margin-top:3px;
@@ -228,33 +316,35 @@
 
   .board{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:13px}
   .board th{
-    text-align:left;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    text-align:left;font-family:var(--sans);font-size:12px;
     color:var(--slate);font-weight:500;padding:0 8px 8px;border-bottom:1px solid var(--line);
   }
-  .board td{padding:8px;border-bottom:1px solid #16233A;font-variant-numeric:tabular-nums}
+  .board td{padding:8px;border-bottom:1px solid var(--rad-linje);font-variant-numeric:tabular-nums}
   .board td.rank{color:var(--slate);width:3ch}
   .board td.nm{font-family:var(--sans);font-size:14px}
   .board td.sc{text-align:right;color:var(--phos)}
-  .board tr.you td{background:rgba(55,224,176,.08)}
+  .board tr.you td{background:var(--din-rad)}
   .board tr.you td.nm::after{content:" ← deg";color:var(--phos);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
-  .scroll{max-height:230px;overflow:auto;margin-top:6px}
+  .scroll{max-height:230px;overflow-y:auto;overflow-x:hidden;margin-top:6px}
   .empty{
     font-family:var(--mono);font-size:12px;color:var(--slate);
     padding:16px 0;letter-spacing:.06em;
   }
 
   .review{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line)}
-  .review li{background:var(--panel);padding:11px 13px}
-  .review .q{font-family:var(--serif);font-size:14.5px;line-height:1.45;color:#C4D0DE}
+  .review li{background:var(--panel);padding:11px 13px;min-width:0}
+  /* svar som «A/B/C/D» er ett langt ord uten mellomrom - må kunne brytes */
+  .review .q,.review .a,.review .h{overflow-wrap:break-word}
+  .review .q{font-family:var(--serif);font-size:14.5px;line-height:1.45;color:var(--review-q)}
   .review .a{font-family:var(--mono);font-size:13px;color:var(--phos);margin-top:5px}
   .review .h{font-family:var(--mono);font-size:11.5px;color:var(--slate);margin-top:3px;line-height:1.45}
   .review .nr{
-    display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
-    color:#4E5D73;margin-bottom:5px;font-variant-numeric:tabular-nums;
+    display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    color:var(--hint);margin-bottom:5px;font-variant-numeric:tabular-nums;
   }
   .review li.avsnitt{
-    background:#0A1526;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    background:var(--avsnitt);
+    font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:.02em;
     color:var(--phos);padding:11px 13px 10px;
   }
 
@@ -263,12 +353,12 @@
   .note code{color:var(--amber);font-size:11.5px}
 
   /* reveal panel */
-  #reveal .card{border-color:#5C1F27;box-shadow:0 0 0 1px rgba(255,77,94,.12),0 30px 90px rgba(0,0,0,.6)}
+  #reveal .card{border-color:var(--crit-linje);box-shadow:0 0 0 1px var(--fokus),var(--skygge)}
   #reveal .eyebrow{color:var(--crit)}
   .revealQ{font-family:var(--serif);font-size:19px;line-height:1.5;margin:0 0 16px;color:var(--ink);text-wrap:balance}
   .revealA{
     font-family:var(--mono);font-size:27px;letter-spacing:.02em;color:var(--phos);
-    padding:14px 16px;border:1px dashed var(--phos-dim);border-radius:2px;background:rgba(55,224,176,.05);
+    padding:14px 16px;border:1px dashed var(--phos-dim);border-radius:2px;background:var(--fasit-flate);
     word-break:break-word;
   }
   .revealH{font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--amber);margin-top:12px}
@@ -292,6 +382,8 @@
     .rail{gap:14px;padding:8px 12px}
     #railSet{display:none}
     .gauge .v{font-size:15px}
+    /* smal skjerm: signaturen får linjen for seg selv */
+    #hintRight{display:none}
   }
 </style>
 </head>
@@ -305,6 +397,7 @@
     <div class="gauge"><span class="k">Liv</span><span id="lives"></span></div>
     <button class="railbtn" id="btnPause" type="button">Pause</button>
     <button class="railbtn" id="btnSound" type="button" aria-pressed="true">Lyd på</button>
+    <button class="railbtn" id="btnTema" type="button">Mørkt</button>
     <span id="railSet"></span>
   </div>
 
@@ -329,7 +422,7 @@
           <div class="seg" id="diffSeg">
             <button type="button" data-diff="calm">Øving</button>
             <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
-            <button type="button" data-diff="hard" class="egennavn">HARDtveit</button>
+            <button type="button" data-diff="hard">HARDtveit</button>
           </div>
         </div>
 
@@ -345,7 +438,6 @@
     <!-- PAUSE -->
     <div class="overlay" id="screenPause">
       <div class="card">
-        <p class="eyebrow">Bane frosset</p>
         <h2>Pause</h2>
         <p class="lede" style="margin-bottom:0">Asteroidene venter. Trykk Esc eller Fortsett når du er klar.</p>
         <div class="actions">
@@ -372,7 +464,6 @@
     <!-- GAME OVER -->
     <div class="overlay" id="screenOver">
       <div class="card wide">
-        <p class="eyebrow" id="overEyebrow">Nedslag · jorden er borte</p>
         <h1 style="font-size:clamp(26px,4.6vw,38px)">Runden er over</h1>
 
         <div class="stats">
@@ -423,7 +514,6 @@
     <!-- ALLE SPØRSMÅL -->
     <div class="overlay" id="screenList">
       <div class="card wide">
-        <p class="eyebrow">Fasit</p>
         <h2>Alle spørsmål</h2>
         <div class="row" style="margin-top:16px">
           <div class="field">
@@ -446,7 +536,6 @@
     <!-- LEADERBOARD -->
     <div class="overlay" id="screenBoard">
       <div class="card">
-        <p class="eyebrow">Arkiv</p>
         <h2>Toppliste</h2>
         <div class="row" style="margin-top:14px">
           <div class="field">
@@ -457,7 +546,7 @@
             <span class="label">Vanskelighet</span>
             <div class="seg" id="boardDiffSeg">
               <button type="button" data-diff="normal" aria-pressed="true">Normal</button>
-              <button type="button" data-diff="hard" class="egennavn">HARDtveit</button>
+              <button type="button" data-diff="hard">HARDtveit</button>
             </div>
           </div>
         </div>
@@ -473,7 +562,6 @@
     <!-- SETS -->
     <div class="overlay" id="screenSets">
       <div class="card wide">
-        <p class="eyebrow">Lastelisten</p>
         <h2>Egne spørsmålssett</h2>
         <p class="note" style="margin:10px 0 18px">
           Én linje per spørsmål: <code>Spørsmål, Svar (tilleggsinfo)</code><br />
@@ -516,7 +604,7 @@
              placeholder="Skriv svaret og trykk Enter" aria-label="Svar" />
     </div>
     <div class="hintline">
-      <span>Enter = fyr av · Esc = pause</span>
+      <span class="kreditt">Toksisk Semikolon Education · 2026</span>
       <span id="hintRight">Ingen runde i gang</span>
     </div>
   </div>
@@ -611,7 +699,6 @@ Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
 Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
-Hvilken bokstav bør antiepileptikum som gis til eldre starte på, L (eLdre må ha medisiner på L)
 Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
 Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
 Førstelinje i anfallsbehandling for migrene, Ibux (Ibuprofen)
@@ -650,7 +737,10 @@ Antidot ved paracetamolforgiftning; Acetylcystein/NAC/Mucomyst
 Antidot ved opioidoverdose; Nalokson/Narcanti
 Antidot ved warfarinblødning; Vitamin K/Konakion (Protrombinkomplekskonsentrat ved alvorlig blødning)
 Antidot ved heparinoverdose; Protamin/protaminsulfat
-Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat`,
+Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig, benzodiazepinforgiftning har ofte et godt forløp)
+
+#Gynekologi og obstetrikk
+Forebyggende behandling ved høy risiko for preeklampsi i svangerskap som gis fra uke 12; ASA 75 mg/lavdose ASA`,
   // === medisinering SLUTT ===
 };
 
@@ -913,6 +1003,41 @@ function makeStars(){
    7 · ASTEROIDER
    ============================================================ */
 
+/* Lerretet tegnes i JavaScript og kan ikke bruke CSS-variablene, så fargene
+   ligger her. P() gir paletten for gjeldende tema. */
+const PALETT = {
+  mork: {
+    stjerner: true,
+    stjerne: "#CFE3F5",
+    atmosfare: "rgba(70,150,255,.36)", atmosfareUt: "rgba(70,150,255,0)",
+    jord1: "#2E7BC4", jord2: "#175490", jord3: "#0A2A4D",
+    kontinent: "rgba(40,150,110,.42)",
+    horisont: "rgba(150,215,255,.5)",
+    skade: "rgba(255,77,94,.85)",
+    sikte: "rgba(55,224,176,.5)",
+    krater: "rgba(0,0,0,.20)",
+    stein:       { fill: "#5B6577", edge: "#8D9AAD", glow: "rgba(140,160,190,.28)", text: "#F2F6FA", plate: "rgba(12,18,28,.72)" },
+    steinFarlig: { fill: "#6E2A33", edge: "#C4606F", glow: "rgba(196,96,111,.24)", text: "#F4E6E8", plate: "rgba(26,11,14,.76)" },
+    gnist: "#37E0B0", gnistHalv: "#F2A63B", gnistNedslag: "#FF4D5E"
+  },
+  lys: {
+    stjerner: false,
+    stjerne: "#8FA8C4",
+    atmosfare: "rgba(120,175,235,.45)", atmosfareUt: "rgba(120,175,235,0)",
+    jord1: "#3E8FD4", jord2: "#1F639F", jord3: "#0F3E6B",
+    kontinent: "rgba(32,132,96,.48)",
+    horisont: "rgba(255,255,255,.75)",
+    skade: "rgba(180,48,63,.85)",
+    sikte: "rgba(14,158,119,.55)",
+    krater: "rgba(0,0,0,.13)",
+    stein:       { fill: "#B7C2D2", edge: "#6E7E93", glow: "rgba(90,110,140,.20)", text: "#141D2A", plate: "rgba(255,255,255,.82)" },
+    steinFarlig: { fill: "#DDA9B1", edge: "#A6414F", glow: "rgba(166,65,79,.22)", text: "#2A0E14", plate: "rgba(255,248,249,.88)" },
+    gnist: "#0E9E77", gnistHalv: "#9A6410", gnistNedslag: "#B4303F"
+  }
+};
+let tema = "mork";
+const P = () => PALETT[tema];
+
 const ROCK_FONT = (px) => `${px}px "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif`;
 
 function wrapText(text, maxW, fontPx){
@@ -1127,10 +1252,11 @@ function draw(dt){
 }
 
 function drawStars(){
+  if (!P().stjerner) return;              // ingen stjerner på dagshimmel
   for (const s of stars) {
     const tw = 0.72 + 0.28 * Math.sin(animT * 1.6 + s.tw);
     ctx.globalAlpha = s.a * tw;
-    ctx.fillStyle = "#CFE3F5";
+    ctx.fillStyle = P().stjerne;
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
     ctx.fill();
@@ -1146,8 +1272,8 @@ function drawEarth(){
 
   // atmosfære
   const atm = ctx.createRadialGradient(cx, cy, rad * 0.965, cx, cy, rad * 1.09);
-  atm.addColorStop(0, "rgba(70,150,255,.36)");
-  atm.addColorStop(1, "rgba(70,150,255,0)");
+  atm.addColorStop(0, P().atmosfare);
+  atm.addColorStop(1, P().atmosfareUt);
   ctx.fillStyle = atm;
   ctx.beginPath();
   ctx.arc(cx, cy, rad * 1.09, 0, Math.PI * 2);
@@ -1155,9 +1281,9 @@ function drawEarth(){
 
   // klode
   const g = ctx.createLinearGradient(0, gy, 0, H);
-  g.addColorStop(0, "#2E7BC4");
-  g.addColorStop(0.35, "#175490");
-  g.addColorStop(1, "#0A2A4D");
+  g.addColorStop(0, P().jord1);
+  g.addColorStop(0.35, P().jord2);
+  g.addColorStop(1, P().jord3);
   ctx.fillStyle = g;
   ctx.beginPath();
   ctx.arc(cx, cy, rad, 0, Math.PI * 2);
@@ -1168,7 +1294,7 @@ function drawEarth(){
   ctx.beginPath();
   ctx.arc(cx, cy, rad, 0, Math.PI * 2);
   ctx.clip();
-  ctx.fillStyle = "rgba(40,150,110,.42)";
+  ctx.fillStyle = P().kontinent;
   const blobs = [[-0.34, 0.10, 0.17, 0.05], [0.04, 0.05, 0.12, 0.04], [0.30, 0.12, 0.20, 0.055], [-0.12, 0.22, 0.09, 0.03]];
   for (const [ox, oy, rw, rh] of blobs) {
     ctx.beginPath();
@@ -1178,7 +1304,7 @@ function drawEarth(){
   ctx.restore();
 
   // horisontlinje
-  ctx.strokeStyle = "rgba(150,215,255,.5)";
+  ctx.strokeStyle = P().horisont;
   ctx.lineWidth = 1.5;
   ctx.beginPath();
   ctx.arc(cx, cy, rad, Math.PI, Math.PI * 2);
@@ -1187,7 +1313,7 @@ function drawEarth(){
   // skadeglød
   if (S.flashT > 0) {
     ctx.globalAlpha = Math.min(1, S.flashT);
-    ctx.strokeStyle = "rgba(255,77,94,.85)";
+    ctx.strokeStyle = P().skade;
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.arc(cx, cy, rad, Math.PI, Math.PI * 2);
@@ -1197,8 +1323,8 @@ function drawEarth(){
 }
 
 function rockColors(farlig){
-  if (!farlig) return { fill: "#5B6577", edge: "#8D9AAD", glow: "rgba(140,160,190,.28)", text: "#F2F6FA", plate: "rgba(12,18,28,.72)" };
-  return { fill: "#6E2A33", edge: "#C4606F", glow: "rgba(196,96,111,.24)", text: "#F4E6E8", plate: "rgba(26,11,14,.76)" };
+  if (!farlig) return P().stein;
+  return P().steinFarlig;
 }
 
 function drawRock(r){
@@ -1214,7 +1340,7 @@ function drawRock(r){
   if (isTarget && S.phase === "playing") {
     ctx.save();
     ctx.rotate(animT * 0.55);
-    ctx.strokeStyle = "rgba(55,224,176,.5)";
+    ctx.strokeStyle = P().sikte;
     ctx.lineWidth = 1.4;
     ctx.setLineDash([10, 12]);
     ctx.beginPath();
@@ -1244,7 +1370,7 @@ function drawRock(r){
   ctx.stroke();
 
   // kratere
-  ctx.fillStyle = "rgba(0,0,0,.20)";
+  ctx.fillStyle = P().krater;
   for (const cr of r.craters) {
     ctx.beginPath();
     ctx.ellipse(Math.cos(cr.a) * r.rx * cr.d, Math.sin(cr.a) * r.ry * cr.d, r.rx * cr.r, r.ry * cr.r * 1.15, 0, 0, Math.PI * 2);
@@ -1270,7 +1396,7 @@ function drawRock(r){
   if (!DIFF[S.diff].strengt && S.truffet.has(r.item)) {
     ctx.font = `600 10px ui-monospace,"Cascadia Mono",Menlo,Consolas,monospace`;
     ctx.fillStyle = c.edge;
-    ctx.fillText("TRUFFET FØR", 0, ph / 2 + 12);
+    ctx.fillText("Truffet før", 0, ph / 2 + 12);
   }
 
   ctx.restore();
@@ -1365,7 +1491,7 @@ function removeRock(r){
 }
 
 function destroyRock(r, halfPoints){
-  burst(r.x, r.y, halfPoints ? "#F2A63B" : "#37E0B0", 34);
+  burst(r.x, r.y, halfPoints ? P().gnistHalv : P().gnist, 34);
   removeRock(r);
   S.hits++;
   S.cleared++;
@@ -1400,7 +1526,7 @@ function impact(r){
   if (misterLiv) S.lives--;
 
   requeue(r.item);
-  burst(r.x, groundY(), "#FF4D5E", 60);
+  burst(r.x, groundY(), P().gnistNedslag, 60);
   S.shake = misterLiv ? 20 : 12;
   S.flashT = 1;
   const fl = $("flash");
@@ -1669,15 +1795,15 @@ async function renderBoard(host, setId, diff, highlightId, kildeEl){
   let list = null, feil = null;
   if (sentralPa()) {
     host.innerHTML = '<p class="empty">Henter topplisten …</p>';
-    settKilde("Felles toppliste");
+    settKilde("");
     try { list = await sentralHent(key); }
     catch (e) { feil = e; }
   }
   if (mitt !== boardKall) return;            // et nyere kall har tatt over
 
-  if (list) settKilde("Felles toppliste — delt mellom alle som spiller. Viser beste resultat per navn.");
+  if (list) settKilde("");
   else if (feil) settKilde("Fikk ikke kontakt med den felles listen — viser poengene fra denne nettleseren.");
-  else settKilde("Lagret i denne nettleseren. Viser beste resultat per navn.");
+  else settKilde("Lagret i denne nettleseren.");
 
   if (!list) list = (boards[key] || []).slice();
   list = bestePerNavn(list, highlightId);
@@ -1900,6 +2026,16 @@ $("btnPause").addEventListener("click", () => pause(S.phase === "playing"));
 $("btnResume").addEventListener("click", () => pause(false));
 $("btnQuit").addEventListener("click", () => { show("screenPause", false); gameOver(); });
 
+function settTema(nytt){
+  tema = nytt === "lys" ? "lys" : "mork";
+  document.documentElement.setAttribute("data-tema", tema === "lys" ? "lys" : "mork");
+  $("btnTema").textContent = tema === "lys" ? "Lyst" : "Mørkt";
+  $("btnTema").setAttribute("aria-pressed", String(tema === "lys"));
+  prefs.tema = tema;
+  save(LS.prefs, prefs);
+}
+$("btnTema").addEventListener("click", () => settTema(tema === "lys" ? "mork" : "lys"));
+
 $("btnSound").addEventListener("click", (e) => {
   prefs.sound = !prefs.sound;
   save(LS.prefs, prefs);
@@ -2061,6 +2197,7 @@ for (const btn of $("diffSeg").querySelectorAll("button")) {
 }
 $("btnSound").textContent = prefs.sound ? "Lyd på" : "Lyd av";
 $("btnSound").setAttribute("aria-pressed", String(!!prefs.sound));
+settTema(prefs.tema);
 S.diff = prefs.diff || "normal";
 S.lives = DIFF[S.diff].lives;
 resize();
