@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#05080F" />
 <meta name="description" content="Skrivespill for pugging: svar pa sporsmalet for asteroiden treffer jorden." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#9732;</text></svg>" />
+  const c = rockColors(DIFF[S.diff].strengt || S.truffet.has(r.item));
+
+  ctx.save();
+  ctx.translate(r.x, r.y);
 <title>Pugge-asteroider</title>
 <style>
   /* Mørkt er standard. Lys modus overstyrer bare fargene, aldri strukturen. */
@@ -415,7 +419,7 @@
     <div class="overlay on" id="screenStart">
       <div class="card">
         <h1>Asteroider</h1>
-        <p class="lede">Spørsmål faller mot jorden. Skriv svaret og trykk Enter for å sprenge asteroiden. Treffer en asteroide jorden, får du se fasiten. Går det samme spørsmålet i bakken igjen, mister du et liv. På HARDtveit-modus har du bare en sjanse.</p>
+        <p class="lede">Spørsmål faller mot jorden. Skriv svaret og trykk Enter for å sprenge asteroiden. Treffer en asteroide jorden, får du se fasiten. Går det samme spørsmålet i bakken igjen, mister du et liv. På HARDtveit-modus har du bare en sjanse. Du velger selv om poengene dine skal vises på topplisten.</p>
 
         <div class="field">
           <span class="label">Spørsmålssett</span>
@@ -658,23 +662,24 @@ const BUILTIN_RAW = {
 const RESERVE = {
   // === medisinering START ===
   medisinering: `# Hjerte og kar
-Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
-Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
-Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
-Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker/CCB
-Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
-Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
+Gruppe 1 antiarytmika; Na/natrium (Natriumkanalblokkere)
+Gruppe 2 antiarytmika; BB/betablokker/betablokkere
+Gruppe 3 antiarytmika; K (Kaliumkanalblokkere)
+Gruppe 4 antiarytmika; CCB/Ca (Kalsiumkanalblokkere)
+Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater/nitro
+Ved hvilken hjertesvikttype har de 4 søylene best dokumentasjon?; HFrEF/redusert ejeksjonsfraksjon/redusert EF/systolisk hjertesvikt/systolisk
+Legemiddelgruppen som erstatter ACE-hemmer/ARB for bedre effekt ved hjertesvikt; ARNI/sakubitril-valsartan/Entresto
+Eneste av de 4 søylene i hjertesviktbehandling som anbefales uansett EF?; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
+Betablokkere med dokumentert overlevelsesgevinst ved hjertesvikt; Metoprolol/metoprololsuksinat/bisoprolol/karvedilol
 Diuretika som er del av kronisk hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenone
-Antidiabetikum som er del av hjertesviktbehandling; SGLT2/SGLT2i/SGLT2-inhibitor/Forxiga/dapagliflozin/jardiance/empagliflozin
-Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
+Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen/Metabolsk
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
 Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere/PCSK9i/PCSK9/PCSK9-inhibitorer
 
 # Infeksjonsmedisin
-Virkested for betalaktam-antibiotika; Cellevegg/celleveggsyntesen
-Virkested for glykopeptidantibiotika; Cellevegg/celleveggsyntesen
+Betalaktam-, glykopeptid og karbapenem-antibiotika virker på _________; Cellevegg/celleveggsyntesen
 Vancomycin er et ______-antibiotika; glykopeptid
 Penicilliner har en baktericid eller bakteriostatisk effekt?; Baktericid
 Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
@@ -700,40 +705,32 @@ Vanligste medikamentelle behandling mot parkinsons, Levodopa/L-dopa
 Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister
 Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
 Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
-Attakkbehandling ved multippel sklerose, Metylprednisolon
+Attakkbehandling ved multippel sklerose, Metylprednisolon/prednisolon 
 Vanligste forebyggende behandling ved multippel sklerose, Rituximab
 Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
 Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
-Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
 Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
 Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
-Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
-Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
-Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
-Førstelinje i anfallsbehandling for migrene, Ibux (Ibuprofen)
-Andrelinje i anfallsbehandling for migrene når Ibux ikke virker, Diklofenak (eller naproksen)
-Tredjelinje i anfallsbehandling for migrene, Triptaner (imigran/zomig/relpax)
-Fjerdelinje i anfallsbehandling for migrene, Gepanter (Vydura)
-Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man forsøke, Nesespray (eller injeksjoner)
-Forebyggende behandling for migrene hos pasienter med samtidig depresjon, TCA
-Førstevalg som forebyggende behandling ved kronisk migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan
+Forebyggende behandling ved spenningshodepine, Amitriptylin/Sarotex
+Førstelinje i anfallsbehandling for migrene, Ibux/Ibuprofen/NSAID/Diklofenak (Ibuprofen anbefalt førstevalg. Evt + paracetamol)
+Andrelinje i anfallsbehandling for migrene når NSAIDs ikke virker, Triptaner (imigran/zomig/relpax)
+Førstevalg som forebyggende behandling ved migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan/Amitriptylin
+Forebyggende migrenebehandling som må startes i spesialisthelsetjenesten; CGRP-hemmer/CGRP/botox/botulinumtoksin
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
 Ikke-medikamentell anfallsbehandling av klasehodepine, Oksygen
-Medikamentell forebyggende for klasehodepine, Verapamil (CCB)
-Medikamentell behandling for hemicrania continua som også er diagnostisk, Indometacin
-Medikamentell behandling av nevralgier, Antiepileptika (karbamazepin/okskarbazepin/gabapentin/pregabalin)
-Medikament mot spastisitet som ofte gis intrathecalt, Baklofen (Tizanidin eller benzodiazepiner som Valium og Rivotril)
+Medikamentell forebyggende behandling for klasehodepine, Verapamil (CCB)
+Medikament mot spastisitet som ofte gis intrathecalt, Baklofen 
 Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmer (Rivastigmin/donepezil/galantamin)
 Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)
 
 # Endokrinologi
 Osteoporosemedisin som kan gi kjevenekrose og atypiske lårskaftsbrudd, Bisfosfonater
 Førstevalg medikamentell behandling ved diabetes type 2; Metformin
-Antidiabetikum med dokumentert effekt ved hjertesvikt; SGLT2-hemmer/SGLT2-hemmere/SGLT2i/SGLT2
 Antidiabetikum som gir vekttap; GLP-1-analog/GLP-1/GLP-1-agonist
+Antidiabetikum som er del av hjertesviktbehandling; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
 Behandling ved hypotyreose; Levotyroksin/Levaxin/tyroksin
 Behandling ved hypertyreose; Tiamazol/karbimazol
 Substitusjon ved binyrebarksvikt; Hydrokortison (Fludrokortison i tillegg ved primær binyrebarksvikt)
@@ -751,10 +748,10 @@ Antidot ved warfarinblødning; Vitamin K/Konakion (Protrombinkomplekskonsentrat 
 Antidot ved heparinoverdose; Protamin/protaminsulfat
 Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig, benzodiazepinforgiftning har ofte et godt forløp)
 
-#Gynekologi og obstetrikk
-Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)
+# Gynekologi og obstetrikk
+Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig)
 Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12
-Medikamentell behandling av preklampsi; Labetalol/Nifedipin/Metyldopa
+Medikamentell behandling av preeklampsi; Labetalol/Nifedipin/Metyldopa
 Medikamentell behandling av kramper ved eklampsi; Magnesiumsulfat/magnesium/MgSO4 (Gis i påvente av forløsning og 24 timer etter)`,
   // === medisinering SLUTT ===
 };
@@ -1029,7 +1026,6 @@ const PALETT = {
     kontinent: "rgba(40,150,110,.42)",
     horisont: "rgba(150,215,255,.5)",
     skade: "rgba(255,77,94,.85)",
-    sikte: "rgba(55,224,176,.5)",
     krater: "rgba(0,0,0,.20)",
     stein:       { fill: "#5B6577", edge: "#8D9AAD", glow: "rgba(140,160,190,.28)", text: "#F2F6FA", plate: "rgba(12,18,28,.72)" },
     steinFarlig: { fill: "#6E2A33", edge: "#C4606F", glow: "rgba(196,96,111,.24)", text: "#F4E6E8", plate: "rgba(26,11,14,.76)" },
@@ -1043,7 +1039,6 @@ const PALETT = {
     kontinent: "rgba(32,132,96,.48)",
     horisont: "rgba(255,255,255,.75)",
     skade: "rgba(180,48,63,.85)",
-    sikte: "rgba(14,158,119,.55)",
     krater: "rgba(0,0,0,.13)",
     stein:       { fill: "#B7C2D2", edge: "#6E7E93", glow: "rgba(90,110,140,.20)", text: "#141D2A", plate: "rgba(255,255,255,.82)" },
     steinFarlig: { fill: "#DDA9B1", edge: "#A6414F", glow: "rgba(166,65,79,.22)", text: "#2A0E14", plate: "rgba(255,248,249,.88)" },
@@ -1346,23 +1341,9 @@ function drawRock(r){
   // På HARDtveit koster hvert nedslag et liv, så der er alle asteroider like
   // farlige — og da skal de se det ut.
   const c = rockColors(DIFF[S.diff].strengt || S.truffet.has(r.item));
-  const isTarget = r === activeRock();
 
   ctx.save();
   ctx.translate(r.x, r.y);
-
-  // sikte-ring på den nederste asteroiden
-  if (isTarget && S.phase === "playing") {
-    ctx.save();
-    ctx.rotate(animT * 0.55);
-    ctx.strokeStyle = P().sikte;
-    ctx.lineWidth = 1.4;
-    ctx.setLineDash([10, 12]);
-    ctx.beginPath();
-    ctx.ellipse(0, 0, r.rx + 15, r.ry + 15, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.restore();
-  }
 
   // steinen står rett opp og ned — teksten skal være lett å lese
   ctx.save();
