@@ -1584,7 +1584,7 @@ function sentralHode(ekstra){
 
 async function sentralHent(setId){
   const q = "?set_id=eq." + encodeURIComponent(setId)
-          + "&select=id,name,score,level,created_at&order=score.desc&limit=50";
+          + "&select=id,name,score,level,created_at&order=score.desc&limit=300";
   const r = await fetch(sentralAdresse() + "/rest/v1/scores" + q,
                         { headers: sentralHode() });
   if (!r.ok) throw new Error("HTTP " + r.status);
@@ -1640,6 +1640,24 @@ async function saveScore(name, setId, diff){
   return entry;
 }
 
+// Alle forsøk blir liggende i databasen, men listen viser bare det beste per
+// navn. «Rasmus» og «rasmus » regnes som samme spiller.
+function bestePerNavn(list, highlightId){
+  const sortert = [...list].sort((a, b) => b.score - a.score);
+  const beste = new Map();
+  let uthevetNavn = null;
+  for (const e of sortert) {
+    const navn = String(e.name || "").toLowerCase().replace(/\s+/g, " ").trim();
+    if (highlightId && e.id === highlightId) uthevetNavn = navn;
+    // kopi, ellers ville uthevingen bli skrevet inn i de lagrede poengsummene
+    if (!beste.has(navn)) beste.set(navn, Object.assign({}, e, { uthev: false }));
+  }
+  // Ble runden din slått av en tidligere runde med samme navn, flyttes
+  // uthevingen til raden som faktisk vises.
+  if (uthevetNavn && beste.has(uthevetNavn)) beste.get(uthevetNavn).uthev = true;
+  return [...beste.values()];
+}
+
 // Henter listen fra serveren når den er satt opp, ellers fra nettleseren.
 // Siste kall vinner, så rask veksling mellom sett ikke gir feil liste.
 let boardKall = 0;
@@ -1657,11 +1675,12 @@ async function renderBoard(host, setId, diff, highlightId, kildeEl){
   }
   if (mitt !== boardKall) return;            // et nyere kall har tatt over
 
-  if (list) settKilde("Felles toppliste — delt mellom alle som spiller");
+  if (list) settKilde("Felles toppliste — delt mellom alle som spiller. Viser beste resultat per navn.");
   else if (feil) settKilde("Fikk ikke kontakt med den felles listen — viser poengene fra denne nettleseren.");
-  else settKilde("Lagret i denne nettleseren.");
+  else settKilde("Lagret i denne nettleseren. Viser beste resultat per navn.");
 
   if (!list) list = (boards[key] || []).slice();
+  list = bestePerNavn(list, highlightId);
   list = list.slice(0, 12);
 
   if (!list.length) {
@@ -1674,7 +1693,7 @@ async function renderBoard(host, setId, diff, highlightId, kildeEl){
   const tb = document.createElement("tbody");
   list.forEach((e, i) => {
     const tr = document.createElement("tr");
-    if (highlightId && e.id === highlightId) tr.className = "you";
+    if (e.uthev) tr.className = "you";
     const d = new Date(e.date);
     const dstr = isNaN(d) ? "" : `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getFullYear()).slice(2)}`;
     const cells = [
