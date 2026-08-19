@@ -16,9 +16,10 @@ Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kana
 Førstevalg diuretika ved lav væskeretensjon?; Tiazider
 Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
 Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
-Steg 1 astmabehandling; ICS-formoterol ved behov
-Steg 2 astmabehandling; ICS daglig/inhalerte cortikosteroider daglig/ICS fast/Fast ICS
-Steg 3-5 astmabehandling; Fast ICS-LABA/daglig ICS-LABA
+Førstevalg anfallsmedisin for astma; ICS-formoterol (Bare formoterol er rask nok av LABA-ene)
+Navn på astma-regimet der ICS-formoterol brukes både fast og ved behov; MART
+Fra hvilket steg i Astma Track 1 brukes MART?; 3
+I hvilket steg i astmabehandlingen kommer LAMA inn?; 5
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner

@@ -519,6 +519,7 @@ const SENTRAL = {
 const BUILTIN_RAW = {
   nevrologi:    { name: "Nevrologi",    fil: "sett/nevrologi.txt"    },
   farmakologi:  { name: "Farmakologi",  fil: "sett/farmakologi.txt"  },
+  medisinering: { name: "Medisinering", fil: "sett/medisinering.txt" },
   mikrobiologi: { name: "Mikrobiologi", fil: "sett/mikrobiologi.txt" }
 };
 
@@ -588,14 +589,48 @@ Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kana
 Førstevalg diuretika ved lav væskeretensjon?; Tiazider
 Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
 Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
-Steg 1 astmabehandling; ICS-formoterol ved behov
-Steg 2 astmabehandling; ICS daglig/inhalerte cortikosteroider daglig/ICS fast/Fast ICS
-Steg 3-5 astmabehandling; Fast ICS-LABA/daglig ICS-LABA
+Førstevalg anfallsmedisin for astma; ICS-formoterol (Bare formoterol er rask nok av LABA-ene)
+Navn på astma-regimet der ICS-formoterol brukes både fast og ved behov; MART
+Fra hvilket steg i Astma Track 1 brukes MART?; 3
+I hvilket steg i astmabehandlingen kommer LAMA inn?; 5
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
 Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere`,
   // === farmakologi SLUTT ===
+  // === medisinering START ===
+  medisinering: `Gruppe 1 antiarytmika; Na-kanalblokkere/natrium-kanalblokkere/nakanalblokker/nakanalblokkere/na-kanalblokker/natrium-kanalblokker
+Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
+Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
+Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker/CCB
+Virkested for betalaktam-antibiotika; Cellevegg/celleveggsyntesen
+Virkested for glykopeptidantibiotika; Cellevegg/celleveggsyntesen
+Vancomycin er et ______-antibiotika; glykopeptid
+Penicilliner har en baktericid eller bakteriostatisk effekt?; Baktericid
+Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
+Cefalosporiner er ______-antibiotika; betalaktam/beta-laktam
+Aminoglykosider, makrolider og tetrasykliner virker på _______; proteinsyntese
+Fluorokinoloner og folsyreantagonister virker på ______; Nukleinsyresyntese/DNAsyntese
+Er antivirale legemidler virostatiske eller virucide?; Virostatiske
+
+
+Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
+Medisin for angina som kan gi coronary steal?; CCB/kalsiumkanal-blokkere/Ca-kanalblokker/kalsiumkanalblokker/kalsiumkanalblokkere/kalsium
+Førstevalg diuretika ved lav væskeretensjon?; Tiazider
+Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
+Diuretika som er del av hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix
+Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
+Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
+Kolesterolsenkende som hemmer tarmopptak; Ezetimib
+Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
+Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere/PCSK9i/PCSK9/PCSK9-inhibitorer
+
+
+Førstevalg anfallsmedisin for astma; ICS-formoterol
+Navn på astma-regimet der ICS-formoterol brukes både fast og ved behov; MART
+Fra hvilket steg i astma-behandling brukes MART?; 3
+Fra hvilket steg i astma-behandling brukes LAMA?; 5`,
+  // === medisinering SLUTT ===
   // === mikrobiologi START ===
   mikrobiologi: `Hvordan formerer bakterier seg?; Binær fisjon (todeling)
 Hva kjennetegner celleveggen til gram-negative bakterier?; Komplisert/flere lag/flere lag i cellevegg (Tynt peptidoglykanlag men i tillegg ytre membran med LPS)
@@ -725,26 +760,53 @@ Virus som gravide kvinner testes rutinemessig for; Rubella/røde hunder`,
    2 · PARSING OG SVARSJEKK
    ============================================================ */
 
+// Linjer som starter med # er overskrifter/kommentarer. De blir aldri
+// asteroider, men vises som avsnitt i «Se spørsmålene».
+const erOverskrift = (line) => line.startsWith("#");
+
+function parseLinje(line){
+  let cut = line.indexOf("\t");
+  if (cut < 0) cut = line.indexOf(";");
+  if (cut < 0) cut = line.indexOf(",");
+  if (cut < 0) return null;
+  const q = line.slice(0, cut).trim();
+  let a = line.slice(cut + 1).trim();
+  if (!q || !a) return null;
+  let hint = "";
+  const m = a.match(/^([^(]*)\(([\s\S]*)\)\s*$/);
+  if (m && m[1].trim()) { a = m[1].trim(); hint = m[2].trim(); }
+  const item = { q, a, hint };
+  item.acc = acceptedAnswers(item);
+  return item;
+}
+
 function parseSet(text){
   const items = [];
   for (const raw of String(text).split(/\r?\n/)) {
     const line = raw.trim();
-    if (!line) continue;
-    let cut = line.indexOf("\t");
-    if (cut < 0) cut = line.indexOf(";");
-    if (cut < 0) cut = line.indexOf(",");
-    if (cut < 0) continue;
-    const q = line.slice(0, cut).trim();
-    let a = line.slice(cut + 1).trim();
-    if (!q || !a) continue;
-    let hint = "";
-    const m = a.match(/^([^(]*)\(([\s\S]*)\)\s*$/);
-    if (m && m[1].trim()) { a = m[1].trim(); hint = m[2].trim(); }
-    const item = { q, a, hint };
-    item.acc = acceptedAnswers(item);
-    items.push(item);
+    if (!line || erOverskrift(line)) continue;
+    const item = parseLinje(line);
+    if (item) items.push(item);
   }
   return items;
+}
+
+// Som parseSet, men beholder overskriftene og nummererer spørsmålene.
+function parseSetMedAvsnitt(text){
+  const ut = [];
+  let nr = 0;
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (erOverskrift(line)) {
+      const tittel = line.replace(/^#+\s*/, "").trim();
+      if (tittel) ut.push({ avsnitt: tittel });
+      continue;
+    }
+    const item = parseLinje(line);
+    if (item) ut.push({ item, nr: ++nr });
+  }
+  return ut;
 }
 
 function norm(s){
