@@ -343,6 +343,11 @@
   .divider{height:1px;background:var(--line);margin:22px 0 18px}
   .note{font-family:var(--mono);font-size:11px;line-height:1.6;color:var(--slate);letter-spacing:.03em}
   .note code{color:var(--amber);font-size:11.5px}
+  .lenke{
+    font:inherit;color:var(--slate);text-decoration:underline;text-underline-offset:3px;
+    padding:0;cursor:pointer;
+  }
+  .lenke:hover{color:var(--ink)}
 
   /* reveal panel */
   #reveal .card{border-color:var(--crit-linje);box-shadow:0 0 0 1px var(--fokus),var(--skygge)}
@@ -500,6 +505,15 @@
       </div>
     </div>
 
+    <!-- FOR LITEN SKJERM -->
+    <div class="overlay" id="screenMobil">
+      <div class="card">
+        <h2>Dette spillet trenger tastatur</h2>
+        <p class="lede">Du svarer ved å skrive, og på telefon dekker skjermtastaturet halve feltet asteroidene faller i. Åpne siden på en PC, Mac eller et nettbrett med tastatur i stedet.</p>
+        <p class="note"><button class="lenke" id="btnMobilLikevel" type="button">Spill likevel</button></p>
+      </div>
+    </div>
+
     <!-- ALLE SPØRSMÅL -->
     <div class="overlay" id="screenList">
       <div class="card wide">
@@ -640,7 +654,8 @@ Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/
 Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker/CCB
 Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
 Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
-Diuretika som er del av hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenon
+Diuretika som er del av kronisk hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenone
+Antidiabetikum som er del av hjertesviktbehandling; SGLT2/SGLT2i/SGLT2-inhibitor/Forxiga/dapagliflozin/jardiance/empagliflozin
 Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
@@ -676,12 +691,9 @@ Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agoni
 Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
 Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
 Attakkbehandling ved multippel sklerose, Metylprednisolon
-Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen i alle fall)
-Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
-Gruppe høyeffektive MS-medikamenter som er teratogene og har en rebound ved seponering, S1P-modulatorer
+Vanligste forebyggende behandling ved multippel sklerose, Rituximab
 Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
 Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
-Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
 Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
 Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
@@ -697,7 +709,7 @@ Tredjelinje i anfallsbehandling for migrene, Triptaner (imigran/zomig/relpax)
 Fjerdelinje i anfallsbehandling for migrene, Gepanter (Vydura)
 Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man forsøke, Nesespray (eller injeksjoner)
 Forebyggende behandling for migrene hos pasienter med samtidig depresjon, TCA
-Førstevalg som forebyggende behandling ved kronisk migrene, Betablokker
+Førstevalg som forebyggende behandling ved kronisk migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
 Ikke-medikamentell anfallsbehandling av klasehodepine, Oksygen
 Medikamentell forebyggende for klasehodepine, Verapamil (CCB)
@@ -731,7 +743,9 @@ Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig,
 
 #Gynekologi og obstetrikk
 Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)
-Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12`,
+Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12
+Medikamentell behandling av preklampsi; Labetalol/Nifedipin/Metyldopa
+Medikamentell behandling av kramper ved eklampsi; Magnesiumsulfat/magnesium/MgSO4 (Gis i påvente av forløsning og 24 timer etter)`,
   // === medisinering SLUTT ===
 };
 
@@ -1866,7 +1880,7 @@ function syncHud(){
   answerInput.disabled = S.phase !== "playing";
 }
 
-const OVERLAYS = ["screenStart", "screenPause", "screenOver", "screenBoard", "screenSets", "screenList", "reveal"];
+const OVERLAYS = ["screenStart", "screenPause", "screenOver", "screenBoard", "screenSets", "screenList", "reveal", "screenMobil"];
 const MENYSKJERMER = ["screenList", "screenBoard", "screenSets"];
 function show(id, on){ $(id).classList.toggle("on", !!on); }
 function hideAll(){ for (const id of OVERLAYS) show(id, false); }
@@ -2197,6 +2211,25 @@ S.lives = DIFF[S.diff].lives;
 resize();
 syncHud();
 hentSettFiler();
+
+// Telefon: berøringsskjerm og liten skjerm i begge retninger. Nettbrett og
+// smale vinduer på PC slipper gjennom, for der finnes det et tastatur.
+function forLitenSkjerm(){
+  if (prefs.mobilOk) return false;
+  const liten = Math.min(window.innerWidth, window.innerHeight) < 600;
+  const beroring = window.matchMedia("(pointer: coarse)").matches;
+  return liten && beroring;
+}
+if (forLitenSkjerm()) {
+  hideAll();
+  show("screenMobil", true);
+}
+$("btnMobilLikevel").addEventListener("click", () => {
+  prefs.mobilOk = true;
+  save(LS.prefs, prefs);
+  show("screenMobil", false);
+  show("screenStart", true);
+});
 
 let last = performance.now();
 function loop(now){
