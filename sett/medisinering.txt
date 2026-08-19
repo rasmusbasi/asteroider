@@ -44,8 +44,9 @@ Attakkbehandling ved multippel sklerose, Metylprednisolon
 Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen i alle fall)
 Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
 Gruppe høyeffektive MS-medikamenter som er teratogene og har en rebound ved seponering, S1P-modulatorer
-Behandling for generalisert epilepsi, Levetiracetam/lamotrigin/valproat (Lamotrigin eller valproat hos barn og kanskje menn)
-Behandling for fokal epilepsi, Lamotrigin (eller levetiracetam)
+Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
+Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
+Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
 Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
 Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
@@ -95,3 +96,4 @@ Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig,
 
 #Gynekologi og obstetrikk
 Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)
+Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12

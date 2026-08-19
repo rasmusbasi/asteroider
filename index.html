@@ -505,7 +505,6 @@
 
         <div class="actions">
           <button class="btn primary" id="btnAgain" type="button">Spill igjen</button>
-          <button class="btn" id="btnDrill" type="button" hidden>Øv på bommene</button>
           <button class="btn ghost" id="btnMenu" type="button">Til menyen</button>
         </div>
       </div>
@@ -690,8 +689,9 @@ Attakkbehandling ved multippel sklerose, Metylprednisolon
 Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen i alle fall)
 Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
 Gruppe høyeffektive MS-medikamenter som er teratogene og har en rebound ved seponering, S1P-modulatorer
-Behandling for generalisert epilepsi, Levetiracetam/lamotrigin/valproat (Lamotrigin eller valproat hos barn og kanskje menn)
-Behandling for fokal epilepsi, Lamotrigin (eller levetiracetam)
+Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
+Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
+Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
 Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
 Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
@@ -740,7 +740,8 @@ Antidot ved heparinoverdose; Protamin/protaminsulfat
 Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig, benzodiazepinforgiftning har ofte et godt forløp)
 
 #Gynekologi og obstetrikk
-Forebyggende behandling ved høy risiko for preeklampsi i svangerskap som gis fra uke 12; ASA 75 mg/lavdose ASA`,
+Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)
+Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12`,
   // === medisinering SLUTT ===
 };
 
@@ -1438,6 +1439,14 @@ function activeRock(){
 // utsendelse, kan de aldri legge seg oppå hverandre senere.
 const ROCK_GAP = 26;
 
+// Den øverste steinen må ha kommet et stykke ned før neste slipper inn, ellers
+// kommer de side om side på samme høyde og treffer jorden samtidig.
+function nokLoddrettRom(){
+  let overst = null;
+  for (const r of S.rocks) if (!overst || r.y < overst.y) overst = r;
+  return !overst || (overst.y + overst.ry) > H * 0.16;
+}
+
 // Etter en vindusendring kan tavlene ha vokst. Steiner som nå ligger både over
 // hverandre og ved siden av hverandre løftes fra hverandre igjen.
 function separateRocks(){
@@ -1459,8 +1468,10 @@ function update(dt){
     S.spawnTimer -= dt;
     const interval = Math.max(1.15, d.spawn - (S.level - 1) * 0.22);
     if (S.spawnTimer <= 0 && S.rocks.length < Math.min(d.maxRocks + Math.floor((S.level - 1) / 4), 5)) {
-      // finner den ingen ledig plass, prøver vi igjen om et øyeblikk
-      S.spawnTimer = spawnRock() ? interval : 0.25;
+      // Uten dette slipper en ny stein inn i samme øyeblikk du sprenger en, og
+      // de kommer inn på samme høyde som naboen — en vegg i stedet for et drys.
+      if (!nokLoddrettRom()) S.spawnTimer = 0.2;
+      else S.spawnTimer = spawnRock() ? interval : 0.25;
     }
     if (!S.rocks.length) S.spawnTimer = Math.min(S.spawnTimer, 0.35);
 
@@ -1600,15 +1611,15 @@ function closeReveal(){
    10 · RUNDEFLYT
    ============================================================ */
 
-function startGame(setId, diff, itemsOverride){
+function startGame(setId, diff){
   const sets = allSets();
   const set = sets[setId];
-  const items = itemsOverride || (set ? parseSet(set.text) : []);
+  const items = set ? parseSet(set.text) : [];
   if (!items.length) { toast("Settet er tomt", "bad", 2200); return; }
 
   S.items = items;
-  S.setId = itemsOverride ? setId : (set ? set.id : setId);
-  S.setName = itemsOverride ? (set ? set.name + " · bomlisten" : "Bomlisten") : set.name;
+  S.setId = set.id;
+  S.setName = set.name;
   S.diff = diff;
   S.lives = DIFF[diff].lives;
   S.score = 0; S.level = 1; S.streak = 0; S.bestStreak = 0;
@@ -1626,7 +1637,7 @@ function startGame(setId, diff, itemsOverride){
   syncHud();
   answerInput.value = "";
   answerInput.focus();
-  toast(itemsOverride ? "Øving på bommene" : set.name, "good", 2000);
+  toast(set.name, "good", 2000);
 }
 
 function gameOver(){
@@ -1654,10 +1665,8 @@ function gameOver(){
       if (m.hint) { const h = document.createElement("div"); h.className = "h"; h.textContent = m.hint; li.append(h); }
       list.append(li);
     }
-    $("btnDrill").hidden = false;
   } else {
     wrap.hidden = true;
-    $("btnDrill").hidden = true;
   }
 
   // Øvingsrunder havner ikke på topplisten.
@@ -2065,11 +2074,6 @@ $("btnStart").addEventListener("click", () => {
 
 $("btnAgain").addEventListener("click", () => startGame(S.setId, S.diff));
 $("btnMenu").addEventListener("click", toMenu);
-$("btnDrill").addEventListener("click", () => {
-  const items = S.missed.map(m => ({ ...m }));
-  startGame(S.setId, S.diff, items);
-});
-
 $("btnSave").addEventListener("click", async () => {
   if (S.savedThisRound) return;
   S.savedThisRound = true;
