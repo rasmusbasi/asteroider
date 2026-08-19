@@ -4,9 +4,10 @@ Gruppe 2 antiarytmika; Betablokkere/BB/betablokker
 Gruppe 3 antiarytmika; K-kanalblokkere/Kalium-kanalblokkere/kaliumkanalblokkere/K-kanalblokker/Kalium-kanalblokker
 Gruppe 4 antiarytmika; Ca-kanalblokkere/kalsium-kanalblokkere/Kalsiumkanalblokker/kalsiumkanalblokkere/Ca-kanalblokker/CCB
 Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater
-Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV)
-Diuretika som er del av hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenon
-Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen
+Hva må EF være under ved hjertesvikt for å gi ACE-I?; 40/40% (+ NYHA II-IV.)
+Diuretika som er del av kronisk hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenone
+Antidiabetikum som er del av hjertesviktbehandling; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
+Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen/Metabolsk
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
@@ -40,35 +41,25 @@ Vanligste medikamentelle behandling mot parkinsons, Levodopa/L-dopa
 Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister
 Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
 Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
-Attakkbehandling ved multippel sklerose, Metylprednisolon
-Vanligste forebyggende behandling ved multippel sklerose, Rituximab (I Bergen i alle fall)
-Høyeffektivt MS-medikament som kan aktivere JC-virus, Natalizumab
-Gruppe høyeffektive MS-medikamenter som er teratogene og har en rebound ved seponering, S1P-modulatorer
+Attakkbehandling ved multippel sklerose, Metylprednisolon/prednisolon 
+Vanligste forebyggende behandling ved multippel sklerose, Rituximab
 Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
 Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
-Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
-Behandling ved epileptiske encefalopatier, Valproat (i kombinasjon med noe annet)
 Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
-Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
+Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproate/antiepileptika
 Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
-Antiepileptikum som øker konsentrasjonen av lamotrigin, Valproat
-Forebyggende behandling ved spenningshodepine, Amitriptylin (Sarotex)
-Forebyggende behandling ved spenningshodepine og samtidig depresjon, Mirtazapin (eller Venlafaxin)
-Førstelinje i anfallsbehandling for migrene, Ibux (Ibuprofen)
-Andrelinje i anfallsbehandling for migrene når Ibux ikke virker, Diklofenak (eller naproksen)
-Tredjelinje i anfallsbehandling for migrene, Triptaner (imigran/zomig/relpax)
-Fjerdelinje i anfallsbehandling for migrene, Gepanter (Vydura)
+Forebyggende behandling ved spenningshodepine, Amitriptylin/Sarotex
+Førstelinje i anfallsbehandling for migrene, Ibux/Ibuprofen/NSAID/Dikofenak (Ibuprofen anbefalt første)
+Andrelinje i anfallsbehandling for migrene når NSAIDs ikke virker, Triptaner (imigran/zomig/relpax)
 Ved dårlig effekt av triptaner i tablettform som anfallsbehandling ved migrene bør man forsøke, Nesespray (eller injeksjoner)
 Forebyggende behandling for migrene hos pasienter med samtidig depresjon, TCA
-Førstevalg som forebyggende behandling ved kronisk migrene, Betablokker
+Førstevalg som forebyggende behandling ved kronisk migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
 Ikke-medikamentell anfallsbehandling av klasehodepine, Oksygen
-Medikamentell forebyggende for klasehodepine, Verapamil (CCB)
-Medikamentell behandling for hemicrania continua som også er diagnostisk, Indometacin
-Medikamentell behandling av nevralgier, Antiepileptika (karbamazepin/okskarbazepin/gabapentin/pregabalin)
-Medikament mot spastisitet som ofte gis intrathecalt, Baklofen (Tizanidin eller benzodiazepiner som Valium og Rivotril)
+Medikamentell forebyggende behandling for klasehodepine, Verapamil (CCB)
+Medikament mot spastisitet som ofte gis intrathecalt, Baklofen 
 Førstelinje medikamentell behandling av Alzheimers sykdom, Kolinesterasehemmer (Rivastigmin/donepezil/galantamin)
 Tillegg til kolinesterasehemmer for behandling av Alzheimers sykdom, Memantin (NMDA)
 
@@ -97,3 +88,5 @@ Antidot ved benzodiazepinoverdose; Flumazenil/Lanexat (Brukes ikke rutinemessig,
 #Gynekologi og obstetrikk
 Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/acetylsalisylsyre/lavdose ASA/Albyl-E (75 mg daglig fra uke 12)
 Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12
+Medikamentell behandling av preklampsi; Labetalol/Nifedipin/Metyldopa
+Medikamentell behandling av kramper ved eklampsi; Magnesiumsulfat/magnesium/MgSO4 (Gis i påvente av forløsning og 24 timer etter)
