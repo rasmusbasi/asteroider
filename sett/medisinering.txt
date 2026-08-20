@@ -1,7 +1,7 @@
 # Hjerte og kar
 Gruppe 1 antiarytmika; Na/natrium (Natriumkanalblokkere)
 Gruppe 2 antiarytmika; BB/betablokker/betablokkere
-Gruppe 3 antiarytmika; K (Kaliumkanalblokkere)
+Gruppe 3 antiarytmika; K/kalium (Kaliumkanalblokkere)
 Gruppe 4 antiarytmika; CCB/Ca (Kalsiumkanalblokkere)
 Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater/nitro
 Ved hvilken hjertesvikttype har de 4 søylene best dokumentasjon?; HFrEF/redusert ejeksjonsfraksjon/redusert EF/systolisk hjertesvikt/systolisk
@@ -16,14 +16,16 @@ Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
 Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere/PCSK9i/PCSK9/PCSK9-inhibitorer
 
 # Infeksjonsmedisin
-Betalaktam-, glykopeptid og karbapenem-antibiotika virker på _________; Cellevegg/celleveggsyntesen
-Vancomycin er et ______-antibiotika; glykopeptid
-Penicilliner har en baktericid eller bakteriostatisk effekt?; Baktericid
-Man bør ikke kombinere penicilliner med antibiotika som hemmer _________; celledeling
+Betalaktam- og glykopeptid-antibiotika virker på _________; Cellevegg/celleveggsyntesen
+Aminoglykosider, tetrasykliner og makrolider virker på ________; proteinsyntese
+Kinoloner, nitroimidazoler og nitrofuraner hemmer ________; DNA-syntese/DNA
+Rifamyciner virker på ________; RNA-syntese/RNA
+Trimetoprim og sulfonamider virker på ________; folatsyntese/folat
+Vancomycin er et ______-antibiotikum; glykopeptid
 Cefalosporiner er ______-antibiotika; betalaktam/beta-laktam
-Aminoglykosider, makrolider og tetrasykliner virker på _______; proteinsyntese
-Fluorokinoloner og folsyreantagonister virker på ______; Nukleinsyresyntese/DNAsyntese
-Er antivirale legemidler virostatiske eller virucide?; Virostatiske
+Erytromycin og azitromycin er ______-antibiotika; makrolid/makrolider
+Gentamicin er et ______-antibiotikum; aminoglykosid
+Ciprofloksacin er et ______-antibiotikum; kinolon/fluorokinolon
 
 # Lungemedisin
 Førstevalg anfallsmedisin for astma; ICS-formoterol
@@ -55,7 +57,7 @@ Forebyggende behandling ved spenningshodepine, Amitriptylin/Sarotex
 Førstelinje i anfallsbehandling for migrene, Ibux/Ibuprofen/NSAID/Diklofenak (Ibuprofen anbefalt førstevalg. Evt + paracetamol)
 Andrelinje i anfallsbehandling for migrene når NSAIDs ikke virker, Triptaner (imigran/zomig/relpax)
 Førstevalg som forebyggende behandling ved migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan/Amitriptylin
-Forebyggende migrenebehandling som må startes i spesialisthelsetjenesten; CGRP-hemmer/CGRP/botox/botulinumtoksin
+Forebyggende migrenebehandling som må startes i spesialisthelsetjenesten; CGRP-hemmer/CGRP/gepanter/botox/botulinumtoksin
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
 Ikke-medikamentell anfallsbehandling av klasehodepine, Oksygen
 Medikamentell forebyggende behandling for klasehodepine, Verapamil (CCB)
@@ -70,7 +72,7 @@ Antidiabetikum som gir vekttap; GLP-1-analog/GLP-1/GLP-1-agonist
 Antidiabetikum som er del av hjertesviktbehandling; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
 Behandling ved hypotyreose; Levotyroksin/Levaxin/tyroksin
 Behandling ved hypertyreose; Tiamazol/karbimazol
-Substitusjon ved binyrebarksvikt; Hydrokortison (Fludrokortison i tillegg ved primær binyrebarksvikt)
+Substitusjon ved binyrebarksvikt; Hydrokortison/kortison/glukokortikoider 
 
 # Revmatologi
 Førstevalg ved revmatoid artritt; Metotreksat/MTX/methotrexate
@@ -90,3 +92,25 @@ Forebyggende behandling ved høy risiko for preeklampsi, startes i uke 12; ASA/a
 Fra hvilken uke startes ASA-profylakse mot preeklampsi?; 12
 Medikamentell behandling av preeklampsi; Labetalol/Nifedipin/Metyldopa
 Medikamentell behandling av kramper ved eklampsi; Magnesiumsulfat/magnesium/MgSO4 (Gis i påvente av forløsning og 24 timer etter)
+
+# Psykiatri
+Behandling ved behandlingsresistent schizofreni; Klozapin/Leponex
+Primærbehandling ved bipolar lidelse; Litium/Li
+Førstevalg medikamentell behandling ved depresjon; SSRI/selektive serotoninreopptakshemmere
+Førstevalg medikamentell behandling ved ADHD; Metylfenidat/Ritalin/Concerta
+
+# Hud
+Steg 1 i behandlingstrappen for psoriasis; lokale steroider/lokale glukokortikoider/steroider (evt. D-vitamin i tillegg)
+Steg 2 i behandlingstrappen for psoriasis; lysbehandling/UVB/fotobehandling
+Steg 3 i behandlingstrappen for psoriasis; metotreksat/systemisk
+Førstelinje behandling for papulopustuløs rosacea; ivermektin/azelainsyre/metronidazol
+Førstelinje lokalbehandling ved akne er benzoylperoksid + ______; retinoid/retinoider/adapalen/tretinoin
+Tillegg ved moderat akne når lokalbehandling ikke er nok; Tetrasyklin/doksysyklin/lymesyklin/antibiotika
+Behandling ved alvorlig akne eller arrdannelse; Isotretinoin/Roaccutan
+Førstelinje behandling for atopisk dermatitt; Lokale glukokortikoider/lokale steroider/steroider
+
+
+
+
+
+

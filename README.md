@@ -51,6 +51,22 @@ godkjennes for `Levetiracetam`).
 Egne sett legger du inn under **Egne sett** i menyen — lim inn tekst eller last
 opp en `.txt`/`.csv`. De lagres i nettleseren.
 
+## Å skrive gode kort
+
+- **Kort svar.** Du skriver mens asteroiden faller. Inneholder svaret «med»,
+  «ved behov» eller et komma, snu kortet — legg det lange i spørsmålet.
+- **Korte svar forveksles ikke.** Lange, like svar kan godkjenne hverandre,
+  siden svarsjekken tåler et par skrivefeil. `Na` og `K` kan ikke forveksles;
+  `Na-kanalblokkere` og `K-kanalblokkere` kan.
+- **En frase godtar ikke delene sine.** `lokale steroider` avviser `steroider`.
+  Skriv ut skrivemåtene du faktisk taster: entall og flertall, norsk og engelsk,
+  generisk og merkenavn.
+- **Parentesen tar alt som ikke skal skrives** — doser, begrunnelser, unntak.
+- **Spisse spørsmål.** Har spørsmålet flere riktige svar, avgrens det.
+
+De fleste av disse ble oppdaget ved å teste svarene mot spillet, ikke ved å lese
+linjene.
+
 ## Innebygde sett
 
 - **Medisinering** (82 spørsmål) — medikamentell behandling på tvers av fagfelt,
