@@ -34,7 +34,7 @@ Fra hvilket steg i astma-behandling brukes MART?; 3
 Fra hvilket steg i astma-behandling brukes LAMA?; 5
 
 # Nevrologi
-Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
+Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming/platehemmer (ASA/P2Y12)
 Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
 Medikament man må gi til pasient som tar pradaxa/dabigatran før trombolyse, Praxbind/idarucizumab (Antidot mot pradaxa)
 Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin/dalteparin/Klexane/enoksaparin/LMWH (Marevan gis senere)
@@ -94,6 +94,7 @@ Medikamentell behandling av preeklampsi; Labetalol/Nifedipin/Metyldopa
 Medikamentell behandling av kramper ved eklampsi; Magnesiumsulfat/magnesium/MgSO4 (Gis i påvente av forløsning og 24 timer etter)
 
 # Psykiatri
+Førstevalg medikamentell behandling ved schizofreni; Andregenerasjons antipsykotika/atypiske antipsykotika/aripiprazol/Abilify/risperidon/Risperdal/olanzapin/Zyprexa (Ingen klart førstevalg)
 Behandling ved behandlingsresistent schizofreni; Klozapin/Leponex
 Primærbehandling ved bipolar lidelse; Litium/Li
 Førstevalg medikamentell behandling ved depresjon; SSRI/selektive serotoninreopptakshemmere
