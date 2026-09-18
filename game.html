@@ -643,7 +643,10 @@ const SENTRAL = {
    ============================================================ */
 
 const BUILTIN_RAW = {
-  medisinering: { name: "Medisinering", fil: "sett/medisinering.txt" }
+  medisinering: { name: "Medisinering", fil: "sett/medisinering.txt" },
+  antibiotikaklasser: { name: "Antibiotikaklasser", fil: "sett/antibiotikaklasser.txt" },
+  mikrobefolsomhet: { name: "Mikrober og følsomhet", fil: "sett/mikrobefolsomhet.txt" },
+  mikrobeinfeksjon: { name: "Mikrober og infeksjoner", fil: "sett/mikrobeinfeksjon.txt" }
 };
 
 /* Innebygde reservekopier av settene. Selve fasiten ligger i sett/*.txt —
@@ -687,7 +690,7 @@ Fra hvilket steg i astma-behandling brukes MART?; 3
 Fra hvilket steg i astma-behandling brukes LAMA?; 5
 
 # Nevrologi
-Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming (ASA/P2Y12)
+Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming/platehemmer (ASA/P2Y12)
 Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
 Medikament man må gi til pasient som tar pradaxa/dabigatran før trombolyse, Praxbind/idarucizumab (Antidot mot pradaxa)
 Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin/dalteparin/Klexane/enoksaparin/LMWH (Marevan gis senere)
@@ -769,6 +772,172 @@ Førstelinje behandling for atopisk dermatitt; Lokale glukokortikoider/lokale st
 
 `,
   // === medisinering SLUTT ===
+  // === antibiotikaklasser START ===
+  antibiotikaklasser: `# Virkningsmekanisme
+Betalaktamer (penicilliner, cefalosporiner, karbapenemer) hemmer; Celleveggsyntesen/celleveggen (Bindes til PBP - penicillinbindende protein)
+Glykopeptider (vankomycin) hemmer celleveggsyntese ved å binde til; D-Ala-D-Ala
+Fosfomycin hemmer et tidlig trinn i; Celleveggsyntesen/celleveggen
+Polymyksiner (kolistin) virker på; Cellemembranen/bakteriemembranen
+Daptomycin virker på; Cellemembranen/bakteriemembranen
+Aminoglykosider binder til; 30S-ribosomet/30S
+Tetrasykliner binder til; 30S-ribosomet/30S
+Makrolider og klindamycin binder til; 50S-ribosomet/50S
+Linezolid binder til; 50S-ribosomet/50S
+Kinoloner hemmer; DNA-gyrase/topoisomerase/DNA-gyrase og topoisomerase IV
+Rifampicin hemmer; RNA-polymerase
+Trimetoprim-sulfametoksazol hemmer to trinn i; Folatsyntesen/folat
+
+# Klassetilhørighet
+Kloksacillin og dikloksacillin tilhører hvilken penicillingruppe?; Penicillinaseresistente/antistafylokokk-penicilliner
+Ampicillin og amoksicillin tilhører hvilken penicillingruppe?; Aminopenicilliner
+Piperacillin tilhører hvilken penicillingruppe?; Antipseudomonas-penicilliner/ureidopenicilliner
+Cefotaksim og ceftriakson er ______-generasjons cefalosporiner; 3./tredje
+Ceftazidim og cefepim er cefalosporiner med dekning mot; Pseudomonas/pseudomonas aeruginosa
+Meropenem, imipenem og ertapenem tilhører gruppen; Karbapenemer
+Hvilket karbapenem dekker IKKE Pseudomonas?; Ertapenem
+Aztreonam tilhører gruppen; Monobaktamer
+Aztreonam kan trygt brukes ved hvilken allergi?; Penicillinallergi
+Vankomycin og teikoplanin tilhører gruppen; Glykopeptider
+Daptomycin tilhører gruppen; Lipopeptider
+Linezolid tilhører gruppen; Oksazolidinoner
+Gentamicin, tobramycin og amikacin tilhører gruppen; Aminoglykosider
+Erytromycin, klaritromycin og azitromycin tilhører gruppen; Makrolider
+Klindamycin tilhører gruppen; Linkosamider
+Doksysyklin tilhører gruppen; Tetrasykliner
+Tigecyklin tilhører gruppen; Glycylcykliner
+Ciprofloksacin, levofloksacin og moksifloksacin tilhører gruppen; Kinoloner/fluorokinoloner
+Metronidazol tilhører gruppen; Nitroimidazoler
+Rifampicin tilhører gruppen; Rifamyciner
+Kolistin tilhører gruppen; Polymyksiner
+Pivmecillinam og mecillinam brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
+Nitrofurantoin brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
+Klavulansyre, tazobaktam og sulbaktam er eksempler på; Betalaktamasehemmere
+
+# Spekter og spesielle egenskaper
+Hvilke to antibiotikagrupper krever rutinemessig serumkonsentrasjonsmåling?; Aminoglykosider/vankomycin
+Antibiotikum som kan gi "red man syndrome" ved rask infusjon; Vankomycin
+Antibiotikagruppe med økt risiko for senebetennelse/akillesseneruptur; Kinoloner
+Antibiotikagruppe som kan gi disulfiramreaksjon sammen med alkohol; Metronidazol/nitroimidazoler
+Antibiotikagruppe som frarådes hos barn pga. tannmisfarging; Tetrasykliner
+Antibiotikagruppe med risiko for nefrotoksisitet og ototoksisitet; Aminoglykosider
+Antibiotikum som ikke bør brukes ved pneumoni fordi det inaktiveres av lungesurfaktant; Daptomycin
+Har betalaktamantibiotika konsentrasjons- eller tidsavhengig baktericid effekt?; Tidsavhengig
+Har aminoglykosider konsentrasjons- eller tidsavhengig baktericid effekt?; Konsentrasjonsavhengig
+Antibiotikum som må kombineres med et annet middel pga. rask resistensutvikling ved monoterapi; Rifampicin
+Nitrofurantoin bør ikke brukes ved GFR under; 40 (ml/min)
+Pivmecillinam kan ved langvarig/hyppig bruk gi mangel på; Karnitin`,
+  // === antibiotikaklasser SLUTT ===
+  // === mikrobefolsomhet START ===
+  mikrobefolsomhet: `# Meticillin- og glykopeptidresistens
+MRSA er resistent mot hvilken hel gruppe antibiotika?; Betalaktamer/alle betalaktamer
+Genet som gir meticillinresistens hos stafylokokker; mecA
+Førstevalg ved MRSA-infeksjon; Vankomycin
+Alternativ til vankomycin ved MRSA-infeksjon; Linezolid/daptomycin
+Forekomsten av MRSA i norske blodkulturer er høy eller lav?; Lav
+Genene som gir vankomycinresistens hos enterokokker; vanA/vanB
+Vankomycinresistente enterokokker forkortes; VRE
+Førstevalg ved VRE-infeksjon; Linezolid/daptomycin
+
+# Enterokokker og naturlig resistens
+Hvilken enterokokkart er oftest resistent mot ampicillin?; Enterococcus faecium/E. faecium
+Hvilken enterokokkart er nesten alltid følsom for ampicillin?; Enterococcus faecalis/E. faecalis
+Enterokokker har iboende (naturlig) resistens mot hvilken antibiotikagruppe?; Cefalosporiner
+Listeria monocytogenes har iboende resistens mot cefalosporiner, og dekkes derfor ved meningitt med; Ampicillin
+Gram-negative bakterier er naturlig resistente mot glykopeptider/vankomycin pga.; Ytre membran
+Anaerobe bakterier er naturlig resistente mot aminoglykosider fordi opptaket krever; Oksygen/aerob transport
+
+# ESBL og karbapenemresistens
+ESBL bryter ned alle betalaktamer unntatt; Karbapenemer
+Vanligste ESBL-bakterie i Norge, den ene; E. coli
+Vanligste ESBL-bakterie i Norge, den andre; Klebsiella pneumoniae/klebsiella
+Empirisk behandling ved alvorlig infeksjon med mistenkt ESBL; Meropenem
+Empirisk behandling av stabil pasient/step-down med mistenkt ESBL; Ertapenem
+Karbapenemresistente Enterobacterales forkortes; ESBL-CARBA/CRE
+Bakterier med iboende induserbar AmpC-betalaktamase, et eksempel; Enterobacter cloacae/klebsiella aerogenes/citrobacter freundii
+
+# Pseudomonas og andre gramnegative
+Pseudomonas aeruginosa er naturlig resistent mot de fleste; Cefalosporiner/penicilliner
+Hvilket cefalosporin dekker Pseudomonas?; Ceftazidim
+Bakterie med uttalt naturlig multiresistens som ofte krever kolistin eller tigecyklin; Acinetobacter baumannii
+Stenotrophomonas maltophilia er naturlig resistent mot; Meropenem/karbapenemer
+Førstevalg ved infeksjon med Stenotrophomonas maltophilia; Trimetoprim-sulfametoksazol
+Andel E. coli resistente mot trimetoprim i Norge ifølge NORM-rapporten; 20 %/ca 20 %/20 prosent
+Legionella er naturlig resistent mot betalaktamer fordi den er en; Intracellulær bakterie
+HACEK-bakteriene ved endokarditt behandles empirisk med; Ceftriakson
+
+# Resistensbegreper
+Multiresistens (MDR) defineres som resistens mot minst ett middel i minst hvor mange antibiotikaklasser?; 3/tre
+Ekstremresistens forkortes; XDR
+Panresistens forkortes; PDR
+Agarmediet som brukes til resistenstesting; Mueller-Hinton(-agar)`,
+  // === mikrobefolsomhet SLUTT ===
+  // === mikrobeinfeksjon START ===
+  mikrobeinfeksjon: `# Sepsis, ukjent fokus
+Betalaktamet i standardregimet ved sepsis med ukjent fokus; Benzylpenicillin
+Aminoglykosidet som gis sammen med benzylpenicillin ved sepsis med ukjent fokus; Gentamicin
+Alternativ ved penicillinallergi (ikke straksallergi) ved sepsis; Cefotaksim
+Standardbehandling ved septisk sjokk; Piperacillin-tazobaktam/piperacillin/tazobaktam
+Antibiotikum som gis ved høy risiko for ESBL-produserende mikrobe ved sepsis; Meropenem
+Antibiotikum som legges til ved mulig stafylokokk-hudfokus/abscess ved sepsis; Kloksacillin
+
+# CNS-infeksjoner
+Vanligste årsak til bakteriell meningitt hos voksne; Streptococcus pneumoniae/pneumokokker
+Vanligste årsak til bakteriell meningitt hos ungdom/unge voksne; Neisseria meningitidis/meningokokker
+Sjelden årsak til meningitt hos eldre, immunsupprimerte og enkelte gravide; Listeria monocytogenes/listeria
+Cefalosporinet som gis empirisk ved bakteriell meningitt; Cefotaksim/ceftriakson
+Antibiotikumet som legges til cefotaksim for å dekke Listeria ved meningitt; Ampicillin
+Antibiotikum ved straksallergi mot betalaktamantibiotika ved meningitt; Meropenem
+Steroid som gis sammen med antibiotika ved mistenkt bakteriell meningitt; Deksametason
+
+# Luftveisinfeksjoner
+Vanligste årsak til samfunnservervet pneumoni; Streptococcus pneumoniae/pneumokokker
+Nest vanligste bakterielle årsak til samfunnservervet pneumoni; Haemophilus influenzae
+Førstevalg ved mild til moderat samfunnservervet pneumoni; Benzylpenicillin
+Tilleggsantibiotikum ved alvorlig pneumoni (CRB65 3-4); Gentamicin
+Tilleggsantibiotikum ved mistanke om atypisk pneumoni; Ciprofloksacin
+Vanligste atypiske bakterie ved samfunnservervet pneumoni; Mycoplasma pneumoniae/mykoplasma
+Prøve i urin som kan påvise Legionella-infeksjon; Legionella-antigen/antigentest
+Førstevalg ved legionellapneumoni; Ciprofloksacin/levofloksacin
+
+# Urinveisinfeksjoner
+Vanligste årsak til cystitt; E. coli
+Årsak til cystitt spesielt hos unge kvinner (utenom E. coli); Staphylococcus saprophyticus
+Førstevalg ved ukomplisert cystitt; Pivmecillinam/nitrofurantoin/trimetoprim
+Betalaktamet i standard empirisk regime ved pyelonefritt; Ampicillin
+Aminoglykosidet som gis sammen med ampicillin ved pyelonefritt; Gentamicin
+Førstevalg ved penicillinstraksallergi ved pyelonefritt; Ciprofloksacin
+Empirisk behandling ved mistenkt ESBL-pyelonefritt; Ertapenem
+
+# Abdominale infeksjoner
+Betalaktamet i empirisk trippelregime ved abdominal infeksjon; Ampicillin
+Aminoglykosidet i empirisk trippelregime ved abdominal infeksjon; Gentamicin
+Anaerobmiddelet i empirisk trippelregime ved abdominal infeksjon; Metronidazol
+Trippelregimet ampicillin/gentamicin/metronidazol foretrekkes fremfor cefotaksim pga. bedre; Enterokokkdekning
+Førstevalg ved postoperativ abdominal sepsis; Piperacillin-tazobaktam
+Peroral overgangsbehandling ved abdominal infeksjon (empirisk); Trimetoprim-sulfametoksazol
+
+# Hud, bløtdel, bein og ledd
+Vanligste årsak til erysipelas; Betahemolytiske streptokokker/gruppe A streptokokker/GAS
+Standard behandling ved erysipelas; Benzylpenicillin
+Vanligste årsak til septisk artritt; Staphylococcus aureus
+Standard empirisk behandling ved septisk artritt; Kloksacillin
+Antibiotikum som legges til kloksacillin ved alvorlig bløtvevscellulitt/abscess; Gentamicin
+Betalaktamet ved nekrotiserende fasciitt i en ekstremitet; Benzylpenicillin
+Antibiotikum som hemmer toksinproduksjon og gis ved nekrotiserende fasciitt; Klindamycin
+Betalaktamet ved nekrotiserende fasciitt i buk, anogenitalt eller hode/hals; Piperacillin-tazobaktam
+
+# Endokarditt
+Vanligste årsak til endokarditt; Staphylococcus aureus
+Nest vanligste årsak til endokarditt; Viridans-streptokokker
+Tredje vanligste årsak til endokarditt; Enterokokker
+Betalaktamet som dekker stafylokokker i empirisk behandling ved endokarditt på nativ klaff; Kloksacillin
+Betalaktamet som dekker enterokokker i empirisk behandling ved endokarditt på nativ klaff; Ampicillin
+Glykopeptidet som inngår i empirisk behandling av endokarditt på kunstig klaff; Vankomycin
+Vanligste årsak til høyresidig endokarditt hos personer som injiserer rusmidler; Staphylococcus aureus
+HACEK-bakteriene gir hvilken sykdom?; Endokarditt
+Standard behandlingsvarighet ved endokarditt på nativ klaff; 4 uker
+Standard behandlingsvarighet ved endokarditt på kunstig klaff; 6 uker`,
+  // === mikrobeinfeksjon SLUTT ===
 };
 
 /* ============================================================

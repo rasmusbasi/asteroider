@@ -1,0 +1,65 @@
+# Sepsis, ukjent fokus
+Betalaktamet i standardregimet ved sepsis med ukjent fokus; Benzylpenicillin
+Aminoglykosidet som gis sammen med benzylpenicillin ved sepsis med ukjent fokus; Gentamicin
+Alternativ ved penicillinallergi (ikke straksallergi) ved sepsis; Cefotaksim
+Standardbehandling ved septisk sjokk; Piperacillin-tazobaktam/piperacillin/tazobaktam
+Antibiotikum som gis ved høy risiko for ESBL-produserende mikrobe ved sepsis; Meropenem
+Antibiotikum som legges til ved mulig stafylokokk-hudfokus/abscess ved sepsis; Kloksacillin
+
+# CNS-infeksjoner
+Vanligste årsak til bakteriell meningitt hos voksne; Streptococcus pneumoniae/pneumokokker
+Vanligste årsak til bakteriell meningitt hos ungdom/unge voksne; Neisseria meningitidis/meningokokker
+Sjelden årsak til meningitt hos eldre, immunsupprimerte og enkelte gravide; Listeria monocytogenes/listeria
+Cefalosporinet som gis empirisk ved bakteriell meningitt; Cefotaksim/ceftriakson
+Antibiotikumet som legges til cefotaksim for å dekke Listeria ved meningitt; Ampicillin
+Antibiotikum ved straksallergi mot betalaktamantibiotika ved meningitt; Meropenem
+Steroid som gis sammen med antibiotika ved mistenkt bakteriell meningitt; Deksametason
+
+# Luftveisinfeksjoner
+Vanligste årsak til samfunnservervet pneumoni; Streptococcus pneumoniae/pneumokokker
+Nest vanligste bakterielle årsak til samfunnservervet pneumoni; Haemophilus influenzae
+Førstevalg ved mild til moderat samfunnservervet pneumoni; Benzylpenicillin
+Tilleggsantibiotikum ved alvorlig pneumoni (CRB65 3-4); Gentamicin
+Tilleggsantibiotikum ved mistanke om atypisk pneumoni; Ciprofloksacin
+Vanligste atypiske bakterie ved samfunnservervet pneumoni; Mycoplasma pneumoniae/mykoplasma
+Prøve i urin som kan påvise Legionella-infeksjon; Legionella-antigen/antigentest
+Førstevalg ved legionellapneumoni; Ciprofloksacin/levofloksacin
+
+# Urinveisinfeksjoner
+Vanligste årsak til cystitt; E. coli
+Årsak til cystitt spesielt hos unge kvinner (utenom E. coli); Staphylococcus saprophyticus
+Førstevalg ved ukomplisert cystitt; Pivmecillinam/nitrofurantoin/trimetoprim
+Betalaktamet i standard empirisk regime ved pyelonefritt; Ampicillin
+Aminoglykosidet som gis sammen med ampicillin ved pyelonefritt; Gentamicin
+Førstevalg ved penicillinstraksallergi ved pyelonefritt; Ciprofloksacin
+Empirisk behandling ved mistenkt ESBL-pyelonefritt; Ertapenem
+
+# Abdominale infeksjoner
+Betalaktamet i empirisk trippelregime ved abdominal infeksjon; Ampicillin
+Aminoglykosidet i empirisk trippelregime ved abdominal infeksjon; Gentamicin
+Anaerobmiddelet i empirisk trippelregime ved abdominal infeksjon; Metronidazol
+Trippelregimet ampicillin/gentamicin/metronidazol foretrekkes fremfor cefotaksim pga. bedre; Enterokokkdekning
+Førstevalg ved postoperativ abdominal sepsis; Piperacillin-tazobaktam
+Peroral overgangsbehandling ved abdominal infeksjon (empirisk); Trimetoprim-sulfametoksazol
+
+# Hud, bløtdel, bein og ledd
+Vanligste årsak til erysipelas; Betahemolytiske streptokokker/gruppe A streptokokker/GAS
+Standard behandling ved erysipelas; Benzylpenicillin
+Vanligste årsak til septisk artritt; Staphylococcus aureus
+Standard empirisk behandling ved septisk artritt; Kloksacillin
+Antibiotikum som legges til kloksacillin ved alvorlig bløtvevscellulitt/abscess; Gentamicin
+Betalaktamet ved nekrotiserende fasciitt i en ekstremitet; Benzylpenicillin
+Antibiotikum som hemmer toksinproduksjon og gis ved nekrotiserende fasciitt; Klindamycin
+Betalaktamet ved nekrotiserende fasciitt i buk, anogenitalt eller hode/hals; Piperacillin-tazobaktam
+
+# Endokarditt
+Vanligste årsak til endokarditt; Staphylococcus aureus
+Nest vanligste årsak til endokarditt; Viridans-streptokokker
+Tredje vanligste årsak til endokarditt; Enterokokker
+Betalaktamet som dekker stafylokokker i empirisk behandling ved endokarditt på nativ klaff; Kloksacillin
+Betalaktamet som dekker enterokokker i empirisk behandling ved endokarditt på nativ klaff; Ampicillin
+Glykopeptidet som inngår i empirisk behandling av endokarditt på kunstig klaff; Vankomycin
+Vanligste årsak til høyresidig endokarditt hos personer som injiserer rusmidler; Staphylococcus aureus
+HACEK-bakteriene gir hvilken sykdom?; Endokarditt
+Standard behandlingsvarighet ved endokarditt på nativ klaff; 4 uker
+Standard behandlingsvarighet ved endokarditt på kunstig klaff; 6 uker

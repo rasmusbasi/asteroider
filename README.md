@@ -69,8 +69,16 @@ linjene.
 
 ## Innebygde sett
 
-- **Medisinering** (82 spørsmål) — medikamentell behandling på tvers av fagfelt,
+- **Medisinering** (92 spørsmål) — medikamentell behandling på tvers av fagfelt,
   delt i seksjoner med `#`-overskrifter.
+- **Antibiotikaklasser** (48 spørsmål) — virkningsmekanisme, klassetilhørighet
+  og spesielle egenskaper ved antibiotika.
+- **Mikrober og følsomhet** (33 spørsmål) — resistensmekanismer (MRSA, VRE,
+  ESBL m.m.) og hvilke antibiotika ulike mikrober er følsomme/resistente for.
+- **Mikrober og infeksjoner** (52 spørsmål) — vanligste mikrobe og norsk
+  empirisk antibiotikavalg per infeksjonstype (sepsis, CNS, luftveier,
+  urinveier, abdominalt, hud/bløtdel/ledd, endokarditt), etter Helsedirektoratets
+  nasjonale retningslinje og metodebok NFIM.
 
 `sett/arkiv/` inneholder de gamle fagsettene (Nevrologi, Farmakologi,
 Mikrobiologi). De er ikke i spillet lenger — filer utenfor `sett/` blir ikke

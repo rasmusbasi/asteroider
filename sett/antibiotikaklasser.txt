@@ -1,0 +1,53 @@
+# Virkningsmekanisme
+Betalaktamer (penicilliner, cefalosporiner, karbapenemer) hemmer; Celleveggsyntesen/celleveggen (Bindes til PBP - penicillinbindende protein)
+Glykopeptider (vankomycin) hemmer celleveggsyntese ved å binde til; D-Ala-D-Ala
+Fosfomycin hemmer et tidlig trinn i; Celleveggsyntesen/celleveggen
+Polymyksiner (kolistin) virker på; Cellemembranen/bakteriemembranen
+Daptomycin virker på; Cellemembranen/bakteriemembranen
+Aminoglykosider binder til; 30S-ribosomet/30S
+Tetrasykliner binder til; 30S-ribosomet/30S
+Makrolider og klindamycin binder til; 50S-ribosomet/50S
+Linezolid binder til; 50S-ribosomet/50S
+Kinoloner hemmer; DNA-gyrase/topoisomerase/DNA-gyrase og topoisomerase IV
+Rifampicin hemmer; RNA-polymerase
+Trimetoprim-sulfametoksazol hemmer to trinn i; Folatsyntesen/folat
+
+# Klassetilhørighet
+Kloksacillin og dikloksacillin tilhører hvilken penicillingruppe?; Penicillinaseresistente/antistafylokokk-penicilliner
+Ampicillin og amoksicillin tilhører hvilken penicillingruppe?; Aminopenicilliner
+Piperacillin tilhører hvilken penicillingruppe?; Antipseudomonas-penicilliner/ureidopenicilliner
+Cefotaksim og ceftriakson er ______-generasjons cefalosporiner; 3./tredje
+Ceftazidim og cefepim er cefalosporiner med dekning mot; Pseudomonas/pseudomonas aeruginosa
+Meropenem, imipenem og ertapenem tilhører gruppen; Karbapenemer
+Hvilket karbapenem dekker IKKE Pseudomonas?; Ertapenem
+Aztreonam tilhører gruppen; Monobaktamer
+Aztreonam kan trygt brukes ved hvilken allergi?; Penicillinallergi
+Vankomycin og teikoplanin tilhører gruppen; Glykopeptider
+Daptomycin tilhører gruppen; Lipopeptider
+Linezolid tilhører gruppen; Oksazolidinoner
+Gentamicin, tobramycin og amikacin tilhører gruppen; Aminoglykosider
+Erytromycin, klaritromycin og azitromycin tilhører gruppen; Makrolider
+Klindamycin tilhører gruppen; Linkosamider
+Doksysyklin tilhører gruppen; Tetrasykliner
+Tigecyklin tilhører gruppen; Glycylcykliner
+Ciprofloksacin, levofloksacin og moksifloksacin tilhører gruppen; Kinoloner/fluorokinoloner
+Metronidazol tilhører gruppen; Nitroimidazoler
+Rifampicin tilhører gruppen; Rifamyciner
+Kolistin tilhører gruppen; Polymyksiner
+Pivmecillinam og mecillinam brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
+Nitrofurantoin brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
+Klavulansyre, tazobaktam og sulbaktam er eksempler på; Betalaktamasehemmere
+
+# Spekter og spesielle egenskaper
+Hvilke to antibiotikagrupper krever rutinemessig serumkonsentrasjonsmåling?; Aminoglykosider/vankomycin
+Antibiotikum som kan gi "red man syndrome" ved rask infusjon; Vankomycin
+Antibiotikagruppe med økt risiko for senebetennelse/akillesseneruptur; Kinoloner
+Antibiotikagruppe som kan gi disulfiramreaksjon sammen med alkohol; Metronidazol/nitroimidazoler
+Antibiotikagruppe som frarådes hos barn pga. tannmisfarging; Tetrasykliner
+Antibiotikagruppe med risiko for nefrotoksisitet og ototoksisitet; Aminoglykosider
+Antibiotikum som ikke bør brukes ved pneumoni fordi det inaktiveres av lungesurfaktant; Daptomycin
+Har betalaktamantibiotika konsentrasjons- eller tidsavhengig baktericid effekt?; Tidsavhengig
+Har aminoglykosider konsentrasjons- eller tidsavhengig baktericid effekt?; Konsentrasjonsavhengig
+Antibiotikum som må kombineres med et annet middel pga. rask resistensutvikling ved monoterapi; Rifampicin
+Nitrofurantoin bør ikke brukes ved GFR under; 40 (ml/min)
+Pivmecillinam kan ved langvarig/hyppig bruk gi mangel på; Karnitin
