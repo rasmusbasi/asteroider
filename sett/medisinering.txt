@@ -6,7 +6,8 @@ Gruppe 4 antiarytmika; CCB/Ca (Kalsiumkanalblokkere)
 Medisin for angina som ikke gir coronary steal?; NO/organiske nitrater/nitrater/nitro
 Ved hvilken hjertesvikttype har de 4 søylene best dokumentasjon?; HFrEF/redusert ejeksjonsfraksjon/redusert EF/systolisk hjertesvikt/systolisk
 Legemiddelgruppen som erstatter ACE-hemmer/ARB for bedre effekt ved hjertesvikt; ARNI/sakubitril-valsartan/Entresto
-Eneste av de 4 søylene i hjertesviktbehandling som anbefales uansett EF?; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
+Hvilken medikamentgruppe brukes både ved primær hyperaldosteronisme og hjertesvikt uansett EF?; MRA/mineralkortikoidreseptorantagonist/spironolakton/eplerenon/finerenon
+Hvilken medisin er anbefalt både for nyresvikt, diabetes og hjertesvikt uansett EF?; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
 Betablokkere med dokumentert overlevelsesgevinst ved hjertesvikt; Metoprolol/metoprololsuksinat/bisoprolol/karvedilol
 Diuretika som er del av kronisk hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenone
 Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen/Metabolsk
@@ -32,6 +33,7 @@ Førstevalg anfallsmedisin for astma; ICS-formoterol
 Navn på astma-regimet der ICS-formoterol brukes både fast og ved behov; MART
 Fra hvilket steg i astma-behandling brukes MART?; 3
 Fra hvilket steg i astma-behandling brukes LAMA?; 5
+Hjørnestein i behandling av sarkoidkose; Prednisolon/glukokortikoid
 
 # Nevrologi
 Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming/platehemmer (ASA/P2Y12)
@@ -71,7 +73,8 @@ Førstevalg medikamentell behandling ved diabetes type 2; Metformin
 Antidiabetikum som gir vekttap; GLP-1-analog/GLP-1/GLP-1-agonist
 Antidiabetikum som er del av hjertesviktbehandling; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
 Behandling ved hypotyreose; Levotyroksin/Levaxin/tyroksin
-Behandling ved hypertyreose; Tiamazol/karbimazol
+Behandling ved hypertyreose; Tiamazol/karbimazol/neo-mercazole
+Karbimazol kan gi hvilken farlig hematologisk bivirkning; Agranulocytose/Nøytropeni
 Substitusjon ved binyrebarksvikt; Hydrokortison/kortison/glukokortikoider 
 
 # Revmatologi
@@ -110,7 +113,12 @@ Tillegg ved moderat akne når lokalbehandling ikke er nok; Tetrasyklin/doksysykl
 Behandling ved alvorlig akne eller arrdannelse; Isotretinoin/Roaccutan
 Førstelinje behandling for atopisk dermatitt; Lokale glukokortikoider/lokale steroider/steroider
 
+# Onkologi
+Ved prostatacancer med skjelettmetastaser er det god indikasjon for _______; Kastrasjonsbehandling/kastrasjon/LHRH/LHRH-analog
+Førstevalg blodfortynnende hos kreftpasienter med DVT; DOAK/NOAK/Eliquis/Apiksaban
 
+#Geriatri
+Alternativ til diazepam med lavere halveringstid, Oksazepam/Sobril
 
 
 
