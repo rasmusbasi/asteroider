@@ -10,11 +10,13 @@ Hvilken medikamentgruppe brukes både ved primær hyperaldosteronisme og hjertes
 Hvilken medisin er anbefalt både for nyresvikt, diabetes og hjertesvikt uansett EF?; SGLT2-hemmer/SGLT2/SGLT2i/SGLT2-inhibitor/glifloziner/dapagliflozin/empagliflozin (Forxiga og Jardiance)
 Betablokkere med dokumentert overlevelsesgevinst ved hjertesvikt; Metoprolol/metoprololsuksinat/bisoprolol/karvedilol
 Diuretika som er del av kronisk hjertesviktbehandling; Aldosteronreseptorantagonist/Mineralokortikoidreseptorantagonist/MRA/Spironolakton/Spirix/eplerenone
-Kombinasjon av diuretika og BB er ikke optimalt pga. ________ effekt; Diabetogen/Metabolsk
 Kolesterolsenkende som hemmer HMG-CoA-reduktase; Statiner
 Kolesterolsenkende som hemmer tarmopptak; Ezetimib
 Kolesterolsenkende som hemmer reopptak av gallesyrer; Resiner/rosiner
 Kolesterolsenkende som hemmer nedbrytning av LDL-reseptorer; PCSK9-hemmere/PCSK9i/PCSK9/PCSK9-inhibitorer
+Varighet på dobbel platehemming etter PCI etter AKS? (i mnd); 12 (Kan forkortes)
+Varighet på dobbel platehemming etter elektiv PCI? (i mnd); 6 (Kan forkortes)
+
 
 # Infeksjonsmedisin
 Betalaktam- og glykopeptid-antibiotika virker på _________; Cellevegg/celleveggsyntesen
@@ -36,28 +38,28 @@ Fra hvilket steg i astma-behandling brukes LAMA?; 5
 Hjørnestein i behandling av sarkoidkose; Prednisolon/glukokortikoid
 
 # Nevrologi
-Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming/platehemmer (ASA/P2Y12)
-Sekundærprofylakse for slag pga. kardiale embolier, Antikoagulasjon (DOAC/Marevan)
+Sekundærprofylakse for slag pga. aterosklerose/småkarssykdom, Platehemming/platehemmer/ASA/P2Y12
+Sekundærprofylakse for slag pga. kardiale embolier, DOAK
 Medikament man må gi til pasient som tar pradaxa/dabigatran før trombolyse, Praxbind/idarucizumab (Antidot mot pradaxa)
 Medikamentell behandling umiddelbart etter sinusvenetrombose, Fragmin/dalteparin/Klexane/enoksaparin/LMWH (Marevan gis senere)
-Medikamentell behandling mot spinal muskelatrofi, Nusinersen (Spinraza)
+Medikamentell behandling mot spinal muskelatrofi, Nusinersen/Spinraza
 Medikamentell behandling mot ALS, Riluzol (eller edaravone)
 Vanligste medikamentelle behandling mot parkinsons, Levodopa/L-dopa
-Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister
-Primærbehandling ved myastenia gravis, Mestinon (Pyridostigmin)
-Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon (Rituximab kan også gis)
+Medikament mot parkinsons som kan gi problemer med impulskontroll, Dopamin-agonister/dopaminagonist
+Primærbehandling ved myastenia gravis, Mestinon/Pyridostigmin
+Tilleggsbehandling til mestinon mot myastenia gravis, Prednisolon/Rituximab 
 Attakkbehandling ved multippel sklerose, Metylprednisolon/prednisolon 
 Vanligste forebyggende behandling ved multippel sklerose, Rituximab
 Behandling for generalisert epilepsi, valproat/levetiracetam (valproat førstevalg, unntak: hos kvinner med barneønske)
 Behandling for fokal epilepsi; Lamotrigin/levetiracetam/okskarbazepin/karbamazepin
-Førstelinje ved status epilepticus, Benzodiazepiner (Diazepam/Stesolid buccalt/nasalt/iv./rektalt)
+Førstelinje ved status epilepticus, Benzodiazepiner/Benzo/Diazepam/Stesolid
 Andrelinje ved status epilepticus, Fosfenytoin/levetiracetam/valproat
 Tredje- og sistelinje ved status epilepticus, Narkose
 Antiepileptikum som er spesielt fosterskadelig, Valproat
 Antiepileptikum som blir omsatt mer effektivt under graviditet, Lamotrigin
-Forebyggende behandling ved spenningshodepine, Amitriptylin/Sarotex
+Forebyggende behandling ved spenningshodepine, Amitriptylin/Sarotex/TCA
 Førstelinje i anfallsbehandling for migrene, Ibux/Ibuprofen/NSAID/Diklofenak (Ibuprofen anbefalt førstevalg. Evt + paracetamol)
-Andrelinje i anfallsbehandling for migrene når NSAIDs ikke virker, Triptaner (imigran/zomig/relpax)
+Andrelinje i anfallsbehandling for migrene når NSAIDs ikke virker, Triptaner/imigran/zomig/relpax
 Førstevalg som forebyggende behandling ved migrene; Betablokker/BB/Propranolol/Metoprolol/Kandesartan/Amitriptylin
 Forebyggende migrenebehandling som må startes i spesialisthelsetjenesten; CGRP-hemmer/CGRP/gepanter/botox/botulinumtoksin
 Medikamentell anfallsbehandling av klasehodepine, Triptaner (imigran)
@@ -79,9 +81,10 @@ Substitusjon ved binyrebarksvikt; Hydrokortison/kortison/glukokortikoider
 
 # Revmatologi
 Førstevalg ved revmatoid artritt; Metotreksat/MTX/methotrexate
-Førstevalg ved ankyloserende spondylitt; NSAID
+Førstevalg ved ankyloserende spondylitt; NSAID/NSAIDs/Ibux
 Andrevalg ved ankyloserende spondylitt når NSAID ikke er nok; TNF-hemmer/anti-TNF/biologisk (IL-17-hemmer er et likeverdig alternativ)
 Anfallsbehandling ved akutt urinsyregikt; NSAID/kolkisin/glukokortikoider/prednisolon (Alle tre er likeverdige alternativer)
+Forebyggende behandling ved urinsyregikt; Allopurinol
 
 # Antidoter og forgiftning
 Antidot ved paracetamolforgiftning; Acetylcystein/NAC/Mucomyst
