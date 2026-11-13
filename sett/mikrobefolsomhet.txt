@@ -1,39 +1,39 @@
 # Meticillin- og glykopeptidresistens
 MRSA er resistent mot hvilken hel gruppe antibiotika?; Betalaktamer/alle betalaktamer
 Genet som gir meticillinresistens hos stafylokokker; mecA
-Førstevalg ved MRSA-infeksjon; Vankomycin
-Alternativ til vankomycin ved MRSA-infeksjon; Linezolid/daptomycin
+Førstevalg ved MRSA-infeksjon; Vankomycin/vanko/vanco
+Alternativ til vankomycin ved MRSA-infeksjon; Linezolid/daptomycin/Zyvoxid/Cubicin
 Forekomsten av MRSA i norske blodkulturer er høy eller lav?; Lav
 Genene som gir vankomycinresistens hos enterokokker; vanA/vanB
 Vankomycinresistente enterokokker forkortes; VRE
-Førstevalg ved VRE-infeksjon; Linezolid/daptomycin
+Førstevalg ved VRE-infeksjon; Linezolid/daptomycin/Zyvoxid/Cubicin
 
 # Enterokokker og naturlig resistens
 Hvilken enterokokkart er oftest resistent mot ampicillin?; Enterococcus faecium/E. faecium
 Hvilken enterokokkart er nesten alltid følsom for ampicillin?; Enterococcus faecalis/E. faecalis
 Enterokokker har iboende (naturlig) resistens mot hvilken antibiotikagruppe?; Cefalosporiner
-Listeria monocytogenes har iboende resistens mot cefalosporiner, og dekkes derfor ved meningitt med; Ampicillin
+Listeria monocytogenes har iboende resistens mot cefalosporiner, og dekkes derfor ved meningitt med; Ampicillin/ampi/Pentrexyl
 Gram-negative bakterier er naturlig resistente mot glykopeptider/vankomycin pga.; Ytre membran
 Anaerobe bakterier er naturlig resistente mot aminoglykosider fordi opptaket krever; Oksygen/aerob transport
 
 # ESBL og karbapenemresistens
 ESBL bryter ned alle betalaktamer unntatt; Karbapenemer
-Vanligste ESBL-bakterie i Norge, den ene; E. coli
-Vanligste ESBL-bakterie i Norge, den andre; Klebsiella pneumoniae/klebsiella
-Empirisk behandling ved alvorlig infeksjon med mistenkt ESBL; Meropenem
-Empirisk behandling av stabil pasient/step-down med mistenkt ESBL; Ertapenem
+Vanligste ESBL-bakterie i Norge, den ene; E. coli/Escherichia coli
+Vanligste ESBL-bakterie i Norge, den andre; Klebsiella pneumoniae/klebsiella/K. pneumoniae
+Empirisk behandling ved alvorlig infeksjon med mistenkt ESBL; Meropenem/Meronem/mero
+Empirisk behandling av stabil pasient/step-down med mistenkt ESBL; Ertapenem/Invanz
 Karbapenemresistente Enterobacterales forkortes; ESBL-CARBA/CRE
-Bakterier med iboende induserbar AmpC-betalaktamase, et eksempel; Enterobacter cloacae/klebsiella aerogenes/citrobacter freundii
+Bakterier med iboende induserbar AmpC-betalaktamase, et eksempel; Enterobacter cloacae/klebsiella aerogenes/citrobacter freundii/E. cloacae/enterobacter/citrobacter/serratia/morganella
 
 # Pseudomonas og andre gramnegative
 Pseudomonas aeruginosa er naturlig resistent mot de fleste; Cefalosporiner/penicilliner
-Hvilket cefalosporin dekker Pseudomonas?; Ceftazidim
-Bakterie med uttalt naturlig multiresistens som ofte krever kolistin eller tigecyklin; Acinetobacter baumannii
-Stenotrophomonas maltophilia er naturlig resistent mot; Meropenem/karbapenemer
-Førstevalg ved infeksjon med Stenotrophomonas maltophilia; Trimetoprim-sulfametoksazol
+Hvilket cefalosporin dekker Pseudomonas?; Ceftazidim/Fortum
+Bakterie med uttalt naturlig multiresistens som ofte krever kolistin eller tigecyklin; Acinetobacter baumannii/A. baumannii/acinetobacter
+Stenotrophomonas maltophilia er naturlig resistent mot; Meropenem/karbapenemer/Meronem/mero
+Førstevalg ved infeksjon med Stenotrophomonas maltophilia; Trimetoprim-sulfametoksazol/TMP-SMX/TMS/Bactrim/Eusaprim/kotrimoksazol/co-trimoxazole/trimethoprim-sulfamethoxazole/SXT
 Andel E. coli resistente mot trimetoprim i Norge ifølge NORM-rapporten; 20 %/ca 20 %/20 prosent
 Legionella er naturlig resistent mot betalaktamer fordi den er en; Intracellulær bakterie
-HACEK-bakteriene ved endokarditt behandles empirisk med; Ceftriakson
+HACEK-bakteriene ved endokarditt behandles empirisk med; Ceftriakson/ceftriaxone/Rocephalin
 
 # Resistensbegreper
 Multiresistens (MDR) defineres som resistens mot minst ett middel i minst hvor mange antibiotikaklasser?; 3/tre

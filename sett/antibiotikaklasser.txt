@@ -19,35 +19,35 @@ Piperacillin tilhører hvilken penicillingruppe?; Antipseudomonas-penicilliner/u
 Cefotaksim og ceftriakson er ______-generasjons cefalosporiner; 3./tredje
 Ceftazidim og cefepim er cefalosporiner med dekning mot; Pseudomonas/pseudomonas aeruginosa
 Meropenem, imipenem og ertapenem tilhører gruppen; Karbapenemer
-Hvilket karbapenem dekker IKKE Pseudomonas?; Ertapenem
+Hvilket karbapenem dekker IKKE Pseudomonas?; Ertapenem/Invanz
 Aztreonam tilhører gruppen; Monobaktamer
 Aztreonam kan trygt brukes ved hvilken allergi?; Penicillinallergi
 Vankomycin og teikoplanin tilhører gruppen; Glykopeptider
 Daptomycin tilhører gruppen; Lipopeptider
 Linezolid tilhører gruppen; Oksazolidinoner
 Gentamicin, tobramycin og amikacin tilhører gruppen; Aminoglykosider
-Erytromycin, klaritromycin og azitromycin tilhører gruppen; Makrolider
+Erytromycin, klaritromycin og azitromycin tilhører gruppen; Makrolider/makrolid
 Klindamycin tilhører gruppen; Linkosamider
 Doksysyklin tilhører gruppen; Tetrasykliner
 Tigecyklin tilhører gruppen; Glycylcykliner
-Ciprofloksacin, levofloksacin og moksifloksacin tilhører gruppen; Kinoloner/fluorokinoloner
+Ciprofloksacin, levofloksacin og moksifloksacin tilhører gruppen; Kinoloner/fluorokinoloner/kinolon
 Metronidazol tilhører gruppen; Nitroimidazoler
-Rifampicin tilhører gruppen; Rifamyciner
+Rifampicin tilhører gruppen; Rifamyciner/rifamycin
 Kolistin tilhører gruppen; Polymyksiner
 Pivmecillinam og mecillinam brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
 Nitrofurantoin brukes hovedsakelig ved; Urinveisinfeksjon/UVI/cystitt
 Klavulansyre, tazobaktam og sulbaktam er eksempler på; Betalaktamasehemmere
 
 # Spekter og spesielle egenskaper
-Hvilke to antibiotikagrupper krever rutinemessig serumkonsentrasjonsmåling?; Aminoglykosider/vankomycin
-Antibiotikum som kan gi "red man syndrome" ved rask infusjon; Vankomycin
-Antibiotikagruppe med økt risiko for senebetennelse/akillesseneruptur; Kinoloner
-Antibiotikagruppe som kan gi disulfiramreaksjon sammen med alkohol; Metronidazol/nitroimidazoler
+Hvilke to antibiotikagrupper krever rutinemessig serumkonsentrasjonsmåling?; Aminoglykosider/vankomycin/vanko/vanco
+Antibiotikum som kan gi "red man syndrome" ved rask infusjon; Vankomycin/vanko/vanco
+Antibiotikagruppe med økt risiko for senebetennelse/akillesseneruptur; Kinoloner/kinolon
+Antibiotikagruppe som kan gi disulfiramreaksjon sammen med alkohol; Metronidazol/nitroimidazoler/Flagyl
 Antibiotikagruppe som frarådes hos barn pga. tannmisfarging; Tetrasykliner
 Antibiotikagruppe med risiko for nefrotoksisitet og ototoksisitet; Aminoglykosider
-Antibiotikum som ikke bør brukes ved pneumoni fordi det inaktiveres av lungesurfaktant; Daptomycin
+Antibiotikum som ikke bør brukes ved pneumoni fordi det inaktiveres av lungesurfaktant; Daptomycin/Cubicin
 Har betalaktamantibiotika konsentrasjons- eller tidsavhengig baktericid effekt?; Tidsavhengig
 Har aminoglykosider konsentrasjons- eller tidsavhengig baktericid effekt?; Konsentrasjonsavhengig
-Antibiotikum som må kombineres med et annet middel pga. rask resistensutvikling ved monoterapi; Rifampicin
+Antibiotikum som må kombineres med et annet middel pga. rask resistensutvikling ved monoterapi; Rifampicin/rifampin/Rimactan
 Nitrofurantoin bør ikke brukes ved GFR under; 40 (ml/min)
 Pivmecillinam kan ved langvarig/hyppig bruk gi mangel på; Karnitin
